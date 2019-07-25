@@ -1,0 +1,31 @@
+.table-striped tbody,thead {
+    font-size: 14px;
+
+    .select-item.checkbox {
+        font-size: 18px;
+    }
+}
+
+.btn-container {
+    margin-bottom: 20px;
+    padding-top: 20px;
+
+    .back-btn,.delete-btn,.send-btn {
+        background-color: #337AB7;
+        font-size: 14px;
+    }
+
+    .head-content {
+        font-size: 25px;
+        font-weight: 500;
+        text-align: center;
+    }
+    
+    .send-btn-container {
+        text-align: right;
+    
+        .delete-btn {
+            margin-right: 30px;
+        }
+    }
+}

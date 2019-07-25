@@ -1,0 +1,54 @@
+.head {
+    font-size: 25px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    padding-top: 15px;
+    text-align: center;
+}
+
+.filter-form {
+    .side-bar-container {
+        top: 135px;
+    }
+    
+    .btn-primary {
+        background-color: #3379B7;
+        font-size: 14px;
+        width: 100%;
+    }
+
+    select::-ms-expand {
+        display: none;
+    }
+
+    .form-control {
+        font-size: 14px;
+        height: 30px;
+    }
+}
+
+.table {
+    tr td, tr th {
+    border: 1px solid #DDDDDD;
+    font-size: 14px;
+    padding: 8px;
+    } 
+
+    .view-doc {
+        text-align: center;
+    }
+
+    .action-head {
+        text-align: center;
+    }
+}
+
+@media (max-width: 767px) {
+    .dashboard-container {
+        .search-btn {
+            text-align: center;
+            width: 50%;
+        }
+    }
+}
+

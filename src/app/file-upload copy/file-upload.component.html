@@ -1,0 +1,15 @@
+<div class="offset-sm-3 col-sm-6 col-lg-4 offset-lg-4">
+  <div class="wrapper">
+    <p class="head-content">Upload salary slip</p>
+    <p class="head-suggestion">Select file with csv extension</p>
+      <div>
+          <i class="fa fa-upload" aria-hidden="true"></i>
+      </div> 
+      <div class="upload-container text-center"> 
+          <input type="file" class="upload-btn"
+               id="file"
+               (change)="handleFileInput($event.target.files)" accept=".pdf">
+          <input type="submit" value="Upload" class="btn btn-primary" (click)="uploadFile()">
+      </div>
+  </div>
+</div>

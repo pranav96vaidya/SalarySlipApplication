@@ -1,0 +1,39 @@
+<div *ngIf="!fetchDone">
+  <div class="row data-container">
+    <mat-spinner [diameter]="40"></mat-spinner>
+  </div>
+</div>
+<ng-container *ngIf="fetchDone && errorMsg">
+  <div class="select-file-error">{{errorMsg}}</div>
+  <div class="navigate-desc">To navigate to home page <a routerLink="/home">Click here</a></div>
+</ng-container>
+<div class="row btn-container" *ngIf="fetchDone && !errorMsg">
+    <div class="offset-1 col-2">
+        <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
+    </div>
+    <div class="col-6 page-head">{{empName}}'s Salary Slip</div>
+</div>
+<div class="row" *ngIf="fetchDone">
+  <div class="offset-sm-1 col-sm-10">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Month Year</th>
+          <th class="view-doc">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let year of years">
+          <tr *ngFor="let month of months.slice().reverse(); let i=index">
+            <ng-template *ngIf="i<currentMonthIndex-1 && year==2019; else print">
+            </ng-template>
+            <ng-template #print>
+                <td>{{month}} {{year}}</td>
+                <td class="action-head"><a [routerLink]="" (click)="getSalary()">View salary slip</a></td>
+            </ng-template>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>

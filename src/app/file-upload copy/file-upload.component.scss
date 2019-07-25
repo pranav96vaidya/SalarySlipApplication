@@ -1,0 +1,34 @@
+.wrapper {
+    border-radius: 3px;
+    border: 1px solid #DDDDDD;
+    font-weight: 500;
+    min-height: 300px;
+    margin: 190px 0;
+    padding: 30px;
+    text-align: center;
+    width: 100%;
+
+    .head-content {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .head-suggestion {
+        color: #dddddd;
+        font-size: 14px;
+        font-weight: 400;
+    }
+
+    .fa-upload {
+        font-size: 40px;
+    }
+
+    .upload-container {
+        margin: 20px;
+
+        .btn-primary {
+            background-color: #3379B7;
+            margin-top: 20px;
+        }
+    }
+}

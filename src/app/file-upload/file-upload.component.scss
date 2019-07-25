@@ -1,0 +1,43 @@
+.uploadfilecontainer {
+  background-image: url("../../assets/upload.png");
+  background-repeat: no-repeat;
+  background-size: 70px;
+  background-position: center;
+  border: 2px dashed #1C8ADB;
+  border-radius: 10px;
+  height: 180px;
+  margin: 0 auto;
+  width: 50%;
+}
+
+.uploadfilecontainer:hover {
+  background-color: #9ecbec;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.files-list {
+  background: #ffffff;
+  border: 1px dashed;
+  border-radius: 12px;
+  color: #1c8adb;
+  margin: 10px auto;
+  padding: 5px;
+  width: 50%;
+}
+
+.upload-btn-container {
+  margin: 10px auto;
+  padding: 5px;
+  width: 50%;
+}
+
+.btn-container {
+  margin-bottom: 15px;
+  padding-top: 20px; 
+
+  .back-btn {
+      background-color: #337AB7;
+      font-size: 14px;
+  }
+}

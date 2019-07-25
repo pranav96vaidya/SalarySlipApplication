@@ -1,0 +1,46 @@
+<div class="row btn-container">
+  <div class="col-5 offset-1 previous-btn-container">
+    <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
+  </div>
+  <div class="col-5 print-btn-container">
+    <button class="btn btn-primary print-btn" (click)="download()">Print</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-10 offset-sm-1 salary-slip-wrapper">
+    <div class="row head-container">
+      <div class="col-sm-6 offset-sm-3 company-details">
+          <div class="company-name">NEWPUT INFOTECH PVT LTD.</div>
+          <div class="company-address">314 D M Tower, 21/1 Race Course Road Indore</div>
+          <div class="company-address">CIN U723000MP2006PTC018697</div>
+          <div class="company-address">
+            Salary slip for the month of {{currentMonth}} {{currentYear}}
+          </div>
+      </div>
+      <div class="col-sm-12 days-month">
+          No of Days {{currentMonthDays}}
+      </div>
+    </div>
+    <div class="row salary-content">
+      <ng-container *ngFor="let item of salaryDisplayItems">
+        <div class="col-sm-3 col-6" [class.bold-text]="item.isHeading">{{item.itemLabel}}</div>
+        <div class="col-sm-3 col-6" [class.bold-text]="item.isHeading">{{item.itemValue}}</div>
+      </ng-container>
+      <div class="col-3 authority-seal">
+          <img class="seal-img" src="./assets/company-seal.png">
+      </div>
+      <div class="col-9 sign-sections">
+        <div class="sign">
+          <img class="sign-img" src="./assets/signature.png">
+        </div>
+        <div class="sign-content">
+          Authorised Signatory
+        </div>
+      </div>
+      <div id="watermark">
+        CONFIDENTIAL
+      </div>
+    <!-- </div> -->
+    </div>
+  </div>
+</div>

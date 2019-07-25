@@ -1,0 +1,21 @@
+<div class="row btn-container">
+    <div class="col-3">
+        <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
+    </div>
+    <div class="col-6 page-head">Salary Slip Upload</div>
+</div>
+<div class="uploadfilecontainer" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadFile($event)">
+    <input hidden type="file" accept=".csv" #fileInput (change)="uploadFile($event.target.files)">
+</div>
+<div *ngIf="!file && !errorMsg" class="select-file-help">select a file with .csv extension</div>
+<div *ngIf="errorMsg" class="select-file-error">{{errorMsg}}</div>
+<ng-container *ngIf="file && !errorMsg">
+    <div class="files-list">
+      <p>{{ file.name }}</p>
+    </div>
+    <div class="upload-btn-container">
+        <button class="btn btn-primary" (click)="uploadFileData()">Upload</button>
+    </div>
+</ng-container>
+
+  

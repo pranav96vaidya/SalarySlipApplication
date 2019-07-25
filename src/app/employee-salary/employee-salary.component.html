@@ -1,0 +1,48 @@
+<div *ngIf="!fetchDone">
+  <div class="row data-container">
+    <mat-spinner [diameter]="40"></mat-spinner>
+  </div>
+</div>
+<ng-container *ngIf="fetchDone && errorMsg">
+  <div class="select-file-error">{{errorMsg}}</div>
+  <div class="navigate-desc">To navigate to home page <a routerLink="/home">Click here</a></div>
+</ng-container>
+<div class="row btn-container" *ngIf="fetchDone && !errorMsg">
+  <div class="col-3">
+    <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
+  </div>
+  <div class="col-6 head-content">Salary Slip of Employees</div>
+  <div class="col-3 send-btn-container">
+    <button class="btn btn-primary delete-btn" [disabled]="checkedList.length == 0" (click)="deleteItem()">Delete</button>
+    <button class="btn btn-primary send-btn" [disabled]="checkedList.length == 0" (click)="sendMail()">Send Mail</button>
+  </div>
+</div>
+<div class="row" *ngIf="fetchDone && !errorMsg">
+  <div class="col-sm-12">
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>
+                <input type="checkbox" class="select-item checkbox"
+                [(ngModel)]="allSelected" name="list_name" 
+                value="list" (change)="checkUncheckAll()"/>
+            </th>
+            <th *ngFor="let items of salaryItemsInfo">{{items}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let emp of list">
+              <td>
+                  <input type="checkbox" class="select-item checkbox" [(ngModel)]="emp.isSelected"
+                   name="select-item" value="{{emp}}" (change)="isAllSelected()" />
+              </td>
+            <td>{{emp.name}}</td> 
+            <td>{{emp.grossSalary}}</td>          
+            <td>{{emp.totalDeductions}}</td>
+            <td>{{emp.netSalaryPayableRs}}</td>
+            <td><a [routerLink]="">View</a></td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+</div>

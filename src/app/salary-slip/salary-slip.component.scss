@@ -1,0 +1,134 @@
+.salary-slip-wrapper {
+    border: 1px solid #000000;
+    font-weight: 500;
+    min-height: 300px;
+    text-align: center;
+    width: 100%;
+
+    .head-container {
+        border-bottom: 1px solid black; 
+
+        .company-details {
+            text-align: center;
+    
+            .company-name {
+                font-size: 20px;
+                font-weight: 700;
+            }
+        
+            .company-address {
+                font-size: 17px;
+                font-weight: 600;
+            }
+        }
+
+        .days-month {
+            text-align: right;
+            padding-right: 10px;
+        }
+    }
+
+    .salary-content {
+        .col-sm-3 {
+            border: 1px solid black;
+            border-top: none;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .authority-seal {
+            border-bottom: 0;
+            text-align: center;
+
+            .seal-img {
+                margin-top: 20px;
+                width: 100px;
+            }
+        }
+
+        .sign-sections {
+            border-left: 1px solid black;
+            padding: 0;
+        }
+        
+        .sign {
+            border-bottom: 1px solid black;
+            min-height: 100px;
+            text-align: right;
+
+            .sign-img {
+                margin-right: 100px;
+                margin-top: 15px;
+            }
+        }
+
+        .sign-content {
+            text-align: right;
+            padding-right: 10px;
+        }
+        
+        .bold-head {
+            font-weight: 800;
+        }
+        .bold-text {
+            font-weight: 800;
+        }
+
+    }
+
+    .salary-content div.col-sm-3:nth-child(odd) {
+        border-left: 0;
+        border-right: 0;
+    }
+    
+    .salary-content div.col-sm-3:nth-child(4n+0) {
+        border-right: 0;
+    }
+
+    #watermark {
+        bottom: 180px;
+        color: gray;
+        font-size: 60px;
+        left: 230px;
+        opacity: 0.1;
+        position: absolute;
+        transform: rotate(-50deg);
+        z-index: 99;
+    }
+}
+
+.btn-container {
+    margin-bottom: 15px;
+    padding-top: 15px;
+
+    .previous-btn-container {
+        padding: 0;
+    }
+    
+    .print-btn-container {
+        padding: 0;
+        text-align: right;
+    }
+
+    .back-btn,.print-btn {
+        background-color: #337AB7;
+        font-size: 14px;
+    }
+  }
+
+
+
+@media (max-width: 768px) {
+    .salary-slip-wrapper {
+
+        #watermark {
+            display: none;
+        }
+    }
+}
+
+@media print {
+    .btn-primary {
+        display: none;
+    }
+}

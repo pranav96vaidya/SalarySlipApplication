@@ -1,0 +1,56 @@
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+.mat-progress-spinner {
+    margin: 0 auto;
+    top: 270px;
+}
+
+.mat-progress-spinner circle, .mat-spinner circle {
+    stroke: black;
+}
+
+.page-head {
+    font-size: 25px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.select-file-help {
+  font-size: 14px;
+  text-align: center;
+}
+
+.select-file-error {
+  color: red;
+  font-size: 18px;
+  padding-top: 20px;
+  text-align: center;
+}
+
+.navigate-desc {
+  font-size: 16px;
+  padding-top: 20px;
+  text-align: center;
+}
+
+.btn-primary:disabled { 
+    cursor: not-allowed;
+}
+
+@media (max-width: 769px) {
+    .mat-progress-spinner {
+        left: 350px;
+        top: 200px;
+    }
+    
+    .page-head {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 767px) {
+    .mat-progress-spinner {
+        left: 250px;
+        top: 200px;
+    }
+}
