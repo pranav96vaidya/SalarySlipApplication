@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NavComponent } from './nav/nav.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
+import { DragDropDirective } from './drag-drop.directive'
 // import { HttpInterceptorService } from './services/http-interceptor.service';
 // import { AuthenticationGuardService } from './services/authentication-gurad.service';
 // import { AuthenticationService } from './services/authentication.service';
@@ -25,6 +26,7 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
     DashboardComponent,
     SalarySlipComponent,
     FooterComponent,
+    DragDropDirective,
     SalaryListComponent,
     EmployeeSalaryComponent,
     PageNotFoundComponent,

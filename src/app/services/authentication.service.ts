@@ -10,7 +10,8 @@ import { environment } from 'src/environments/environment';
 export class AuthenticationService {
   baseUrl = environment.baseUrl;
   constructor(private http: HttpClient) { }
-  token = this.readCookie('token');
+  // token = this.readCookie('token');
+  token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiVTBERFlVTlNEIiwic3RhdHVzIjoiYWRtaW4iLCJpYXQiOjE1NjM4NzgzNzcsImV4cCI6MTU2NTE3NDM3N30.ROTZK9l5dWPUmaUpzfLVnHFVhVyb1Y6lGuwl2e3XvT4";
 
   getToken(): string {
     // console.log(this.token);
