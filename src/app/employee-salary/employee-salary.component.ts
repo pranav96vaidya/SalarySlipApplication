@@ -13,7 +13,7 @@ export class EmployeeSalaryComponent implements OnInit {
   errorMsg: string;
   allSelected:boolean;
   checkedList:any;
-  list;
+  list: any;
   err = true;
   salaryItemsInfo = ["Name", "Gross Salary", "Total Deductions", "Net Salary Payable Rs", "Action"];
   constructor(private employeesSal: SalaryDetailService, private router: Router, private title: Title) {
@@ -25,7 +25,6 @@ export class EmployeeSalaryComponent implements OnInit {
     this.list= this.employeesSal.getSalaryDetails();
     this.fetchDone = true;
     if(this.err) {
-      // this.errorMsg = err.error.customMsg;
       this.fetchDone = true;
     }
     for(var i=0; i< this.list.length; i++) {

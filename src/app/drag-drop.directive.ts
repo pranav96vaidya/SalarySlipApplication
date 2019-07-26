@@ -29,7 +29,6 @@ export class DragDropDirective {
     this.background = '#f5fcff'
     this.opacity = '1'
     let files = evt.dataTransfer.files;
-    // console.log(evt.dataTransfer.files);
     this.onFileDropped.emit(files)
   }
 }

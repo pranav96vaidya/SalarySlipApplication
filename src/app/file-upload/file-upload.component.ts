@@ -12,7 +12,7 @@ import { FileUploadService } from '../services/file-upload.service';
 })
 export class FileUploadComponent {
   file: File;
-  fileToUpload;
+  fileToUpload: any;
   errorMsg: string;
 
   constructor(private title: Title, private router: Router, private http: HttpClient,
@@ -33,7 +33,7 @@ export class FileUploadComponent {
       this.file = selectedFile;
       this.errorMsg = null;
     } else {
-      this.errorMsg = "Only csv file is allowed."
+      this.errorMsg = "Only csv file is allowed.";
     }
   }
 

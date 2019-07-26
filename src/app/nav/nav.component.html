@@ -1,21 +1,20 @@
 <nav class="navbar navbar-expand-md fixed-top navbar-light">
-  <!-- <div  class="navbar-brand"></div> -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="navbar-collapse collapse" id="collapsingNavbar">
-        <ul class="navbar-nav">
-          <a>
-            <img class="brand-img" src="http://www.newput.com/wp/wp-content/uploads/2016/01/newput-logo.png" alt="logo" (click)="loadHomePage()">
-          </a>
-        </ul>
-        <ul class="navbar-nav ml-auto" *ngIf="isAuthenticated">
-            <li class="nav-item">
-              <a class="redirect-content" href="http://newput.timetracker.s3-website-us-west-1.amazonaws.com/login">TimeSheet</a>
-              <img class="user-img" *ngIf="userImg" src={{userImg}}>
-              <span class="user-name">{{userName}}</span>
-              <a class="nav-link" (click)="logout()" data-toggle="collapse" data-target=".navbar-collapse.show"><i class="fa fa-power-off" aria-hidden="true"></i>Logout</a>
-            </li>
-        </ul>
-    </div>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="navbar-collapse collapse" id="collapsingNavbar">
+      <ul class="navbar-nav">
+        <a>
+          <img class="brand-img" src="http://www.newput.com/wp/wp-content/uploads/2016/01/newput-logo.png" alt="logo" (click)="loadHomePage()">
+        </a>
+      </ul>
+      <ul class="navbar-nav ml-auto" *ngIf="isAuthenticated">
+          <li class="nav-item">
+            <a class="redirect-content" href="http://newput.timetracker.s3-website-us-west-1.amazonaws.com/login">TimeSheet</a>
+            <img class="user-img" *ngIf="userImg" src={{userImg}}>
+            <span class="user-name">{{userName}}</span>
+            <a class="nav-link" (click)="logout()" data-toggle="collapse" data-target=".navbar-collapse.show"><i class="fa fa-power-off" aria-hidden="true"></i>Logout</a>
+          </li>
+      </ul>
+  </div>
 </nav>

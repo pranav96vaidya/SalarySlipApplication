@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserDetailService } from './services/user-detail.service';
 import { Router, NavigationEnd } from '@angular/router';
 
@@ -18,16 +18,14 @@ export class AppComponent implements OnInit{
       if (!(evt instanceof NavigationEnd)) {
         return;
       }
-      window.scrollTo(0, 0)
+      window.scrollTo(0, 0);
     });
     this.userService.getDetail().subscribe(responseList => {
       console.log(responseList);
       this.fetchDone = true;
-      // this.router.navigate(['/home']);
     }, error =>  { 
         console.log(error);
         this.fetchDone = true;
-        // this.router.navigate(['']);
     })
   }
 }
