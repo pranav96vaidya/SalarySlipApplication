@@ -32,15 +32,15 @@ export class DashboardComponent implements OnInit {
   errorMsg: string;
 
   constructor(private userService: UserDetailService, private route: Router,
-    private title: Title, private empData: EmployeeDataService, private empDetails: EmployeeDetailService) {
+    private title: Title) {
     // this.getState = this.store.select(selectAuthenticationState);
-  }
+  };
 
   ngOnInit() {
     this.title.setTitle('Home Page');
     for(var i=2017; i<= this.currentYear; i++) {
       this.years.push(i);
-    }
+    };
     this.userService.getEmployeeList().subscribe(responseList => {
       console.log(responseList);
       this.users = responseList['data'];
@@ -53,8 +53,8 @@ export class DashboardComponent implements OnInit {
       'emp': new FormControl('', Validators.required),
       'yearVal': new FormControl(this.currentYear),
       'monthVal': new FormControl(this.currentMonth)
-    })
-  }
+    });
+  };
 
   onSubmit() {
     console.log(this.employeeForm.value);

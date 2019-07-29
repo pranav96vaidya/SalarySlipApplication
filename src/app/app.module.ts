@@ -15,7 +15,9 @@ import { FormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NavComponent } from './nav/nav.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
-import { DragDropDirective } from './drag-drop.directive'
+import { DragDropDirective } from './drag-drop.directive';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment'
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { DragDropDirective } from './drag-drop.directive'
     FormsModule,
     HttpClientModule,
     MatProgressSpinnerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     {

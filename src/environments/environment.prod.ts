@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'abc'
+  baseUrl: 'https://salary-slip-be.herokuapp.com'
 };

@@ -100,20 +100,23 @@
 .btn-container {
     margin-bottom: 15px;
     padding-top: 15px;
-
-    .previous-btn-container {
-        padding: 0;
-    }
     
-    .print-btn-container {
-        padding: 0;
+    .action-btn-container {
         text-align: right;
+
+        .print-btn,.mail-btn {
+            margin-right: 10px;
+        }
+        
+        .back-btn,.print-btn,.mail-btn {
+            background-color: #337AB7;
+            font-size: 14px;
+        }
     }
 
-    .back-btn,.print-btn {
-        background-color: #337AB7;
-        font-size: 14px;
-    }
+
+
+    
   }
 
 

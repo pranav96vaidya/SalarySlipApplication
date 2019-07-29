@@ -8,13 +8,11 @@
   <div class="navigate-desc">To navigate to home page <a routerLink="/home">Click here</a></div>
 </ng-container>
 <div class="row btn-container" *ngIf="fetchDone && !errorMsg">
-  <div class="col-3">
-    <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
-  </div>
-  <div class="col-6 head-content">Salary Slip of Employees</div>
+  <div class="col-6 offset-3 head-content">Salary Slip of Employees</div>
   <div class="col-3 send-btn-container">
     <button class="btn btn-primary delete-btn" [disabled]="!checkedList.length" (click)="deleteItem()">Delete</button>
     <button class="btn btn-primary send-btn" [disabled]="!checkedList.length" (click)="sendMail()">Send Mail</button>
+    <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
   </div>
 </div>
 <div class="row" *ngIf="fetchDone && !errorMsg">

@@ -2,13 +2,15 @@
     margin-bottom: 15px;
     padding-top: 15px;
 
-    .col-3 {
-        text-align: center;
+    .back-btn-container {
+        text-align: right;
+        .back-btn {
+            background-color: #337AB7;
+            font-size: 14px;        
+        }
     }
-    .back-btn {
-        background-color: #337AB7;
-        font-size: 14px;        
-    }
+
+    
 }
 
 .name-head {
@@ -31,5 +33,9 @@
 
     .action-head {
         text-align: center;
+
+        a {
+            color: #337ab7;
+        }
     }
 }   

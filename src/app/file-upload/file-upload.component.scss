@@ -6,14 +6,19 @@
   border: 2px dashed #1C8ADB;
   border-radius: 10px;
   height: 180px;
-  margin: 0 auto;
-  width: 50%;
 }
 
 .uploadfilecontainer:hover {
   background-color: #9ecbec;
   cursor: pointer;
   opacity: 0.8;
+}
+
+.upload-head {
+  font-size: 25px;
+  font-weight: 500;
+  padding-bottom: 20px;
+  text-align: center;
 }
 
 .files-list {
@@ -23,21 +28,47 @@
   color: #1c8adb;
   margin: 10px auto;
   padding: 5px;
-  width: 50%;
 }
 
 .upload-btn-container {
   margin: 10px auto;
   padding: 5px;
-  width: 50%;
+}
+
+.select-file-help {
+  font-size: 14px;
+  text-align: center;
+}
+
+.filter-form {
+  .side-bar-container {
+      top: 135px;
+  }
+  
+  .btn-primary {
+      background-color: #3379B7;
+      font-size: 14px;
+      width: 100%;
+  }
+
+  select::-ms-expand {
+      display: none;
+  }
+
+  .form-control {
+      font-size: 14px;
+      height: 30px;
+  }
 }
 
 .btn-container {
   margin-bottom: 15px;
   padding-top: 20px; 
+  text-align: right;
 
   .back-btn {
       background-color: #337AB7;
       font-size: 14px;
+      // margin-right: 10px;
   }
 }

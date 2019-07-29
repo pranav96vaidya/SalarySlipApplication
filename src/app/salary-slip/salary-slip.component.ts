@@ -58,6 +58,10 @@ export class SalarySlipComponent implements OnInit {
   download() {
     this.window.print();
   }
+  
+  sendMail() {
+    console.log("mail sent");
+  }
 
   previousPage() {
     this.router.navigate(['/home']);
