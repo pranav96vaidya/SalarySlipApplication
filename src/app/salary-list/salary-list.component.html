@@ -23,9 +23,9 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let year of years">
+        <ng-container *ngFor="let year of years.slice().reverse()">
           <tr *ngFor="let month of months.slice().reverse(); let i=index">
-            <ng-template *ngIf="i<currentMonthIndex-1 && year==2019; else print">
+            <ng-template *ngIf="i<currentMonthIndex-1 && year==currentYear; else print">
             </ng-template>
             <ng-template #print>
                 <td>{{month}} {{year}}</td>

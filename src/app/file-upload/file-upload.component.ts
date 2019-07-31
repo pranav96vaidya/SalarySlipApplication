@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FileUploadService } from '../services/file-upload.service';
+import { retry } from 'rxjs/operators';
 
 @Component({
   selector: 'app-file-upload',
@@ -23,16 +24,30 @@ export class FileUploadComponent {
   years: number[]= [];
   users: string;
   employeeForm: FormGroup;
+  valData: null;
+
+
+  fetchDone = false;
+  processing = false;
+  // errorMsg: string;
+  allSelected:boolean;
+  checkedList:any;
+  list: any;
+  err = true;
+  salaryItemsInfo = ["Name", "Gross Salary", "Total Deductions", "Net Salary Payable Rs", "Action"];
 
   constructor(private title: Title, private router: Router, private http: HttpClient,
-    private fileUplaod: FileUploadService, private userService: UserDetailService, private route: Router) {}
+    private fileUplaod: FileUploadService, private userService: UserDetailService, 
+    private route: Router) {
+      this.allSelected = true;
+    }
 
   ngOnInit() {
     this.title.setTitle('Upload Salary Slip');
     for(var i=2017; i<= this.currentYear; i++) {
       this.years.push(i);
     };
-    this.userService.getEmployeeList().subscribe(responseList => {
+    this.userService.getEmployeeList().pipe(retry(2)).subscribe(responseList => {
       console.log(responseList);
       this.users = responseList['data'];
     }, err =>  {
@@ -68,15 +83,69 @@ export class FileUploadComponent {
   uploadFileData() {
     console.log(this.file);
     let formData = new FormData(); 
-    formData.append('file', this.file, this.file.name); 
-    this.fileUplaod.sendFile(formData)
-    .subscribe((val) => {
-      console.log(val);
-    }, err => {
-      console.log(err.error.customMsg)
-      this.errorMsg = err.error.customMsg;
+    let _this = this;
+    formData.append('file', this.file, this.file.name);
+    this.processing = true;
+    this.fetchDone = false; 
+    this.fileUplaod.sendFile(formData, function(val) {
+      if(val['success'] == true) {
+        _this.title.setTitle('Employee salary List');
+        _this.valData = val;
+        _this.list = val['data'];
+        _this.processing = false;
+        _this.fetchDone = true;
+        for(var i=0; i< _this.list.length; i++) {
+          _this.list[i].isSelected = true;
+        }
+         console.log(val);
+         _this.getCheckedItemList();
+      } else {
+        _this.valData = val;
+        console.log(val);
+      }
     });
-    this.router.navigate(['/employeeSalary']);
+  }
+
+  checkUncheckAll() {
+    for (var i = 0; i < this.list.length; i++) {
+      this.list[i].isSelected = this.allSelected;
+    }
+    this.getCheckedItemList();
+  }
+
+  isAllSelected() {
+    console.log(this.list);
+    this.allSelected = this.list.every(function(item:any) {
+        return item.isSelected == true;
+      })
+    this.getCheckedItemList();
+  }
+ 
+  getCheckedItemList(){
+    this.checkedList = [];
+    for (var i = 0; i < this.list.length; i++) {
+      if(this.list[i].isSelected)
+      this.checkedList.push(this.list[i]);
+    }
+    console.log(this.checkedList);
+  }
+
+  deleteItem() {
+    if(confirm("Are you sure, you want to delete?")) {
+      for (var i = 0; i < this.list.length; i++) {
+        if(this.list[i].isSelected) {
+          this.list.splice(i, 1);
+          i--;
+        }
+        console.log(this.list);
+      }
+    } 
+    console.log(this.list);
+    this.getCheckedItemList();
+  }
+
+  sendMail() {
+    this.checkedList = JSON.stringify(this.checkedList);
   }
 
   previousPage() {

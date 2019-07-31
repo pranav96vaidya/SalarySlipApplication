@@ -9,12 +9,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SalarySlipComponent } from './salary-slip/salary-slip.component';
 import { FooterComponent } from './footer/footer.component';
 import { SalaryListComponent } from './salary-list/salary-list.component';
-import { EmployeeSalaryComponent } from './employee-salary/employee-salary.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NavComponent } from './nav/nav.component';
-import { FileUploadComponent } from './file-upload/file-upload.component';
 import { DragDropDirective } from './drag-drop.directive';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment'
@@ -27,18 +25,16 @@ import { environment } from '../environments/environment'
     FooterComponent,
     DragDropDirective,
     SalaryListComponent,
-    EmployeeSalaryComponent,
     PageNotFoundComponent,
-    NavComponent,
-    FileUploadComponent
+    NavComponent
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
     MatProgressSpinnerModule,
-    ReactiveFormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [

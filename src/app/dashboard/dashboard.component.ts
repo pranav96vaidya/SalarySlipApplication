@@ -7,6 +7,7 @@ import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { EmployeeDataService } from '../services/employee-data.service';
 import { EmployeeDetailService } from '../services/employee-detail.service';
+import { retry } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -41,7 +42,7 @@ export class DashboardComponent implements OnInit {
     for(var i=2017; i<= this.currentYear; i++) {
       this.years.push(i);
     };
-    this.userService.getEmployeeList().subscribe(responseList => {
+    this.userService.getEmployeeList().pipe(retry(2)).subscribe(responseList => {
       console.log(responseList);
       this.users = responseList['data'];
       this.fetchDone = true;

@@ -14,7 +14,7 @@ export class FetchSalaryService {
     esicNo: string; pfUan: string;
   };
   name ="Pranav Vaidya";
-  designation="trainee software Engineer";
+  designation = "trainee software Engineer";
   basic=16000;
   hra=6400;
   lta=2000;

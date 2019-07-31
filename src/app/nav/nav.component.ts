@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
 import { UserDetailService } from '../services/user-detail.service';
+import { retry } from 'rxjs/operators';
 // import { Logout } from 'src/app/store/actions/authentication.actions';
 
 @Component({
@@ -28,7 +29,7 @@ export class NavComponent implements OnInit {
       this.isAuthenticated = true;
     }
 
-    this.userService.getDetail().subscribe(responseList => {
+    this.userService.getDetail().pipe(retry(2)).subscribe(responseList => {
       console.log(responseList);
       this.userName = responseList['data'].fullName;
       this.userImg = responseList['data'].profileImgSmall;

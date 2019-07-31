@@ -18,7 +18,7 @@ export class UserDetailService {
   }
 
   getEmployeeList(): Observable<any> {
-    let url = this.baseUrl + '/rest/admin/employee';
+    let url = this.baseUrl + '/rest/admin/employees';
     return this.http.get(url);
   }
 }
