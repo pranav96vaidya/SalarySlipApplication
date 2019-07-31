@@ -5,8 +5,6 @@ import { UserDetailService } from '../services/user-detail.service';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { EmployeeDataService } from '../services/employee-data.service';
-import { EmployeeDetailService } from '../services/employee-detail.service';
 import { retry } from 'rxjs/operators';
 
 @Component({
@@ -32,7 +30,7 @@ export class DashboardComponent implements OnInit {
   selectedEmp: {};
   errorMsg: string;
 
-  constructor(private userService: UserDetailService, private route: Router,
+  constructor(private userService: UserDetailService, private router: Router,
     private title: Title) {
     // this.getState = this.store.select(selectAuthenticationState);
   };
@@ -58,16 +56,15 @@ export class DashboardComponent implements OnInit {
   };
 
   onSubmit() {
-    console.log(this.employeeForm.value);
-    this.route.navigate(['/employee', this.employeeForm.value.emp.id, 'salarySlip', this.employeeForm.value.emp.id ]);
+    this.router.navigate(['/employee', this.employeeForm.value.emp.id,'salarySlip', 'view'], 
+    { queryParams: { month: this.employeeForm.value.monthVal, year: this.employeeForm.value.yearVal}});
   }
 
   fetchSalarySlip(emp) {
-    console.log(emp.id);
-    this.route.navigate(['/employee', emp.id]);
+    this.router.navigate(['/employee',emp.id,'salarySlips']);
   }
 
   uploadSalary() {
-    this.route.navigate(['/uploadSalarySlip']);
+    this.router.navigate(['/uploadSalarySlip']);
   }
 }

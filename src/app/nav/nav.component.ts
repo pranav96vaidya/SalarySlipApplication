@@ -43,6 +43,5 @@ export class NavComponent implements OnInit {
   logout(): void {
     // this.store.dispatch(new Logout);
     location.href="http://newput.timetracker.s3-website-us-west-1.amazonaws.com/login";
-    console.log("logout");
   }
 }

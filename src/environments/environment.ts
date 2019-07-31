@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  // baseUrl: 'http://34.211.76.6:9095'
   baseUrl: 'https://salary-slip-be.herokuapp.com'
 };
 

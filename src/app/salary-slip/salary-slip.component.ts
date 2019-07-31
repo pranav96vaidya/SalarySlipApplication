@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, Inject, ElementRef } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { FetchSalaryService } from '../services/fetch-salary.service';
 
@@ -35,7 +35,7 @@ export class SalarySlipComponent implements OnInit {
   objectKeys = Object.keys;
   items = { dsadaeyOne: 'value 1', aTwo: 'value 2', vThree: 'value 3' };
 
-  constructor(private router: Router, private title: Title, 
+  constructor(private router: Router, private title: Title, private route: ActivatedRoute,
     private fetchService: FetchSalaryService, @Inject('Window') private window: Window) { }
 
   ngOnInit() {
@@ -52,7 +52,10 @@ export class SalarySlipComponent implements OnInit {
     } 
     this.salaryDisplayItems.splice(2,0,{itemLabel:"Earnings", itemValue:"Amount Rs", isHeading: true},
     {itemLabel:"Deductions" , itemValue: "Amount Rs", isHeading: true});
-    console.log(this.salaryDisplayItems);
+
+    this.route.params.subscribe(data => {
+      console.log(data);
+    });
   }
 
   download() {

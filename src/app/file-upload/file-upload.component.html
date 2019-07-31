@@ -91,7 +91,7 @@
             <td>{{emp.grossSalary}}</td>          
             <td>{{emp.totalDeductions}}</td>
             <td>{{emp.netSalaryPayable}}</td>
-            <td><a class="view-doc" [routerLink]="">View</a></td>
+            <td><a class="view-doc" [routerLink]="" (click)="viewSalarySlip(emp)">View</a></td>
           </tr>
         </tbody>
       </table>

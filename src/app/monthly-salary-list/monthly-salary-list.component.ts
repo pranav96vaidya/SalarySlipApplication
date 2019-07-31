@@ -4,12 +4,11 @@ import { Title } from '@angular/platform-browser';
 import { EmployeeDetailService } from '../services/employee-detail.service';
 
 @Component({
-  selector: 'app-salary-list',
-  templateUrl: './salary-list.component.html',
-  styleUrls: ['./salary-list.component.scss']
+  selector: 'app-monthly-salary-list',
+  templateUrl: './monthly-salary-list.component.html',
+  styleUrls: ['./monthly-salary-list.component.scss']
 })
-
-export class SalaryListComponent implements OnInit {
+export class MonthlySalaryListComponent implements OnInit {
   currentMonthIndex = new Date().getMonth();
   months: string[] = ["January", "February", "March", "April", "May",
     "June", "July", "August", "September", "October", "November", "December"];
@@ -21,7 +20,7 @@ export class SalaryListComponent implements OnInit {
   fetchDone = false;
   errorMsg: string;
 
-  constructor(private router: Router, private route: ActivatedRoute, private state: Router,
+  constructor(private router: Router, private route: ActivatedRoute,
     private title: Title, private empDetails: EmployeeDetailService) { }
 
   ngOnInit() {
@@ -47,9 +46,9 @@ export class SalaryListComponent implements OnInit {
     })
   }
 
-  getSalary() {
-    console.log(this.empId);
-    this.router.navigate(['/employee',this.empId, 'salarySlip', this.empId]);
+  getSalary(year,month) {
+    this.router.navigate(['/employee', this.empId,'salarySlip', 'view'], 
+    { queryParams: { month: month, year: year}});
   }
 
   previousPage() {

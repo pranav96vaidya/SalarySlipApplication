@@ -10,8 +10,10 @@ export class AuthenticationService {
   baseUrl = environment.baseUrl;
   constructor(private http: HttpClient) { }
   // token = this.readCookie('token');
+  //heroku server token
   token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiVTBERFlVTlNEIiwic3RhdHVzIjoiYWRtaW4iLCJpYXQiOjE1NjM4NzgzNzcsImV4cCI6MTU2NTE3NDM3N30.ROTZK9l5dWPUmaUpzfLVnHFVhVyb1Y6lGuwl2e3XvT4";
-
+  //timesheet server
+  // token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiVTBERFlVTlNEIiwic3RhdHVzIjoiYWRtaW4iLCJpYXQiOjE1NjQ1NzE4OTEsImV4cCI6MTU2NDU3NTQ5MX0.xUdc1mWq-9REmytjDFGRWxz9eOK4YeBpp0meKH7Cd5U";
   getToken(): string {
     return this.token;
   }

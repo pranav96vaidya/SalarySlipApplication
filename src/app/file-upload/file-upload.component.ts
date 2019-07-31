@@ -3,7 +3,6 @@ import { UserDetailService } from '../services/user-detail.service';
 import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { FileUploadService } from '../services/file-upload.service';
 import { retry } from 'rxjs/operators';
 
@@ -26,7 +25,6 @@ export class FileUploadComponent {
   employeeForm: FormGroup;
   valData: null;
 
-
   fetchDone = false;
   processing = false;
   // errorMsg: string;
@@ -36,7 +34,7 @@ export class FileUploadComponent {
   err = true;
   salaryItemsInfo = ["Name", "Gross Salary", "Total Deductions", "Net Salary Payable Rs", "Action"];
 
-  constructor(private title: Title, private router: Router, private http: HttpClient,
+  constructor(private title: Title, private router: Router,
     private fileUplaod: FileUploadService, private userService: UserDetailService, 
     private route: Router) {
       this.allSelected = true;
@@ -61,8 +59,9 @@ export class FileUploadComponent {
   }
 
   onSubmit() {
-    console.log(this.employeeForm.value);
-    this.route.navigate(['/employee', this.employeeForm.value.emp.id, 'salarySlip', this.employeeForm.value.emp.id ]);
+    console.log(this.employeeForm.value.yearVal);
+    this.route.navigate(['/employee', this.employeeForm.value.emp.id,'salarySlip', 'view'], 
+    { queryParams: { month: this.employeeForm.value.monthVal, year: this.employeeForm.value.yearVal}});
   }
 
   uploadFile(files: FileList) {
@@ -71,7 +70,6 @@ export class FileUploadComponent {
     if (dot == -1)
       return "";
     var extension = selectedFile.name.substr(dot, selectedFile.name.length);
-    console.log(extension);
     if (extension == '.csv') {
       this.file = selectedFile;
       this.errorMsg = null;
@@ -81,7 +79,6 @@ export class FileUploadComponent {
   }
 
   uploadFileData() {
-    console.log(this.file);
     let formData = new FormData(); 
     let _this = this;
     formData.append('file', this.file, this.file.name);
@@ -127,7 +124,6 @@ export class FileUploadComponent {
       if(this.list[i].isSelected)
       this.checkedList.push(this.list[i]);
     }
-    console.log(this.checkedList);
   }
 
   deleteItem() {
@@ -146,6 +142,12 @@ export class FileUploadComponent {
 
   sendMail() {
     this.checkedList = JSON.stringify(this.checkedList);
+  }
+
+  viewSalarySlip(emp) {
+    console.log(emp);
+    // this.router.navigate(['/employee', emp.id,'salarySlip', 'view'], 
+    // { queryParams: { month: emp.monthVal, year: emp.yearVal}});
   }
 
   previousPage() {
