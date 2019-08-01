@@ -4,10 +4,12 @@ import { FileUploadComponent } from './file-upload.component';
 import { FileUploadRoutingModule } from './file-upload-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material';
+import { DragDropDirective } from '../drag-drop.directive';
 
 @NgModule({
   declarations: [
-    FileUploadComponent
+    FileUploadComponent,
+    DragDropDirective
   ],
   imports: [
     FormsModule,

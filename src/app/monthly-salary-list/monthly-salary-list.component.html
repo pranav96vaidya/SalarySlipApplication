@@ -8,8 +8,8 @@
   <div class="navigate-desc">To navigate to home page <a routerLink="/home">Click here</a></div>
 </ng-container>
 <div class="row btn-container" *ngIf="fetchDone && !errorMsg">
-    <div class="offset-3 col-6 page-head">{{empName}}'s Salary Slip</div>
-    <div class="col-2 back-btn-container">
+    <div class="col-8 offset-2 offset-sm-3 col-sm-6 page-head">{{empName}}'s Salary Slip</div>
+    <div class="col-sm-2 back-btn-container">
         <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
     </div>
 </div>

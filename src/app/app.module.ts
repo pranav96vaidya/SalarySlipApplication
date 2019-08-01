@@ -10,7 +10,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NavComponent } from './nav/nav.component';
-import { DragDropDirective } from './drag-drop.directive';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
@@ -18,7 +17,6 @@ import { environment } from '../environments/environment';
   declarations: [
     AppComponent,
     FooterComponent,
-    DragDropDirective,
     PageNotFoundComponent,
     NavComponent
   ],

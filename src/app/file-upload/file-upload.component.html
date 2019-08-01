@@ -61,40 +61,40 @@
   <div class="navigate-desc">To navigate to home page <a routerLink="/home">Click here</a></div>
 </ng-container>
 <div class="row btn-container" *ngIf="valData && !errorMsg && fetchDone">
-  <div class="col-6 offset-3 head-content">Salary Slip of Employees</div>
-  <div class="col-3 send-btn-container">
+  <div class="col-sm-4 offset-sm-4 head-content">Salary Slip of Employees</div>
+  <div class="col-sm-4 send-btn-container">
     <button class="btn btn-primary delete-btn" [disabled]="!checkedList.length" (click)="deleteItem()">Delete</button>
     <button class="btn btn-primary send-btn" [disabled]="!checkedList.length" (click)="sendMail()">Send Mail</button>
     <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
   </div>
 </div>
 <div class="row" *ngIf="valData && !errorMsg">
-  <div class="col-sm-12">
+  <div class="col-12 table-responsive">
     <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>
-                <input type="checkbox" class="select-item checkbox"
-                [(ngModel)]="allSelected" name="list_name" 
-                value="list" (change)="checkUncheckAll()"/>
-            </th>
-            <th *ngFor="let items of salaryItemsInfo">{{items}}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let emp of list">
-              <td>
-                  <input type="checkbox" class="select-item checkbox" [(ngModel)]="emp.isSelected"
-                   name="select-item" value="{{emp}}" (change)="isAllSelected()" />
-              </td>
-            <td>{{emp.employeeFullName}}</td> 
-            <td>{{emp.grossSalary}}</td>          
-            <td>{{emp.totalDeductions}}</td>
-            <td>{{emp.netSalaryPayable}}</td>
-            <td><a class="view-doc" [routerLink]="" (click)="viewSalarySlip(emp)">View</a></td>
-          </tr>
-        </tbody>
-      </table>
+      <thead>
+        <tr>
+          <th>
+              <input type="checkbox" class="select-item checkbox"
+              [(ngModel)]="allSelected" name="list_name" 
+              value="list" (change)="checkUncheckAll()"/>
+          </th>
+          <th *ngFor="let items of salaryItemsInfo">{{items}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let emp of list">
+            <td>
+                <input type="checkbox" class="select-item checkbox" [(ngModel)]="emp.isSelected"
+                  name="select-item" value="{{emp}}" (change)="isAllSelected()" />
+            </td>
+          <td>{{emp.employeeFullName}}</td> 
+          <td>{{emp.grossSalary}}</td>          
+          <td>{{emp.totalDeductions}}</td>
+          <td>{{emp.netSalaryPayable}}</td>
+          <td><a class="view-doc" [routerLink]="" (click)="viewSalarySlip(emp)">View</a></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 

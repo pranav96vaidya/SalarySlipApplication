@@ -1,3 +1,5 @@
+@import '../../assets/scss/color';
+
 .btn-container {
     margin-bottom: 15px;
     padding-top: 15px;
@@ -5,12 +7,10 @@
     .back-btn-container {
         text-align: right;
         .back-btn {
-            background-color: #337AB7;
+            background-color: $btnColor;
             font-size: 14px;        
         }
     }
-
-    
 }
 
 .name-head {
@@ -22,7 +22,7 @@
 
 .table {
     tr td, tr th {
-    border: 1px solid #DDDDDD;
+    border: 1px solid $tableBorderColor;
     font-size: 14px;
     padding: 8px;
     } 
@@ -35,7 +35,22 @@
         text-align: center;
 
         a {
-            color: #337ab7;
+            color: $btnColor;
         }
     }
 }   
+
+@media (max-width: 768px) {
+    .btn-container {
+    
+        .back-btn-container {
+            display: none; 
+        }
+    }
+
+    .table {
+        tr td, tr th {
+            font-size: 10px;
+        } 
+    }
+}

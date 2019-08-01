@@ -1,5 +1,7 @@
+@import '../../assets/scss/color';
+
 .footer {
-    background-color: #F8F8F8;
+    background-color: $navFooterBgColor;
     box-shadow: 0px 0px 2px -1px;
     bottom: 0;
     font-size: 20px;

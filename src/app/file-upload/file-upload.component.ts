@@ -23,7 +23,7 @@ export class FileUploadComponent {
   years: number[]= [];
   users: string;
   employeeForm: FormGroup;
-  valData: null;
+  valData;
 
   fetchDone = false;
   processing = false;
@@ -84,22 +84,22 @@ export class FileUploadComponent {
     formData.append('file', this.file, this.file.name);
     this.processing = true;
     this.fetchDone = false; 
-    this.fileUplaod.sendFile(formData, function(val) {
-      if(val['success'] == true) {
-        _this.title.setTitle('Employee salary List');
-        _this.valData = val;
-        _this.list = val['data'];
-        _this.processing = false;
-        _this.fetchDone = true;
-        for(var i=0; i< _this.list.length; i++) {
-          _this.list[i].isSelected = true;
-        }
-         console.log(val);
-         _this.getCheckedItemList();
-      } else {
-        _this.valData = val;
-        console.log(val);
+    console.log(this.file);
+    this.fileUplaod.sendFile(formData)
+    .subscribe((val) => {
+      console.log(val);
+      this.title.setTitle('Employee salary List');
+      this.valData = val;
+      this.list = val['data'];
+      this.processing = false;
+      this.fetchDone = true;
+      for(var i=0; i< this.list.length; i++) {
+        this.list[i].isSelected = true;
       }
+        console.log(val);
+        this.getCheckedItemList();
+      }, err => {
+      console.log(err);
     });
   }
 

@@ -1,9 +1,11 @@
+@import '../../assets/scss/color';
+
 .uploadfilecontainer {
   background-image: url("../../assets/upload.png");
   background-repeat: no-repeat;
   background-size: 70px;
   background-position: center;
-  border: 2px dashed #1C8ADB;
+  border: 2px dashed $fileUploadBorderColor;
   border-radius: 10px;
   height: 180px;
 
@@ -14,7 +16,7 @@
 }
 
 .uploadfilecontainer:hover {
-  background-color: #9ecbec;
+  background-color: $fileUploadHoverBgColor;
   cursor: pointer;
   opacity: 0.8;
 }
@@ -27,10 +29,10 @@
 }
 
 .files-list {
-  background: #ffffff;
+  background: $whiteColor;
   border: 1px dashed;
   border-radius: 12px;
-  color: #1c8adb;
+  color: $fileListColor;
   margin: 10px auto;
   padding: 5px;
 }
@@ -38,6 +40,10 @@
 .upload-btn-container {
   margin: 10px auto;
   padding: 5px;
+
+  .btn-primary {
+    background-color: $btnColor;
+  }
 }
 
 .select-file-help {
@@ -51,7 +57,7 @@
   }
   
   .btn-primary {
-      background-color: #3379B7;
+      background-color: $btnColor;
       font-size: 14px;
       width: 100%;
   }
@@ -72,21 +78,24 @@
   text-align: right;
 
   .back-btn {
-      background-color: #337AB7;
+      background-color: $btnColor;
       font-size: 14px;
-      // margin-right: 10px;
   }
 }
 
-.table-striped tbody,thead {
-  font-size: 14px;
+.table-striped {
+  // display: block;
+  // overflow-y: scroll;
 
+  tbody,thead {
+    font-size: 14px;
+  }
   .select-item.checkbox {
       font-size: 18px;
   }
 
   .view-doc {
-      color: #337ab7; 
+      color: $btnColor; 
   }
 }
 
@@ -95,7 +104,7 @@
   padding-top: 20px;
 
   .back-btn,.delete-btn,.send-btn {
-      background-color: #337AB7;
+      background-color: $btnColor;
       font-size: 14px;
   }
 
@@ -114,3 +123,49 @@
   }
 }
 
+@media (max-width: 768px) {
+  .uploadfilecontainer {
+    .upload-desc {
+      font-size: 14px;
+    }
+  }
+
+  .upload-btn-container {
+  
+    .btn-primary {
+      font-size: 10px;
+    }
+  }
+
+  .files-list {
+    font-size: 12px;
+  }
+
+  .btn-container {
+     
+    .back-btn {
+      display: none;
+    }
+
+    .head-content {
+      font-size: 25px;
+      margin-bottom: 20px;
+    }
+
+    .send-btn-container {
+      text-align: left;
+  
+      .delete-btn,.send-btn {
+          font-size: 10px;
+      }
+    }
+  }
+
+  .table-striped tbody,thead {
+    font-size: 10px;
+  
+    .select-item.checkbox {
+        font-size: 14px;
+    }
+  }
+}

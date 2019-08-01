@@ -10,15 +10,8 @@ export class FileUploadService {
 
   constructor(private http: HttpClient) { }
 
-  sendFile(formData, callback) {
+  sendFile(formData) {
     let url = this.baseUrl + '/rest/admin/upload';
-    this.http.post(url, formData)
-    .subscribe((val) => {
-      callback(val);
-      return val;
-    }, err => {
-      callback(err);
-      return err;
-    });
+    return this.http.post(url, formData)
   }
 }
