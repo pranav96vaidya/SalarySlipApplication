@@ -6,9 +6,16 @@
 
     .back-btn-container {
         text-align: right;
+
         .back-btn {
             background-color: $btnColor;
-            font-size: 14px;        
+            font-size: 14px;
+          }
+        
+          .back-btn:active {
+            position: relative;
+            top: 2px;
+            left: 2px;
         }
     }
 }
@@ -34,8 +41,13 @@
     .action-head {
         text-align: center;
 
-        a {
+        .action {
             color: $btnColor;
+        }
+
+        .action:hover {
+            cursor: pointer;
+            text-decoration: underline;
         }
     }
 }   

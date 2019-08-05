@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +9,10 @@ import { environment } from 'src/environments/environment';
 export class EmployeeDetailService {
   baseUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
-  getEmpdetail(id: any) {
-    let url = this.baseUrl + '/rest/employee/detail/' + id;
+  public getEmpdetail(id: any): Observable<any> {
+    const url = `${this.baseUrl}/rest/employee/salary_slips?empID=${id}`;
     return this.http.get(url);
   }
-
-  
 }

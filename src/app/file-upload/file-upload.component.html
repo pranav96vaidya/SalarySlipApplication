@@ -1,66 +1,75 @@
-<div *ngIf="!fetchDone && !valData && processing" >
+<div *ngIf="!fetchDone && !upload" >
   <div class="row data-container">
     <mat-spinner [diameter]="40"></mat-spinner>
   </div>
 </div>
-<ng-container *ngIf="!valData && !fetchDone && !processing">
-    <div class="row btn-container">
-        <div class="offset-9 col-3">
-            <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
-        </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-3 filter-form">
-        <div class="side-bar-container">
-          <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()"> 
-            <div class="form-group">
-              <select class="form-control" formControlName="emp">
-                <option value="" disabled>Select Employee</option>
-                <option *ngFor="let emp of users" [ngValue]="emp" >
-                  {{emp.fullName}}
-                </option>
-              </select>
-            </div>
-            <div class="form-group">
-              <select class="form-control" formControlName="yearVal"> 
-                <option *ngFor="let year of years" value="{{year}}">{{year}}</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <select class="form-control" formControlName="monthVal">
-                <option *ngFor="let month of months" value="{{month}}">{{month}}</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-primary"  [disabled]="!employeeForm.valid">Search</button>
-            </div>
-          </form>
-        </div>
+<ng-container *ngIf="fetchDone && !processing">
+  <div class="row btn-container">
+      <div class="offset-9 col-3">
+          <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
       </div>
-      <div class="col-sm-9">
-          <div class="upload-head">Salary Slip Upload</div>
-          <div class="uploadfilecontainer" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadFile($event)">
-              <input hidden type="file" accept=".csv" #fileInput (change)="uploadFile($event.target.files)">
-              <div class="upload-desc"><span>Click on the box to upload file OR drop a file here</span></div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 filter-form">
+      <div class="side-bar-container">
+        <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()"> 
+          <div class="form-group">
+            <select class="form-control" formControlName="emp">
+              <option value="" disabled>Select Employee</option>
+              <option *ngFor="let emp of users" [ngValue]="emp" >
+                {{emp.fullName}}
+              </option>
+            </select>
           </div>
-          <div *ngIf="!file && !errorMsg" class="select-file-help">select a file with .csv extension</div>
-          <div *ngIf="errorMsg" class="select-file-error">{{errorMsg}}</div>
-          <ng-container *ngIf="file && !errorMsg">
-              <div class="files-list">
-                <p>{{ file.name }}</p>
-              </div>
-              <div class="upload-btn-container">
-                  <button class="btn btn-primary" (click)="uploadFileData()">Upload</button>
-              </div>
-          </ng-container>
+          <div class="form-group">
+            <select class="form-control" formControlName="yearVal"> 
+              <option *ngFor="let year of years" value="{{year}}">{{year}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <select class="form-control" formControlName="monthVal">
+              <option *ngFor="let month of months" value="{{month}}">{{month}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary"  [disabled]="!employeeForm.valid">Search</button>
+          </div>
+        </form>
       </div>
     </div>
+    <div class="col-sm-9">
+        <div class="upload-head">Salary Slip Upload</div>
+        <div class="uploadfilecontainer" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadFile($event)">
+            <input hidden type="file" accept=".csv" #fileInput (change)="uploadFile($event.target.files)">
+            <div class="upload-desc"><span>Click on the box to upload file OR drop a file here</span></div>
+        </div>
+        <div *ngIf="!file && !fileErrorMsg" class="select-file-help">select a file with .csv extension</div>
+        <div *ngIf="fileErrorMsg" class="select-file-error">{{fileErrorMsg}}</div>
+        <ng-container *ngIf="file && !fileErrorMsg">
+            <div class="files-list">
+              <p>{{ file.name }}</p>
+            </div>
+            <div class="upload-btn-container">
+                <button class="btn btn-primary" (click)="uploadFileData()">Upload</button>
+            </div>
+        </ng-container>
+    </div>
+  </div>
 </ng-container>
-<ng-container *ngIf="valData && errorMsg">
+<!-- <ng-container *ngIf="valData && errorMsg">
   <div class="select-file-error">{{errorMsg}}</div>
   <div class="navigate-desc">To navigate to home page <a routerLink="/home">Click here</a></div>
-</ng-container>
-<div class="row btn-container" *ngIf="valData && !errorMsg && fetchDone">
+</ng-container> -->
+<app-data-not-found *ngIf="errorMsg">
+  {{errorMsg}}
+  <p>
+    <a (click)="reloadPage()">click here</a> to try again! OR
+  </p>
+  <p>
+    <a routerLink="/home">click here</a> to navigate to Home page!
+  </p>
+</app-data-not-found>
+<div class="row btn-container" *ngIf="fetchDone && processing && !errorMsg">
   <div class="col-sm-4 offset-sm-4 head-content">Salary Slip of Employees</div>
   <div class="col-sm-4 send-btn-container">
     <button class="btn btn-primary delete-btn" [disabled]="!checkedList.length" (click)="deleteItem()">Delete</button>
@@ -68,7 +77,7 @@
     <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
   </div>
 </div>
-<div class="row" *ngIf="valData && !errorMsg">
+<div class="row" *ngIf="fetchDone && processing && !errorMsg">
   <div class="col-12 table-responsive">
     <table class="table table-striped">
       <thead>
@@ -78,7 +87,7 @@
               [(ngModel)]="allSelected" name="list_name" 
               value="list" (change)="checkUncheckAll()"/>
           </th>
-          <th *ngFor="let items of salaryItemsInfo">{{items}}</th>
+          <th *ngFor="let items of salaryItemsInfo;">{{items}}</th>
         </tr>
       </thead>
       <tbody>
@@ -88,10 +97,10 @@
                   name="select-item" value="{{emp}}" (change)="isAllSelected()" />
             </td>
           <td>{{emp.employeeFullName}}</td> 
-          <td>{{emp.grossSalary}}</td>          
-          <td>{{emp.totalDeductions}}</td>
-          <td>{{emp.netSalaryPayable}}</td>
-          <td><a class="view-doc" [routerLink]="" (click)="viewSalarySlip(emp)">View</a></td>
+          <td>{{emp.grossSalary | inrCurrency: true }}</td>          
+          <td>{{emp.totalDeductions | inrCurrency: true }}</td>
+          <td>{{emp.netSalaryPayable | inrCurrency: true }}</td>
+          <td class="view-doc"><a class="action" (click)="viewSalarySlip(emp)">View</a></td>
         </tr>
       </tbody>
     </table>

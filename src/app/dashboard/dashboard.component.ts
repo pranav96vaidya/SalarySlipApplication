@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { UserDetailService } from '../services/user-detail.service';
@@ -16,55 +16,57 @@ import { retry } from 'rxjs/operators';
 export class DashboardComponent implements OnInit {
   empName: string;
   getState: Observable<any>;
-  isAuthenticated: boolean = false;
+  isAuthenticated: boolean;
   fetchDone = false;
   users: string;
   employeeList: string;
   month = new Date().getMonth();
-  months: string[] = ["January", "February", "March", "April", "May",
-    "June", "July", "August", "September", "October", "November", "December"];
+  months: string[] = ['January', 'February', 'March', 'April', 'May',
+    'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   currentMonth = this.months[this.month];
   currentYear = new Date().getFullYear();
-  years: number[]= [];
+  years: number[] = [];
   employeeForm: FormGroup;
   selectedEmp: {};
   errorMsg: string;
 
-  constructor(private userService: UserDetailService, private router: Router,
-    private title: Title) {
+  constructor(private readonly userService: UserDetailService, private readonly router: Router, private readonly title: Title) {
     // this.getState = this.store.select(selectAuthenticationState);
-  };
+  }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    console.log(this.router);
+    this.isAuthenticated = false;
     this.title.setTitle('Home Page');
-    for(var i=2017; i<= this.currentYear; i++) {
+    for (let i = 2017; i <= this.currentYear; i++) {
       this.years.push(i);
     };
     this.userService.getEmployeeList().pipe(retry(2)).subscribe(responseList => {
-      console.log(responseList);
+      console.log(responseList)
       this.users = responseList['data'];
       this.fetchDone = true;
     }, err =>  {
         this.errorMsg = err.error.customMsg;
         this.fetchDone = true;
-    })
-    this.employeeForm = new FormGroup({
-      'emp': new FormControl('', Validators.required),
-      'yearVal': new FormControl(this.currentYear),
-      'monthVal': new FormControl(this.currentMonth)
     });
-  };
-
-  onSubmit() {
-    this.router.navigate(['/employee', this.employeeForm.value.emp.id,'salarySlip', 'view'], 
-    { queryParams: { month: this.employeeForm.value.monthVal, year: this.employeeForm.value.yearVal}});
+    this.employeeForm = new FormGroup({
+      emp: new FormControl('', Validators.required),
+      yearVal: new FormControl(this.currentYear),
+      monthVal: new FormControl(this.currentMonth)
+    });
   }
 
-  fetchSalarySlip(emp) {
-    this.router.navigate(['/employee',emp.id,'salarySlips']);
+  public onSubmit(): void {
+    this.router.navigate([`/employee/${this.employeeForm.value.emp.id}/salarySlip/view`],
+    { queryParams: { month: this.employeeForm.value.monthVal.toLowerCase(), year: this.employeeForm.value.yearVal}});
   }
 
-  uploadSalary() {
+  public fetchSalarySlip(emp: {}): void {
+    this.router.navigate([`/employee/${emp['id']}/salarySlips`]);
+  }
+
+  public uploadSalary(): void {
     this.router.navigate(['/uploadSalarySlip']);
   }
+
 }

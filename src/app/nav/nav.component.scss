@@ -4,6 +4,10 @@
     background-color: $navFooterBgColor;
     border: 1px solid $navFooterBorderColor;
 
+    .navbar-brand:hover {
+        cursor: pointer;
+    }
+
     .navbar-nav {
 
         .nav-item {
@@ -32,6 +36,7 @@
     }
     
     .logout:hover {
+        cursor: pointer;
         color: $blackColor;
     }
 }

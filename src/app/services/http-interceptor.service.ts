@@ -14,11 +14,11 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {
-  constructor(public auth: AuthenticationService, private router: Router) { }
+  constructor(private readonly auth: AuthenticationService, private readonly router: Router) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-   
+
     let authReq = req;
-    let token = this.auth.getToken();
+    const token = this.auth.getToken();
     if (token) {
       authReq = req.clone({ headers: req.headers.set('token', token)});
     }
@@ -27,15 +27,16 @@ export class HttpInterceptorService implements HttpInterceptor {
       if (event instanceof HttpResponse) {
       }
     }, (err: any) => {
-      console.log(err);
+        console.log(err);
         if (err instanceof HttpErrorResponse) {
           console.log(err);
-          if (err.status == 400 || err.status == 401) {
+          if (err.status === 400 || err.status === 401) {
             this.auth.token = null;
-            location.href="http://newput.timetracker.s3-website-us-west-1.amazonaws.com/login";
+            location.href = 'http://newput.timetracker.s3-website-us-west-1.amazonaws.com/login';
           }
         }
       }
     ));
   }
+
 }

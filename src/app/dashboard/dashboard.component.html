@@ -35,7 +35,7 @@
         </div>
       </form>
       <div class="form-group">
-        <button type="button" class="btn btn-primary" (click)="uploadSalary()">Upload Salary Slip</button>
+        <button type="button" class="btn btn-primary" (click)="uploadSalary()">Upload Salary</button>
       </div>
     </div>
   </div>
@@ -52,7 +52,7 @@
           <tr *ngFor="let emp of users; let i=index">
             <td>{{i+1}}</td>
             <td>{{emp.fullName}}</td>            
-            <td class="view-doc"><a [routerLink]="" (click)="fetchSalarySlip(emp)">View salary slip</a></td>
+            <td class="view-doc"><a class="action" (click)="fetchSalarySlip(emp)">View All Salary Slip</a></td>
           </tr>
         </tbody>
       </table>

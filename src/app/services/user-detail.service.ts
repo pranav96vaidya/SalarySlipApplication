@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin } from "rxjs";
+import { Observable, forkJoin } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
@@ -10,15 +10,16 @@ import { environment } from '../../environments/environment';
 export class UserDetailService {
   baseUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
-  getDetail(): Observable<any> {
-    let url = this.baseUrl + '/rest/employee/detail';
+  public getDetail(): Observable<any> {
+    const url = `${this.baseUrl}/rest/employee/detail`;
     return this.http.get(url);
   }
 
-  getEmployeeList(): Observable<any> {
-    let url = this.baseUrl + '/rest/admin/employees';
+  public getEmployeeList(): Observable<any> {
+    const url = `${this.baseUrl}/rest/admin/employees`;
     return this.http.get(url);
   }
+
 }

@@ -13,7 +13,7 @@
         <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
     </div>
 </div>
-<div class="row" *ngIf="fetchDone">
+<div class="row" *ngIf="fetchDone && !errorMsg">
   <div class="offset-sm-1 col-sm-10">
     <table class="table table-striped">
       <thead>
@@ -25,11 +25,11 @@
       <tbody>
         <ng-container *ngFor="let year of years.slice().reverse()">
           <tr *ngFor="let month of months.slice().reverse(); let i=index">
-            <ng-template *ngIf="i<currentMonthIndex-1 && year==currentYear; else print">
+            <ng-template *ngIf="i<12-currentMonthIndex-1 && year==currentYear; else print">
             </ng-template>
             <ng-template #print>
                 <td>{{month}} {{year}}</td>
-                <td class="action-head"><a [routerLink]="" (click)="getSalary(year,month)">View salary slip</a></td>
+                <td class="action-head"><a class="action" (click)="getSalary(year,month)">View salary slip</a></td>
             </ng-template>
           </tr>
         </ng-container>

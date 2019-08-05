@@ -22,10 +22,10 @@ export class NavComponent implements OnInit {
   //   this.getState = this.store.select(selectAuthenticationState);
   // }
 
-  constructor(private auth: AuthenticationService, private route: Router, private userService: UserDetailService) {}
+  constructor(private readonly auth: AuthenticationService, private router: Router, private userService: UserDetailService) {}
 
-  ngOnInit() {
-    if(this.auth.isLoggedIn()) {
+  ngOnInit(): void {
+    if (this.auth.isLoggedIn()) {
       this.isAuthenticated = true;
     }
 
@@ -33,15 +33,15 @@ export class NavComponent implements OnInit {
       console.log(responseList);
       this.userName = responseList['data'].fullName;
       this.userImg = responseList['data'].profileImgSmall;
-    })  
+    });
   }
 
-  loadHomePage() {
-    this.route.navigate(['./home']);
+  loadHomePage(): void {
+    this.router.navigate(['./home']);
   }
 
   logout(): void {
     // this.store.dispatch(new Logout);
-    location.href="http://newput.timetracker.s3-website-us-west-1.amazonaws.com/login";
+    location.href = 'http://newput.timetracker.s3-website-us-west-1.amazonaws.com/login';
   }
 }

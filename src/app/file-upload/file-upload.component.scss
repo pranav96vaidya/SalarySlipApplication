@@ -44,6 +44,12 @@
   .btn-primary {
     background-color: $btnColor;
   }
+
+  .btn-primary:active {
+    position: relative;
+    top: 2px;
+    left: 2px;
+  }
 }
 
 .select-file-help {
@@ -62,6 +68,12 @@
       width: 100%;
   }
 
+  .btn-primary:active {
+    position: relative;
+    top: 2px;
+    left: 2px;
+  }
+
   select::-ms-expand {
       display: none;
   }
@@ -78,14 +90,18 @@
   text-align: right;
 
   .back-btn {
-      background-color: $btnColor;
-      font-size: 14px;
+    background-color: $btnColor;
+    font-size: 14px;
+  }
+
+  .back-btn:active {
+    position: relative;
+    top: 2px;
+    left: 2px;
   }
 }
 
 .table-striped {
-  // display: block;
-  // overflow-y: scroll;
 
   tbody,thead {
     font-size: 14px;
@@ -95,7 +111,15 @@
   }
 
   .view-doc {
-      color: $btnColor; 
+
+    .action {
+        color: $btnColor;
+    }
+
+    .action:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
   }
 }
 
@@ -104,8 +128,21 @@
   padding-top: 20px;
 
   .back-btn,.delete-btn,.send-btn {
-      background-color: $btnColor;
-      font-size: 14px;
+    background-color: $btnColor;
+    font-size: 14px;
+    outline: none;
+    border: none;
+  }
+
+  .back-btn:active,.delete-btn:active,.send-btn:active {
+    position: relative;
+    top: 2px;
+    left: 2px;
+  }
+
+  .back-btn:focus,.delete-btn:focus,.send-btn:focus {
+    outline: none ;
+    box-shadow: none ;
   }
 
   .head-content {

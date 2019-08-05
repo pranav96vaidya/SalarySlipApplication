@@ -114,6 +114,17 @@
             background-color: $btnColor;
             font-size: 14px;
         }
+
+        .back-btn:active,.print-btn:active,.mail-btn:active {
+            position: relative;
+            top: 2px;
+            left: 2px;
+        }
+
+        .back-btn:focus,.print-btn:focus,.mail-btn:focus {
+            outline: none ;
+            box-shadow: none ;
+        }
     }
 }
 
@@ -186,7 +197,11 @@
 }
 
 @media print {
-    .btn-primary {
+    .row.btn-container {
         display: none;
+    }
+
+    .salary-slip-wrapper {
+        margin-top: -60px;
     }
 }

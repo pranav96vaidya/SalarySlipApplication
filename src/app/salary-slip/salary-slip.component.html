@@ -1,11 +1,20 @@
-<div class="row btn-container">
+<div *ngIf="!fetchDone">
+  <div class="row data-container">
+    <mat-spinner [diameter]="40"></mat-spinner>
+  </div>
+</div>
+<ng-container *ngIf="fetchDone && errorMsg">
+  <div class="select-file-error">{{errorMsg}}</div>
+  <div class="navigate-desc">To navigate to home page <a routerLink="/home">Click here</a></div>
+</ng-container>
+<div class="row btn-container" *ngIf="fetchDone && !noResponse">
   <div class="col-8 offset-3 action-btn-container">
     <button class="btn btn-primary print-btn" (click)="download()">Print</button>
     <button class="btn btn-primary mail-btn" (click)="sendMail()">Send Mail</button>
     <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
   </div>
 </div>
-<div class="row">
+<div class="row" *ngIf="fetchDone && !noResponse">
   <div class="col-10 offset-1 salary-slip-wrapper">
     <div class="row head-container">
       <div class="col-8 offset-2 col-sm-6 offset-sm-3 company-details">
@@ -13,7 +22,7 @@
           <div class="company-address">314 D M Tower, 21/1 Race Course Road Indore</div>
           <div class="company-address">CIN U723000MP2006PTC018697</div>
           <div class="company-address">
-            Salary slip for the month of {{currentMonth}} {{currentYear}}
+            Salary slip for the month of {{responseData.month | titlecase}} {{responseData.year}}
           </div>
       </div>
       <div class="col-12 days-month">
@@ -23,7 +32,7 @@
     <div class="row salary-content">
       <ng-container *ngFor="let item of salaryDisplayItems">
         <div class="col-3" [class.bold-text]="item.isHeading">{{item.itemLabel}}</div>
-        <div class="col-3" [class.bold-text]="item.isHeading">{{item.itemValue}}</div>
+        <div class="col-3" [class.bold-text]="item.isHeading">{{item.itemValue | inrCurrency: item.isAmount}}</div>
       </ng-container>
       <div class="col-3 authority-seal">
           <img class="seal-img" src="./assets/company-seal.png">
@@ -42,3 +51,7 @@
     </div>
   </div>
 </div>
+<app-data-not-found *ngIf="fetchDone && noResponse">
+  <div>Data for {{selectedMonth | titlecase}}-{{selectedYear}} not exists!</div>
+  <a routerLink="/employee/{{empId}}/salarySlips">click here</a> to search for other month's data!
+</app-data-not-found>

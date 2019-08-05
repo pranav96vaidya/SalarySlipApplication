@@ -16,7 +16,14 @@
     .btn-primary {
         background-color: $btnColor;
         font-size: 14px;
+        outline: none;
         width: 100%;
+    }
+
+    .btn-primary:active {
+        position: relative;
+        top: 2px;
+        left: 2px;
     }
 
     select::-ms-expand {
@@ -39,14 +46,21 @@
     .view-doc {
         text-align: center;
 
-        a {
+        .action {
             color: $btnColor;
+        }
+
+        .action:hover {
+            cursor: pointer;
+            text-decoration: underline;
         }
     }
 
     .action-head {
         text-align: center;
     }
+
+    
 }
 
 @media (max-width: 767px) {

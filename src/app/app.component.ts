@@ -8,7 +8,7 @@ import { retry } from 'rxjs/operators';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'SalaryApplication';
   userName: string;
   userImg: string;
@@ -24,9 +24,10 @@ export class AppComponent implements OnInit{
     this.userService.getDetail().pipe(retry(2)).subscribe(responseList => {
       console.log(responseList);
       this.fetchDone = true;
-    }, error =>  { 
+    }, error => {
         console.log(error);
         this.fetchDone = true;
-    })
+    });
   }
+  
 }
