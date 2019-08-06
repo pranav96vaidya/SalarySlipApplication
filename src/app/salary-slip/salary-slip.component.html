@@ -3,10 +3,10 @@
     <mat-spinner [diameter]="40"></mat-spinner>
   </div>
 </div>
-<ng-container *ngIf="fetchDone && errorMsg">
+<!-- <ng-container *ngIf="fetchDone && noResponse">
   <div class="select-file-error">{{errorMsg}}</div>
   <div class="navigate-desc">To navigate to home page <a routerLink="/home">Click here</a></div>
-</ng-container>
+</ng-container> -->
 <div class="row btn-container" *ngIf="fetchDone && !noResponse">
   <div class="col-8 offset-3 action-btn-container">
     <button class="btn btn-primary print-btn" (click)="download()">Print</button>
