@@ -11,8 +11,7 @@ export class AuthenticationService {
   constructor(private readonly http: HttpClient) { }
   // token = this.readCookie('token');
   // heroku server token
-  token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiVTBERFlVTlNEIiwic3RhdHVzIjoiYWRtaW' +
-  '4iLCJpYXQiOjE1NjM4NzgzNzcsImV4cCI6MTU2NTE3NDM3N30.ROTZK9l5dWPUmaUpzfLVnHFVhVyb1Y6lGuwl2e3XvT4';
+  token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiVTBERFlVTlNEIiwic3RhdHVzIjoiYWRtaW4iLCJpYXQiOjE1NjUyNTQyNjMsImV4cCI6MTU2NjU1MDI2M30.iTXViF1ILm6CpAhcVmAuy5wRZyzxScFj5nUg_7WVPNA';
   // timesheet server
   // token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiVTBERFlVTlNEIiwic3RhdHVzIjoiYW
   // RtaW4iLCJpYXQiOjE1NjQ1NzE4OTEsImV4cCI6MTU2NDU3NTQ5MX0.xUdc1mWq-9REmytjDFGRWxz9eOK4YeBpp0meKH7Cd5U";

@@ -15,6 +15,15 @@
   }
 }
 
+a:not([href]):not([tabindex]),.error-navigate {
+  color: $btnColor;
+  cursor: pointer;
+}
+
+a:not([href]):not([tabindex]):hover {
+  text-decoration: underline;
+}
+
 .uploadfilecontainer:hover {
   background-color: $fileUploadHoverBgColor;
   cursor: pointer;
@@ -49,6 +58,11 @@
     position: relative;
     top: 2px;
     left: 2px;
+  }
+
+  .btn-primary:focus {
+    outline: none ;
+    box-shadow: none ;
   }
 }
 

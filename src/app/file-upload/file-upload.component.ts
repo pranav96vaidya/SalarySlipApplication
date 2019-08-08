@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UserDetailService } from '../services/user-detail.service';
 import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { FileUploadService } from '../services/file-upload.service';
 import { retry } from 'rxjs/operators';
 
@@ -39,6 +39,12 @@ export class FileUploadComponent implements OnInit {
 
   ngOnInit(): void {
     this.title.setTitle('Upload Salary Slip');
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+          return;
+      }
+      window.scrollTo(0, 0)
+    });
     for (let i = 2017; i <= this.currentYear; i++) {
       this.years.push(i);
     }
@@ -105,6 +111,8 @@ export class FileUploadComponent implements OnInit {
       }, err => {
       if (err.status == 500) {
         this.errorMsg = "Some Internal server error occured! please try again later.";
+      } else if (err.status == 422) {
+        this.errorMsg = "The file you uploaded is not valid. Please upload other file."
       }
       this.processing = true;
       this.upload = true;
@@ -120,7 +128,6 @@ export class FileUploadComponent implements OnInit {
   }
 
   public isAllSelected(): void {
-    console.log(this.list);
     this.allSelected = this.list.every((item: any) => {
       return item.isSelected === true;
     });
@@ -153,6 +160,7 @@ export class FileUploadComponent implements OnInit {
 
   public sendMail(): void {
     this.checkedList = JSON.stringify(this.checkedList);
+    console.log(this.checkedList);
   }
 
   public viewSalarySlip(emp: {}): void {
@@ -167,6 +175,8 @@ export class FileUploadComponent implements OnInit {
   public reloadPage(): void {
     this.fetchDone = true;
     this.processing = false;
+    this.errorMsg = null;
+    window.scrollTo(0, 0);
   }
 
 }

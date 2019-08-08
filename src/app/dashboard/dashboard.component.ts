@@ -35,7 +35,6 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.router);
     this.isAuthenticated = false;
     this.title.setTitle('Home Page');
     for (let i = 2017; i <= this.currentYear; i++) {

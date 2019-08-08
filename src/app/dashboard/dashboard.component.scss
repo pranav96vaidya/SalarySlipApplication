@@ -26,6 +26,11 @@
         left: 2px;
     }
 
+    .btn-primary:focus {
+        outline: none ;
+        box-shadow: none ;
+    }
+
     select::-ms-expand {
         display: none;
     }

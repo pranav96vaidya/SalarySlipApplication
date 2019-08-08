@@ -31,13 +31,12 @@ export class SalarySlipComponent implements OnInit {
 
   salaryDisplayItems;
   month = new Date().getMonth();
-  months: string[] = ['January', 'February', 'March', 'April', 'May',
-    'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  months: string[] = ['january', 'february', 'march', 'april', 'may',
+    'june', 'july', 'august', 'september', 'october', 'november', 'december'];
   currentMonth = this.months[this.month];
   currentMonthNum = new Date().getMonth() + 1;
   currentYear = new Date().getFullYear();
   currentMonthDays: number;
-  // objectKeys = Object.keys;
   empId: string;
   selectedMonth;
   selectedYear;
@@ -45,6 +44,7 @@ export class SalarySlipComponent implements OnInit {
   responseData;
   noResponse = false;
   noResponseLink;
+  monthNumber: number;
 
   constructor(private router: Router, private title: Title, private route: ActivatedRoute, private fetchService: FetchSalaryService, @Inject('Window') private window: Window) { }
 
@@ -76,7 +76,12 @@ export class SalarySlipComponent implements OnInit {
         this.salaryDisplayItems.splice(2, 0, { itemLabel: 'Earnings', itemValue: 'Amount Rs', isHeading: true},
         { itemLabel: 'Deductions', itemValue: 'Amount Rs', isHeading: true});
         console.log(res);
-        this.currentMonthDays = new Date(Number(this.responseData.year), this.currentMonthNum, 0).getDate();
+        for(let i = 1; i <= this.months.length; i++) {
+          if(this.months[i] == this.responseData.month)  {
+            this.monthNumber = i;
+          }
+        }
+        this.currentMonthDays = new Date(Number(this.responseData.year), this.monthNumber + 1, 0).getDate();
         this.fetchDone = true;
         this.noResponse = false;
       } else {
@@ -100,5 +105,4 @@ export class SalarySlipComponent implements OnInit {
   public previousPage(): void {
     this.router.navigate([`/employee/${this.empId}/salarySlips`]);
   }
-
 }

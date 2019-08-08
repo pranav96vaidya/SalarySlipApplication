@@ -61,12 +61,14 @@
   <div class="navigate-desc">To navigate to home page <a routerLink="/home">Click here</a></div>
 </ng-container> -->
 <app-data-not-found *ngIf="errorMsg">
-  {{errorMsg}}
   <p>
-    <a (click)="reloadPage()">click here</a> to try again! OR
+    {{errorMsg}}
   </p>
   <p>
-    <a routerLink="/home">click here</a> to navigate to Home page!
+    <a class="error-navigate" (click)="reloadPage()">click here</a> to try again! OR
+  </p>
+  <p>
+    <a class="error-navigate" routerLink="/home">click here</a> to navigate to Home page!
   </p>
 </app-data-not-found>
 <div class="row btn-container" *ngIf="fetchDone && processing && !errorMsg">
