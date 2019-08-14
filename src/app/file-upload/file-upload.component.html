@@ -46,7 +46,7 @@
         <div *ngIf="!file && !fileErrorMsg" class="select-file-help">select a file with .csv extension</div>
         <div *ngIf="fileErrorMsg" class="select-file-error">{{fileErrorMsg}}</div>
         <ng-container *ngIf="file && !fileErrorMsg">
-            <div class="files-list">
+            <div class="file-name">
               <p>{{ file.name }}</p>
             </div>
             <div class="upload-btn-container">
@@ -56,10 +56,6 @@
     </div>
   </div>
 </ng-container>
-<!-- <ng-container *ngIf="valData && errorMsg">
-  <div class="select-file-error">{{errorMsg}}</div>
-  <div class="navigate-desc">To navigate to home page <a routerLink="/home">Click here</a></div>
-</ng-container> -->
 <app-data-not-found *ngIf="errorMsg">
   <p>
     {{errorMsg}}
@@ -89,7 +85,7 @@
               [(ngModel)]="allSelected" name="list_name" 
               value="list" (change)="checkUncheckAll()"/>
           </th>
-          <th *ngFor="let items of salaryItemsInfo;">{{items}}</th>
+          <th *ngFor="let items of salaryItemsInfo">{{items}}</th>
         </tr>
       </thead>
       <tbody>
@@ -104,6 +100,18 @@
           <td>{{emp.netSalaryPayable | inrCurrency: true }}</td>
           <td class="view-doc"><a class="action" (click)="viewSalarySlip(emp)">View</a></td>
         </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="row" *ngIf="fetchDone && processing && !errorMsg && invalidMail">
+  <div class="col-12 text-danger error-head">Oops! Following are the email that are not correct</div>
+  <div class="col-12 table-responsive">
+    <table class="table">
+      <tbody>
+          <tr *ngFor="let email of invalidMail">
+            <td class="text-info">{{email}}</td>
+          </tr>
       </tbody>
     </table>
   </div>

@@ -5,9 +5,10 @@ import { SalarySlipRoutingModule } from './salary-slip-routing.module';
 import { SalarySlipComponent } from './salary-slip.component';
 import { SharedModule } from '../shared/shared.module';
 
+
 @NgModule({
   declarations: [
-    SalarySlipComponent
+    SalarySlipComponent,
   ],
   imports: [
     CommonModule,

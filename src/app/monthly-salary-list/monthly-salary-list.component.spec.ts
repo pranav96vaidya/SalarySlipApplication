@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatProgressSpinnerModule } from '@angular/material';
 import { MonthlySalaryListComponent } from './monthly-salary-list.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('MonthlySalaryListComponent', () => {
   let component: MonthlySalaryListComponent;
@@ -8,7 +10,8 @@ describe('MonthlySalaryListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MonthlySalaryListComponent ]
+      declarations: [ MonthlySalaryListComponent ],
+      imports: [ MatProgressSpinnerModule, RouterTestingModule, HttpClientTestingModule]
     })
     .compileComponents();
   }));

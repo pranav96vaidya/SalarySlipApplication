@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserDetailService } from '../services/user-detail.service';
 import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, NavigationEnd } from '@angular/router';
 import { FileUploadService } from '../services/file-upload.service';
 import { retry } from 'rxjs/operators';
+import { SendmailService } from '../services/sendmail.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -23,7 +24,7 @@ export class FileUploadComponent implements OnInit {
   years: number[] = [];
   users: string;
   employeeForm: FormGroup;
-  valData;
+  valData: any;
   fetchDone = false;
   processing = false;
   upload = false;
@@ -32,8 +33,10 @@ export class FileUploadComponent implements OnInit {
   list: any;
   salaryItemsInfo = ['Name', 'Gross Salary', 'Total Deductions', 'Net Salary Payable Rs', 'Action'];
   fileErrorMsg: string;
+  currentMonthNumber: number;
+  invalidMail: [];
 
-  constructor(private readonly title: Title, private readonly router: Router, private readonly fileUplaod: FileUploadService, private readonly userService: UserDetailService) {
+  constructor(private readonly title: Title, private readonly router: Router, private readonly fileUploadService: FileUploadService, private readonly userDetailService: UserDetailService, private sendMailService: SendmailService) {
       this.allSelected = true;
     }
 
@@ -48,7 +51,7 @@ export class FileUploadComponent implements OnInit {
     for (let i = 2017; i <= this.currentYear; i++) {
       this.years.push(i);
     }
-    this.userService.getEmployeeList().pipe(retry(2)).subscribe(responseList => {
+    this.userDetailService.getEmployeeList().pipe(retry(2)).subscribe(responseList => {
       console.log(responseList);
       this.users = responseList['data'];
       this.fetchDone = true;
@@ -94,16 +97,24 @@ export class FileUploadComponent implements OnInit {
     this.fetchDone = false;
     const formData = new FormData();
     formData.append('file', this.file, this.file.name);
-    this.fileUplaod.sendFile(formData)
+    this.fileUploadService.sendFile(formData)
     .subscribe((val) => {
       console.log(val);
       this.title.setTitle('Employee salary List');
       this.valData = val;
-      this.list = val['data'];
+      console.log(val['data']['invalidEmails'].length);
+      if(val['data']['invalidEmails'].length) {
+        // for(let i = 0; val['data']['invalidEmails'].length > i; i++) {
+        //   this.invalidMail.push(val['data']['invalidEmails'][i]);
+        // }
+        this.invalidMail = val['data']['invalidEmails'];
+        console.log(this.invalidMail);
+      }
+      
+      this.list = val['data']['employeeData'];
       for (let i = 0; i < this.list.length; i++) {
         this.list[i].isSelected = true;
       }
-      console.log(val);
       this.getCheckedItemList();
       this.processing = true;
       this.upload = true;
@@ -159,8 +170,13 @@ export class FileUploadComponent implements OnInit {
   }
 
   public sendMail(): void {
-    this.checkedList = JSON.stringify(this.checkedList);
-    console.log(this.checkedList);
+    // this.currentMonthNumber = this.months.indexOf(this.checkedList[0].month.t());
+    // console.log(this.currentMonthNumber);
+    console.log(this.month)
+    this.sendMailService.sendMailToEmployees(this.month+1, this.checkedList[0].year)
+    .subscribe(res => {
+      console.log(res);
+    })
   }
 
   public viewSalarySlip(emp: {}): void {

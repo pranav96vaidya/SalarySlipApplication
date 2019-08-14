@@ -1,5 +1,12 @@
 @import '../../assets/scss/color';
 
+.upload-head {
+  font-size: 25px;
+  font-weight: 500;
+  padding-bottom: 20px;
+  text-align: center;
+}
+
 .uploadfilecontainer {
   background-image: url("../../assets/upload.png");
   background-repeat: no-repeat;
@@ -24,20 +31,7 @@ a:not([href]):not([tabindex]):hover {
   text-decoration: underline;
 }
 
-.uploadfilecontainer:hover {
-  background-color: $fileUploadHoverBgColor;
-  cursor: pointer;
-  opacity: 0.8;
-}
-
-.upload-head {
-  font-size: 25px;
-  font-weight: 500;
-  padding-bottom: 20px;
-  text-align: center;
-}
-
-.files-list {
+.file-name {
   background: $whiteColor;
   border: 1px dashed;
   border-radius: 12px;
@@ -52,17 +46,17 @@ a:not([href]):not([tabindex]):hover {
 
   .btn-primary {
     background-color: $btnColor;
-  }
 
-  .btn-primary:active {
-    position: relative;
-    top: 2px;
-    left: 2px;
-  }
-
-  .btn-primary:focus {
-    outline: none ;
-    box-shadow: none ;
+    &:active {
+      position: relative;
+      top: 2px;
+      left: 2px;
+    }
+  
+    &:focus {
+      outline: none ;
+      box-shadow: none ;
+    }
   }
 }
 
@@ -73,28 +67,36 @@ a:not([href]):not([tabindex]):hover {
 
 .filter-form {
   .side-bar-container {
-      top: 135px;
+    top: 135px;
   }
   
   .btn-primary {
-      background-color: $btnColor;
-      font-size: 14px;
-      width: 100%;
-  }
+    background-color: $btnColor;
+    font-size: 14px;
+    width: 100%;
 
-  .btn-primary:active {
-    position: relative;
-    top: 2px;
-    left: 2px;
+    &:active {
+      position: relative;
+      top: 2px;
+      left: 2px;
+    }
+
+    &:focus {
+      outline: none ;
+      box-shadow: none ;
+    }
   }
 
   select::-ms-expand {
-      display: none;
+    display: none;
   }
 
   .form-control {
-      font-size: 14px;
-      height: 30px;
+    font-size: 14px;
+    height: 30px;
+    padding: 0 5px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
   }
 }
 
@@ -106,33 +108,39 @@ a:not([href]):not([tabindex]):hover {
   .back-btn {
     background-color: $btnColor;
     font-size: 14px;
-  }
 
-  .back-btn:active {
-    position: relative;
-    top: 2px;
-    left: 2px;
+    &:active {
+      position: relative;
+      top: 2px;
+      left: 2px;
+    }
+
+    &:focus {
+      border: none;
+      box-shadow: none;
+    }
   }
 }
 
 .table-striped {
+  margin-bottom: 40px;
 
   tbody,thead {
     font-size: 14px;
   }
+
   .select-item.checkbox {
-      font-size: 18px;
+    font-size: 18px;
   }
 
   .view-doc {
-
     .action {
-        color: $btnColor;
-    }
+      color: $btnColor;
 
-    .action:hover {
+      &:hover {
         cursor: pointer;
         text-decoration: underline;
+      }
     }
   }
 }
@@ -141,37 +149,42 @@ a:not([href]):not([tabindex]):hover {
   margin-bottom: 20px;
   padding-top: 20px;
 
-  .back-btn,.delete-btn,.send-btn {
-    background-color: $btnColor;
-    font-size: 14px;
-    outline: none;
-    border: none;
-  }
-
-  .back-btn:active,.delete-btn:active,.send-btn:active {
-    position: relative;
-    top: 2px;
-    left: 2px;
-  }
-
-  .back-btn:focus,.delete-btn:focus,.send-btn:focus {
-    outline: none ;
-    box-shadow: none ;
-  }
-
   .head-content {
-      font-size: 25px;
-      font-weight: 500;
-      text-align: center;
+    font-size: 25px;
+    font-weight: 500;
+    text-align: center;
   }
   
   .send-btn-container {
-      text-align: right;
+    text-align: right;
+
+    .back-btn,.delete-btn,.send-btn {
+      background-color: $btnColor;
+      font-size: 14px;
+      outline: none;
+      border: none;
   
-      .delete-btn,.send-btn {
-          margin-right: 10px;
+      &:active {
+        position: relative;
+        top: 2px;
+        left: 2px;
       }
+  
+      &:focus {
+        outline: none ;
+        box-shadow: none ;
+      }
+    }
+
+    .delete-btn,.send-btn {
+      margin-right: 10px;
+    }
   }
+}
+
+.error-head {
+  font-size: 24px; 
+  margin-bottom: 15px;
 }
 
 @media (max-width: 768px) {
@@ -207,7 +220,7 @@ a:not([href]):not([tabindex]):hover {
       text-align: left;
   
       .delete-btn,.send-btn {
-          font-size: 10px;
+        font-size: 10px;
       }
     }
   }
@@ -216,7 +229,7 @@ a:not([href]):not([tabindex]):hover {
     font-size: 10px;
   
     .select-item.checkbox {
-        font-size: 14px;
+      font-size: 14px;
     }
   }
 }

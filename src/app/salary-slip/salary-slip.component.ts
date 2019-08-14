@@ -6,10 +6,7 @@ import { FetchSalaryService } from '../services/fetch-salary.service';
 @Component({
   selector: 'app-salary-slip',
   templateUrl: './salary-slip.component.html',
-  styleUrls: ['./salary-slip.component.scss'],
-  providers: [
-    { provide: 'Window',  useValue: window }
-  ]
+  styleUrls: ['./salary-slip.component.scss']
 })
 export class SalarySlipComponent implements OnInit {
   salaryItemsInfo = [
@@ -38,17 +35,17 @@ export class SalarySlipComponent implements OnInit {
   currentYear = new Date().getFullYear();
   currentMonthDays: number;
   empId: string;
-  selectedMonth;
-  selectedYear;
+  selectedMonth: string;
+  selectedYear: string;
   fetchDone = false;
-  responseData;
+  responseData: any;
   noResponse = false;
-  noResponseLink;
   monthNumber: number;
 
-  constructor(private router: Router, private title: Title, private route: ActivatedRoute, private fetchService: FetchSalaryService, @Inject('Window') private window: Window) { }
+  constructor(private router: Router, private title: Title, private route: ActivatedRoute, private fetchService: FetchSalaryService) { }
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.title.setTitle('Salary Slip');
     this.route.params.subscribe(data => {
       this.empId = data.empId;
@@ -95,7 +92,7 @@ export class SalarySlipComponent implements OnInit {
   }
 
   public download(): void {
-    this.window.print();
+    window.print();
   }
 
   public sendMail(): void {

@@ -20,10 +20,12 @@ export class MonthlySalaryListComponent implements OnInit {
   empName: string;
   fetchDone = false;
   errorMsg: string;
+  noData: boolean;
 
-  constructor(private readonly router: Router, private readonly route: ActivatedRoute, private readonly title: Title, private readonly empDetails: EmployeeDetailService) { }
+  constructor(private readonly router: Router, private readonly route: ActivatedRoute, private readonly title: Title, private readonly empDetailService: EmployeeDetailService) { }
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     for (let i = 2017; i <= this.currentYear; i++) {
       this.years.push(i);
     }
@@ -32,10 +34,11 @@ export class MonthlySalaryListComponent implements OnInit {
       this.empId = data['empId'];
     });
 
-    this.empDetails.getEmpdetail(this.empId)
+    this.empDetailService.getEmpdetail(this.empId)
     .subscribe(response => {
-      if (!response['data']) {
-        this.router.navigate(['home']);
+      if (response['data'].length == 0) {
+        this.fetchDone = true;
+        this.noData = true;
       }
       console.log(response);
       this.empName = response['data'][0]['employeeFullName'];
@@ -47,7 +50,7 @@ export class MonthlySalaryListComponent implements OnInit {
     });
   }
 
-  public getSalary(year, month): void {
+  public getSalary(year: number, month: string): void {
     window.open(`http://localhost:4200/employee/${
     this.empId}/salarySlip/view?month=${month.toLowerCase()}&year=${year}`);
   }

@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
   selectedEmp: {};
   errorMsg: string;
 
-  constructor(private readonly userService: UserDetailService, private readonly router: Router, private readonly title: Title) {
+  constructor(private readonly userDetailService: UserDetailService, private readonly router: Router, private readonly title: Title) {
     // this.getState = this.store.select(selectAuthenticationState);
   }
 
@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
     for (let i = 2017; i <= this.currentYear; i++) {
       this.years.push(i);
     };
-    this.userService.getEmployeeList().pipe(retry(2)).subscribe(responseList => {
+    this.userDetailService.getEmployeeList().pipe(retry(2)).subscribe(responseList => {
       console.log(responseList)
       this.users = responseList['data'];
       this.fetchDone = true;
@@ -56,6 +56,7 @@ export class DashboardComponent implements OnInit {
   }
 
   public onSubmit(): void {
+    console.log(this.employeeForm.value.emp.id);
     this.router.navigate([`/employee/${this.employeeForm.value.emp.id}/salarySlip/view`],
     { queryParams: { month: this.employeeForm.value.monthVal.toLowerCase(), year: this.employeeForm.value.yearVal}});
   }

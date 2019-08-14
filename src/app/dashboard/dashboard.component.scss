@@ -34,10 +34,13 @@
     select::-ms-expand {
         display: none;
     }
-
+    
     .form-control {
-        font-size: 14px;
-        height: 30px;
+    font-size: 14px;
+    height: 30px;
+    padding: 0 5px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     }
 }
 
@@ -53,19 +56,17 @@
 
         .action {
             color: $btnColor;
-        }
 
-        .action:hover {
-            cursor: pointer;
-            text-decoration: underline;
+            &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+            }
         }
     }
 
     .action-head {
         text-align: center;
     }
-
-    
 }
 
 @media (max-width: 767px) {

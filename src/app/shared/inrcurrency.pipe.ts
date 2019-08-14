@@ -6,7 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class INRCurrencyPipe implements PipeTransform {
   transform(value, option): string {
     if (value && !isNaN(value) && option) {
-      value = Math.round(value);
       const result = value.toString().split('.');
       let lastThree = result[0].substring(result[0].length - 3);
       const otherNumbers = result[0].substring(0, result[0].length - 3);

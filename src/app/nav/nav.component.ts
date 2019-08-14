@@ -18,6 +18,8 @@ export class NavComponent implements OnInit {
   isAuthenticated: boolean;
   userName: string;
   userImg: string;
+  responseData: any;
+  empResponse: any;
   // constructor(private store: Store<AppState>, private userService: UserService) {
   //   this.getState = this.store.select(selectAuthenticationState);
   // }
@@ -31,6 +33,8 @@ export class NavComponent implements OnInit {
 
     this.userService.getDetail().pipe(retry(2)).subscribe(responseList => {
       console.log(responseList);
+      this.empResponse = responseList;
+      this.responseData = responseList['data'];
       this.userName = responseList['data'].fullName;
       this.userImg = responseList['data'].profileImgSmall;
     });

@@ -7,13 +7,13 @@
   <div class="select-file-error">{{errorMsg}}</div>
   <div class="navigate-desc">To navigate to home page <a routerLink="/home">Click here</a></div>
 </ng-container>
-<div class="row btn-container" *ngIf="fetchDone && !errorMsg">
+<div class="row btn-container" *ngIf="fetchDone && !errorMsg && !noData">
     <div class="col-8 offset-2 offset-sm-3 col-sm-6 page-head">{{empName}}'s Salary Slip</div>
     <div class="col-sm-2 back-btn-container">
         <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
     </div>
 </div>
-<div class="row" *ngIf="fetchDone && !errorMsg">
+<div class="row" *ngIf="fetchDone && !errorMsg && !noData">
   <div class="offset-sm-1 col-sm-10">
     <table class="table table-striped">
       <thead>
@@ -37,3 +37,11 @@
     </table>
   </div>
 </div>
+<app-data-not-found *ngIf="fetchDone && noData">
+  <p>
+    Data for Employee does not exist!
+  </p>
+  <p>
+    <a class="error-navigate" routerLink="/home">click here</a> to search for other Employee's data!
+  </p>
+</app-data-not-found>

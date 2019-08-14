@@ -52,12 +52,10 @@
   </div>
 </div>
 <app-data-not-found *ngIf="fetchDone && noResponse">
-  <div>
     <p>
-      Data for {{selectedMonth | titlecase}}-{{selectedYear}} not exists!
+      Data for Employee does not exist!
     </p>
     <p>
-      <a routerLink="/employee/{{empId}}/salarySlips">click here</a> to search for other month's data!
+      <a class="error-navigate" routerLink="/employee/{{empId}}/salarySlips">click here</a> to search for other month's data!
     </p>
-  </div>
 </app-data-not-found>

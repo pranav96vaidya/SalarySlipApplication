@@ -4,8 +4,10 @@
     background-color: $navFooterBgColor;
     border: 1px solid $navFooterBorderColor;
 
-    .navbar-brand:hover {
-        cursor: pointer;
+    .navbar-brand {
+        &:hover {
+            cursor: pointer;
+        }
     }
 
     .navbar-nav {
@@ -13,12 +15,13 @@
         .nav-item {
             margin-right: 20px;
         }
+
         .redirect-content {
             color: $btnColor;
-        }
-        
-        .redirect-content:hover {
-            text-decoration: underline;
+
+            :hover {
+                text-decoration: underline;
+            }
         }
     }
     
@@ -44,18 +47,18 @@
 @media (max-width: 768px) {
     .navbar-toggler {
         font-size: 14px;
-    }
 
-    .navbar-toggler:focus {
-        outline: none;
-    }
+        &:focus {
+            outline: none;
+        }
 
-    .navbar-toggle:hover {
-        background-color: $btnColor;
-    }
-    
-    .navbar-toggle:hover .icon-bar {
-        background-color: $whiteColor;
+        &:hover {
+            background-color: $btnColor;
+        }
+
+        &:hover .icon-bar {
+            background-color: $whiteColor;
+        }
     }
 }
 

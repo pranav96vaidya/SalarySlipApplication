@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatProgressSpinnerModule } from '@angular/material';
 import { SalarySlipComponent } from './salary-slip.component';
+import { INRCurrencyPipe } from '../shared/inrcurrency.pipe';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DataNotFoundComponent } from '../shared/data-not-found/data-not-found.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('SalarySlipComponent', () => {
   let component: SalarySlipComponent;
@@ -8,7 +12,8 @@ describe('SalarySlipComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SalarySlipComponent ]
+      imports: [ MatProgressSpinnerModule, HttpClientTestingModule, RouterTestingModule ],
+      declarations: [ SalarySlipComponent, INRCurrencyPipe, DataNotFoundComponent]
     })
     .compileComponents();
   }));

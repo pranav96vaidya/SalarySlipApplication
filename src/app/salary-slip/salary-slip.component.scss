@@ -75,15 +75,14 @@
         .bold-text {
             font-weight: 800;
         }
-
     }
 
-    .salary-content div.col-3:nth-child(odd) {
+    .salary-content .col-3:nth-child(odd) {
         border-left: 0;
         border-right: 0;
     }
     
-    .salary-content div.col-3:nth-child(4n+0) {
+    .salary-content .col-3:nth-child(4n+0) {
         border-right: 0;
     }
 
@@ -113,19 +112,28 @@
         .back-btn,.print-btn,.mail-btn {
             background-color: $btnColor;
             font-size: 14px;
-        }
 
-        .back-btn:active,.print-btn:active,.mail-btn:active {
-            position: relative;
-            top: 2px;
-            left: 2px;
-        }
+            &:active {
+                position: relative;
+                top: 2px;
+                left: 2px;
+            }
 
-        .back-btn:focus,.print-btn:focus,.mail-btn:focus {
-            outline: none ;
-            box-shadow: none ;
+            &:focus {
+                outline: none ;
+                box-shadow: none ;
+            }
         }
     }
+}
+
+a:not([href]):not([tabindex]),.error-navigate {
+    color: $btnColor;
+    cursor: pointer;
+}
+  
+a:not([href]):not([tabindex]):hover {
+    text-decoration: underline;
 }
 
 @media (max-width: 768px) {
