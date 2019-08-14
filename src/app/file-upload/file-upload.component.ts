@@ -6,6 +6,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { FileUploadService } from '../services/file-upload.service';
 import { retry } from 'rxjs/operators';
 import { SendmailService } from '../services/sendmail.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-file-upload',
@@ -13,6 +14,7 @@ import { SendmailService } from '../services/sendmail.service';
   styleUrls: ['./file-upload.component.scss']
 })
 export class FileUploadComponent implements OnInit {
+  navigateUrl = environment.navigateUrl;
   file: File;
   fileToUpload: any;
   errorMsg: string;
@@ -180,7 +182,7 @@ export class FileUploadComponent implements OnInit {
   }
 
   public viewSalarySlip(emp: {}): void {
-    window.open(`http://localhost:4200/employee/${
+    window.open(`${this.navigateUrl}/employee/${
       emp['empID']}/salarySlip/view?month=${emp['month']}&year=${emp['year']}`);
   }
 

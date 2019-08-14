@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { EmployeeDetailService } from '../services/employee-detail.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-monthly-salary-list',
@@ -10,6 +11,7 @@ import { EmployeeDetailService } from '../services/employee-detail.service';
 })
 
 export class MonthlySalaryListComponent implements OnInit {
+  navigateUrl = environment.navigateUrl;
   currentMonthIndex = new Date().getMonth();
   months: string[] = ['January', 'February', 'March', 'April', 'May',
     'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -51,7 +53,7 @@ export class MonthlySalaryListComponent implements OnInit {
   }
 
   public getSalary(year: number, month: string): void {
-    window.open(`http://localhost:4200/employee/${
+    window.open(`${this.navigateUrl}/employee/${
     this.empId}/salarySlip/view?month=${month.toLowerCase()}&year=${year}`);
   }
 
