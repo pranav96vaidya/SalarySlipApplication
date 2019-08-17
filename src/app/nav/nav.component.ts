@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 // import { Store } from '@ngrx/store';
 // import { AppState, selectAuthenticationState } from 'src/app/store/app.state';
 import { Observable } from 'rxjs';
@@ -11,7 +11,8 @@ import { retry } from 'rxjs/operators';
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.scss']
+  styleUrls: ['./nav.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavComponent implements OnInit {
   getState: Observable<any>;

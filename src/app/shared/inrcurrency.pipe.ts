@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'inrCurrency'
+  name: 'inrCurrency',
+  pure: true
 })
 export class INRCurrencyPipe implements PipeTransform {
   transform(value, option): string {

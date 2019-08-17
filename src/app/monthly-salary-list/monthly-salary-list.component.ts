@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { EmployeeDetailService } from '../services/employee-detail.service';
@@ -7,11 +7,12 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-monthly-salary-list',
   templateUrl: './monthly-salary-list.component.html',
-  styleUrls: ['./monthly-salary-list.component.scss']
+  styleUrls: ['./monthly-salary-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class MonthlySalaryListComponent implements OnInit {
-  navigateUrl = environment.navigateUrl;
+  navigateUrl = environment.baseUrl;
   currentMonthIndex = new Date().getMonth();
   months: string[] = ['January', 'February', 'March', 'April', 'May',
     'June', 'July', 'August', 'September', 'October', 'November', 'December'];

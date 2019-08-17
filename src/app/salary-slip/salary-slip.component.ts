@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ElementRef } from '@angular/core';
+import { Component, OnInit, Inject, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { FetchSalaryService } from '../services/fetch-salary.service';
@@ -6,7 +6,8 @@ import { FetchSalaryService } from '../services/fetch-salary.service';
 @Component({
   selector: 'app-salary-slip',
   templateUrl: './salary-slip.component.html',
-  styleUrls: ['./salary-slip.component.scss']
+  styleUrls: ['./salary-slip.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SalarySlipComponent implements OnInit {
   salaryItemsInfo = [
