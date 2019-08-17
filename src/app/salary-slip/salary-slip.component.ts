@@ -6,8 +6,7 @@ import { FetchSalaryService } from '../services/fetch-salary.service';
 @Component({
   selector: 'app-salary-slip',
   templateUrl: './salary-slip.component.html',
-  styleUrls: ['./salary-slip.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./salary-slip.component.scss']
 })
 export class SalarySlipComponent implements OnInit {
   salaryItemsInfo = [

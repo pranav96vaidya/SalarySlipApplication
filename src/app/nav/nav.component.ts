@@ -11,8 +11,7 @@ import { retry } from 'rxjs/operators';
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
   getState: Observable<any>;

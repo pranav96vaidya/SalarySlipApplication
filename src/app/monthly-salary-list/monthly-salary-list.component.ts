@@ -7,8 +7,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-monthly-salary-list',
   templateUrl: './monthly-salary-list.component.html',
-  styleUrls: ['./monthly-salary-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./monthly-salary-list.component.scss']
 })
 
 export class MonthlySalaryListComponent implements OnInit {
