@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ElementRef, ChangeDetectionStrategy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { FetchSalaryService } from '../services/fetch-salary.service';
 
@@ -45,7 +45,12 @@ export class SalarySlipComponent implements OnInit {
   constructor(private router: Router, private title: Title, private route: ActivatedRoute, private fetchService: FetchSalaryService) { }
 
   ngOnInit(): void {
-    window.scrollTo(0, 0);
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+          return;
+      }
+      window.scrollTo(0, 0)
+    });
     this.title.setTitle('Salary Slip');
     this.route.params.subscribe(data => {
       this.empId = data.empId;

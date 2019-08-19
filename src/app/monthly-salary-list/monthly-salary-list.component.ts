@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { EmployeeDetailService } from '../services/employee-detail.service';
 import { environment } from 'src/environments/environment';
@@ -27,7 +27,12 @@ export class MonthlySalaryListComponent implements OnInit {
   constructor(private readonly router: Router, private readonly route: ActivatedRoute, private readonly title: Title, private readonly empDetailService: EmployeeDetailService) { }
 
   ngOnInit(): void {
-    window.scrollTo(0, 0);
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+          return;
+      }
+      window.scrollTo(0, 0)
+    });
     for (let i = 2017; i <= this.currentYear; i++) {
       this.years.push(i);
     }
@@ -53,6 +58,7 @@ export class MonthlySalaryListComponent implements OnInit {
   }
 
   public getSalary(year: number, month: string): void {
+    alert(this.navigateUrl);
     window.open(`${this.navigateUrl}/employee/${
     this.empId}/salarySlip/view?month=${month.toLowerCase()}&year=${year}`);
   }
