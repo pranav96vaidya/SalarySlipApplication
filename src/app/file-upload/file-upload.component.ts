@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./file-upload.component.scss']
 })
 export class FileUploadComponent implements OnInit {
-  navigateUrl = environment.baseUrl;
+  navigateUrl = environment.navigateUrl;
   file: File;
   fileToUpload: any;
   errorMsg: string;

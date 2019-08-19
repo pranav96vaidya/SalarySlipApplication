@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 
 export class MonthlySalaryListComponent implements OnInit {
-  navigateUrl = environment.baseUrl;
+  navigateUrl = environment.navigateUrl;
   currentMonthIndex = new Date().getMonth();
   months: string[] = ['January', 'February', 'March', 'April', 'May',
     'June', 'July', 'August', 'September', 'October', 'November', 'December'];
