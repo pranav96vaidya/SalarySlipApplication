@@ -1,0 +1,235 @@
+@import '../../assets/scss/color';
+
+.upload-head {
+  font-size: 25px;
+  font-weight: 500;
+  padding-bottom: 20px;
+  text-align: center;
+}
+
+.uploadfilecontainer {
+  background-image: url("../../assets/upload.png");
+  background-repeat: no-repeat;
+  background-size: 70px;
+  background-position: center;
+  border: 2px dashed $fileUploadBorderColor;
+  border-radius: 10px;
+  height: 180px;
+
+  .upload-desc {
+    text-align: center; 
+    padding-top: 20px
+  }
+}
+
+a:not([href]):not([tabindex]),.error-navigate {
+  color: $btnColor;
+  cursor: pointer;
+}
+
+a:not([href]):not([tabindex]):hover {
+  text-decoration: underline;
+}
+
+.file-name {
+  background: $whiteColor;
+  border: 1px dashed;
+  border-radius: 12px;
+  color: $fileListColor;
+  margin: 10px auto;
+  padding: 5px;
+}
+
+.upload-btn-container {
+  margin: 10px auto;
+  padding: 5px;
+
+  .btn-primary {
+    background-color: $btnColor;
+
+    &:active {
+      position: relative;
+      top: 2px;
+      left: 2px;
+    }
+  
+    &:focus {
+      outline: none ;
+      box-shadow: none ;
+    }
+  }
+}
+
+.select-file-help {
+  font-size: 14px;
+  text-align: center;
+}
+
+.filter-form {
+  .side-bar-container {
+    top: 135px;
+  }
+  
+  .btn-primary {
+    background-color: $btnColor;
+    font-size: 14px;
+    width: 100%;
+
+    &:active {
+      position: relative;
+      top: 2px;
+      left: 2px;
+    }
+
+    &:focus {
+      outline: none ;
+      box-shadow: none ;
+    }
+  }
+
+  select::-ms-expand {
+    display: none;
+  }
+
+  .form-control {
+    font-size: 14px;
+    height: 30px;
+    padding: 0 5px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+}
+
+.btn-container {
+  margin-bottom: 15px;
+  padding-top: 20px; 
+  text-align: right;
+
+  .back-btn {
+    background-color: $btnColor;
+    font-size: 14px;
+
+    &:active {
+      position: relative;
+      top: 2px;
+      left: 2px;
+    }
+
+    &:focus {
+      border: none;
+      box-shadow: none;
+    }
+  }
+}
+
+.table-striped {
+  margin-bottom: 40px;
+
+  tbody,thead {
+    font-size: 14px;
+  }
+
+  .select-item.checkbox {
+    font-size: 18px;
+  }
+
+  .view-doc {
+    .action {
+      color: $btnColor;
+
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.btn-container {
+  margin-bottom: 20px;
+  padding-top: 20px;
+
+  .head-content {
+    font-size: 25px;
+    font-weight: 500;
+    text-align: center;
+  }
+  
+  .send-btn-container {
+    text-align: right;
+
+    .back-btn,.delete-btn,.send-btn {
+      background-color: $btnColor;
+      font-size: 14px;
+      outline: none;
+      border: none;
+  
+      &:active {
+        position: relative;
+        top: 2px;
+        left: 2px;
+      }
+  
+      &:focus {
+        outline: none ;
+        box-shadow: none ;
+      }
+    }
+
+    .delete-btn,.send-btn {
+      margin-right: 10px;
+    }
+  }
+}
+
+.error-head {
+  font-size: 24px; 
+  margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+  .uploadfilecontainer {
+    .upload-desc {
+      font-size: 14px;
+    }
+  }
+
+  .upload-btn-container {
+  
+    .btn-primary {
+      font-size: 10px;
+    }
+  }
+
+  .files-list {
+    font-size: 12px;
+  }
+
+  .btn-container {
+     
+    .back-btn {
+      display: none;
+    }
+
+    .head-content {
+      font-size: 25px;
+      margin-bottom: 20px;
+    }
+
+    .send-btn-container {
+      text-align: left;
+  
+      .delete-btn,.send-btn {
+        font-size: 10px;
+      }
+    }
+  }
+
+  .table-striped tbody,thead {
+    font-size: 10px;
+  
+    .select-item.checkbox {
+      font-size: 14px;
+    }
+  }
+}

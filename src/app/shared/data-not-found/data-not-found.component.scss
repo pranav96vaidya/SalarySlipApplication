@@ -1,0 +1,8 @@
+@import '../../../assets/scss/color';
+
+.error-content {
+    padding-top: 80px;
+    text-align: center;
+    color: $errorColor;
+    font-size: 20px;
+}

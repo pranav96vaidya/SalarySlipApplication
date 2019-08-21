@@ -1,0 +1,66 @@
+@import '../../assets/scss/color';
+
+.navbar {
+    background-color: $navFooterBgColor;
+    border: 1px solid $navFooterBorderColor;
+
+    .navbar-brand {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .navbar-nav {
+
+        .nav-item {
+            margin-right: 20px;
+        }
+
+        .redirect-content {
+            color: $btnColor;
+
+            :hover {
+                text-decoration: underline;
+            }
+        }
+    }
+    
+    .user-img {
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+
+    .user-name {
+        font-weight: 400;
+    }
+
+    .fa-power-off {
+        margin-right: 7px;
+    }
+    
+    .logout:hover {
+        cursor: pointer;
+        color: $blackColor;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-toggler {
+        font-size: 14px;
+
+        &:focus {
+            outline: none;
+        }
+
+        &:hover {
+            background-color: $btnColor;
+        }
+
+        &:hover .icon-bar {
+            background-color: $whiteColor;
+        }
+    }
+}
+
+
+
