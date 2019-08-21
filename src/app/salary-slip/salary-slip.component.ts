@@ -2,6 +2,7 @@ import { Component, OnInit, Inject, ElementRef, ChangeDetectionStrategy } from '
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { FetchSalaryService } from '../services/fetch-salary.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-salary-slip',
@@ -26,11 +27,10 @@ export class SalarySlipComponent implements OnInit {
     { beProp: 'ifscNo', label: 'IFSC'}, { beProp: 'esicNo', label: 'ESIC No'}, { beProp: 'pfUAN', label: 'PF UAN'}
   ];
 
-  salaryDisplayItems;
+  salaryDisplayItems= [];
   month = new Date().getMonth();
-  months: string[] = ['january', 'february', 'march', 'april', 'may',
-    'june', 'july', 'august', 'september', 'october', 'november', 'december'];
-  currentMonth = this.months[this.month];
+  months = environment.months;
+  currentMonth: string;
   currentMonthNum = new Date().getMonth() + 1;
   currentYear = new Date().getFullYear();
   currentMonthDays: number;
@@ -45,12 +45,7 @@ export class SalarySlipComponent implements OnInit {
   constructor(private router: Router, private title: Title, private route: ActivatedRoute, private fetchService: FetchSalaryService) { }
 
   ngOnInit(): void {
-    this.router.events.subscribe((evt) => {
-      if (!(evt instanceof NavigationEnd)) {
-          return;
-      }
-      window.scrollTo(0, 0)
-    });
+    this.currentMonth = this.months[this.month];
     this.title.setTitle('Salary Slip');
     this.route.params.subscribe(data => {
       this.empId = data.empId;
@@ -65,7 +60,6 @@ export class SalarySlipComponent implements OnInit {
     .subscribe(res => {
       if (res['data'].length) {
         this.responseData = res['data'][0];
-        this.salaryDisplayItems = [];
         for (let i = 0; i < this.salaryItemsInfo.length; i++) {
           const itemInfo = this.salaryItemsInfo[i];
           this.salaryDisplayItems.push({
@@ -78,12 +72,10 @@ export class SalarySlipComponent implements OnInit {
         this.salaryDisplayItems.splice(2, 0, { itemLabel: 'Earnings', itemValue: 'Amount Rs', isHeading: true},
         { itemLabel: 'Deductions', itemValue: 'Amount Rs', isHeading: true});
         console.log(res);
-        for(let i = 1; i <= this.months.length; i++) {
-          if(this.months[i] == this.responseData.month)  {
-            this.monthNumber = i;
-          }
-        }
-        this.currentMonthDays = new Date(Number(this.responseData.year), this.monthNumber + 1, 0).getDate();
+        let monthObj = { "january": 1, "february": 2, "march": 3, "april": 4, "may": 5, "june": 6,
+        "july": 7, "august": 8, "september": 9, "october": 10, "november": 11, "december": 12};
+        this.monthNumber = monthObj[this.responseData.month];
+        this.currentMonthDays = new Date(Number(this.responseData.year), this.monthNumber, 0).getDate();
         this.fetchDone = true;
         this.noResponse = false;
       } else {

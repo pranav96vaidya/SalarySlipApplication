@@ -3,20 +3,16 @@
     <mat-spinner [diameter]="40"></mat-spinner>
   </div>
 </div>
-<!-- <ng-container *ngIf="fetchDone && noResponse">
-  <div class="select-file-error">{{errorMsg}}</div>
-  <div class="navigate-desc">To navigate to home page <a routerLink="/home">Click here</a></div>
-</ng-container> -->
-<div class="row btn-container" *ngIf="fetchDone && !noResponse">
+<div class="row head-container" *ngIf="fetchDone && !noResponse">
   <div class="col-8 offset-3 action-btn-container">
     <button class="btn btn-primary print-btn" (click)="download()">Print</button>
-    <button class="btn btn-primary mail-btn" (click)="sendMail()">Send Mail</button>
+    <button class="btn btn-primary send-btn" (click)="sendMail()">Send Mail</button>
     <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
   </div>
 </div>
 <div class="row" *ngIf="fetchDone && !noResponse">
   <div class="col-10 offset-1 salary-slip-wrapper">
-    <div class="row head-container">
+    <div class="row salary-head-container">
       <div class="col-8 offset-2 col-sm-6 offset-sm-3 company-details">
           <div class="company-name">NEWPUT INFOTECH PVT LTD.</div>
           <div class="company-address">314 D M Tower, 21/1 Race Course Road Indore</div>
@@ -31,8 +27,8 @@
     </div>
     <div class="row salary-content">
       <ng-container *ngFor="let item of salaryDisplayItems">
-        <div class="col-3" [class.bold-text]="item.isHeading">{{item.itemLabel}}</div>
-        <div class="col-3" [class.bold-text]="item.isHeading">{{item.itemValue | inrCurrency: item.isAmount}}</div>
+        <div class="col-3 salary-items" [class.bold-text]="item.isHeading">{{item.itemLabel}}</div>
+        <div class="col-3 salary-items" [class.bold-text]="item.isHeading">{{item.itemValue | inrCurrency: item.isAmount}}</div>
       </ng-container>
       <div class="col-3 authority-seal">
           <img class="seal-img" src="./assets/company-seal.png">

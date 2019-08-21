@@ -4,7 +4,6 @@ import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, NavigationEnd } from '@angular/router';
 import { FileUploadService } from '../services/file-upload.service';
-import { retry } from 'rxjs/operators';
 import { SendmailService } from '../services/sendmail.service';
 import { environment } from 'src/environments/environment';
 
@@ -19,14 +18,12 @@ export class FileUploadComponent implements OnInit {
   fileToUpload: any;
   errorMsg: string;
   month = new Date().getMonth();
-  months: string[] = ['January', 'February', 'March', 'April', 'May',
-    'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  months = environment.months;
   currentMonth = this.months[this.month];
   currentYear = new Date().getFullYear();
   years: number[] = [];
   users: string;
   employeeForm: FormGroup;
-  valData: any;
   fetchDone = false;
   processing = false;
   upload = false;
@@ -35,7 +32,6 @@ export class FileUploadComponent implements OnInit {
   list: any;
   salaryItemsInfo = ['Name', 'Gross Salary', 'Total Deductions', 'Net Salary Payable Rs', 'Action'];
   fileErrorMsg: string;
-  currentMonthNumber: number;
   invalidMail: [];
 
   constructor(private readonly title: Title, private readonly router: Router, private readonly fileUploadService: FileUploadService, private readonly userDetailService: UserDetailService, private sendMailService: SendmailService) {
@@ -53,7 +49,7 @@ export class FileUploadComponent implements OnInit {
     for (let i = 2017; i <= this.currentYear; i++) {
       this.years.push(i);
     }
-    this.userDetailService.getEmployeeList().pipe(retry(2)).subscribe(responseList => {
+    this.userDetailService.getEmployeeList().subscribe(responseList => {
       console.log(responseList);
       this.users = responseList['data'];
       this.fetchDone = true;
@@ -103,7 +99,6 @@ export class FileUploadComponent implements OnInit {
     .subscribe((val) => {
       console.log(val);
       this.title.setTitle('Employee salary List');
-      this.valData = val;
       console.log(val['data']['invalidEmails'].length);
       if(val['data']['invalidEmails'].length) {
         // for(let i = 0; val['data']['invalidEmails'].length > i; i++) {
@@ -172,8 +167,6 @@ export class FileUploadComponent implements OnInit {
   }
 
   public sendMail(): void {
-    // this.currentMonthNumber = this.months.indexOf(this.checkedList[0].month.t());
-    // console.log(this.currentMonthNumber);
     console.log(this.month)
     this.sendMailService.sendMailToEmployees(this.month+1, this.checkedList[0].year)
     .subscribe(res => {

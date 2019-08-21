@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
       }
       window.scrollTo(0, 0);
     });
-    this.userService.getDetail().pipe(retry(2)).subscribe(responseList => {
+    this.userService.getDetail().subscribe(responseList => {
       console.log(responseList);
       this.fetchDone = true;
     }, error => {

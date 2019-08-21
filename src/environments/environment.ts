@@ -6,7 +6,9 @@ export const environment = {
   production: false,
   // baseUrl: 'http://34.211.76.6:9095'
   baseUrl: 'https://salary-slip-be.herokuapp.com',
-  navigateUrl: 'http://localhost:4200'
+  navigateUrl: 'http://localhost:4200',
+  months : ['January', 'February', 'March', 'April', 'May',
+    'June', 'July', 'August', 'September', 'October', 'November', 'December']
 };
 
 // http://34.211.76.6:9095

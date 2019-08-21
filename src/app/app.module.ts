@@ -7,7 +7,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpInterceptorService } from './services/http-interceptor.service';
 import { FooterComponent } from './footer/footer.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NavComponent } from './nav/nav.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -24,7 +23,6 @@ import { environment } from '../environments/environment';
     BrowserModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    FormsModule,
     HttpClientModule,
     MatProgressSpinnerModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })

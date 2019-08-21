@@ -1,11 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { UserDetailService } from '../services/user-detail.service';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { retry } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,16 +18,13 @@ export class DashboardComponent implements OnInit {
   getState: Observable<any>;
   isAuthenticated: boolean;
   fetchDone = false;
-  users: string;
-  employeeList: string;
+  users: {};
   month = new Date().getMonth();
-  months: string[] = ['January', 'February', 'March', 'April', 'May',
-    'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  months = environment.months;
   currentMonth = this.months[this.month];
   currentYear = new Date().getFullYear();
   years: number[] = [];
   employeeForm: FormGroup;
-  selectedEmp: {};
   errorMsg: string;
 
   constructor(private readonly userDetailService: UserDetailService, private readonly router: Router, private readonly title: Title) {
@@ -40,9 +37,10 @@ export class DashboardComponent implements OnInit {
     for (let i = 2017; i <= this.currentYear; i++) {
       this.years.push(i);
     };
-    this.userDetailService.getEmployeeList().pipe(retry(2)).subscribe(responseList => {
+    this.userDetailService.getEmployeeList().subscribe(responseList => {
       console.log(responseList)
-      this.users = responseList['data'];
+      this.users = responseList['data']
+      console.log(this.users);
       this.fetchDone = true;
     }, err =>  {
         this.errorMsg = err.error.customMsg;

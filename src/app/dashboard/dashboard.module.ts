@@ -16,7 +16,6 @@ import { DashboardComponent } from './dashboard.component';
     ReactiveFormsModule,
     FormsModule,
     DashboardRoutingModule
-  ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  ]
 })
 export class DashboardModule { }

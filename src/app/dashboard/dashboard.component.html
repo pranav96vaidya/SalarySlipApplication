@@ -7,8 +7,10 @@
   <div class="select-file-error">{{errorMsg}}</div>
   <div class="navigate-desc">To navigate to home page <a routerLink="/home">Click here</a></div>
 </ng-container>
+<div class="row head-container" *ngIf="fetchDone && !errorMsg">
+  <div class="offset-4 col-4 page-head">Dashboard</div>
+</div>
 <div class="row" *ngIf="fetchDone && !errorMsg">
-  <div class="col-12 head">Dashboard</div>
   <div class="col-sm-3 filter-form">
     <div class="sticky-top side-bar-container">
       <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()"> 
@@ -40,7 +42,7 @@
     </div>
   </div>
   <div class="col-sm-9">
-    <table class="table table-striped">
+    <table class="table table-striped emp-list-table">
         <thead>
           <tr>
             <th>Sr. No.</th>

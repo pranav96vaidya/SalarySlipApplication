@@ -7,19 +7,19 @@
   <div class="select-file-error">{{errorMsg}}</div>
   <div class="navigate-desc">To navigate to home page <a routerLink="/home">Click here</a></div>
 </ng-container>
-<div class="row btn-container" *ngIf="fetchDone && !errorMsg && !noData">
+<div class="row head-container" *ngIf="fetchDone && !errorMsg && !noData">
     <div class="col-8 offset-2 offset-sm-3 col-sm-6 page-head">{{empName}}'s Salary Slip List</div>
     <div class="col-sm-2 back-btn-container">
         <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
     </div>
 </div>
 <div class="row" *ngIf="fetchDone && !errorMsg && !noData">
-  <div class="offset-sm-1 col-sm-10">
-    <table class="table table-striped">
+  <div class="offset-sm-1 col-sm-10 table-responsive">
+    <table class="table table-striped emp-list-table">
       <thead>
         <tr>
           <th>Month Year</th>
-          <th class="view-doc">Action</th>
+          <th class="action-head">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -29,7 +29,7 @@
             </ng-template>
             <ng-template #print>
                 <td>{{month}} {{year}}</td>
-                <td class="action-head"><a class="action" (click)="getSalary(year,month)">View Salary Slip</a></td>
+                <td class="view-doc"><a class="action" (click)="getSalary(year,month)">View Salary Slip</a></td>
             </ng-template>
           </tr>
         </ng-container>

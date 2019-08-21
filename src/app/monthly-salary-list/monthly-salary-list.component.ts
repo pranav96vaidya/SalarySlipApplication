@@ -58,7 +58,6 @@ export class MonthlySalaryListComponent implements OnInit {
   }
 
   public getSalary(year: number, month: string): void {
-    alert(this.navigateUrl);
     window.open(`${this.navigateUrl}/employee/${
     this.empId}/salarySlip/view?month=${month.toLowerCase()}&year=${year}`);
   }

@@ -31,7 +31,7 @@
     }
 
     .user-name {
-        font-weight: 400;
+        font-weight: $extraLightBold;
     }
 
     .fa-power-off {
@@ -44,7 +44,7 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $smWidth) {
     .navbar-toggler {
         font-size: 14px;
 

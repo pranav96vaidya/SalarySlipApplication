@@ -2,45 +2,146 @@
 @import './assets/scss/color';
 
 .mat-progress-spinner {
-    margin: 0 auto;
-    top: 270px;
-}
+  margin: 0 auto;
+  top: 270px;
 
-.mat-progress-spinner circle, .mat-spinner circle {
+  @media (max-width: $smWidth) {
+      left: 0 auto;
+      top: 250px;
+  }
+
+  circle {
     stroke: $blackColor;
+  }
 }
 
 .page-head {
     font-size: 25px;
-    font-weight: 500;
+    font-weight: $lightBold;
     text-align: center;
+    @media (max-width: $smWidth) {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
 }
 
 .select-file-error {
-  color: $errorColor;
-  font-size: 18px;
-  padding-top: 20px;
-  text-align: center;
+    color: $errorColor;
+    font-size: 18px;
+    padding-top: 20px;
+    text-align: center;
 }
 
 .navigate-desc {
-  font-size: 16px;
-  padding-top: 20px;
-  text-align: center;
+    font-size: 16px;
+    padding-top: 20px;
+    text-align: center;
 }
 
 .btn-primary:disabled { 
     cursor: not-allowed;
 }
 
-@media (max-width: 768px) {
+.filter-form {
+  .side-bar-container {
+    top: 135px;
+  }
+  
+  .btn-primary {
+    background-color: $btnColor;
+    font-size: 14px;
+    width: 100%;
 
-    .page-head {
-        font-size: 18px;
+    &:hover {
+      background-color: $btnColor;
+      box-shadow: 2px 2px $watermarkColor;
     }
 
-    .mat-progress-spinner {
-        left: 0 auto;
-        top: 250px;
+    &:focus {
+      outline: none ;
+      box-shadow: none ;
     }
+  }
+
+  select::-ms-expand {
+    display: none;
+  }
+
+  .form-control {
+    font-size: 14px;
+    height: 30px;
+    padding: 0 5px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+}
+
+.emp-list-table {
+  td, th {
+      border: 1px solid $tableBorderColor;
+      font-size: 14px;
+      padding: 8px;
+      @media (max-width: $smWidth) {
+          font-size: 10px;
+      }
+  } 
+
+  .action-head {
+      text-align: center;
+  }
+
+  .view-doc {
+      text-align: center;
+
+      .action {
+          color: $btnColor;
+
+          &:hover {
+              cursor: pointer;
+              text-decoration: underline;
+          }
+      }
+  }
+}
+
+.back-btn,
+.delete-btn,
+.send-btn,
+.print-btn {
+  background-color: $btnColor;
+  font-size: 14px;
+
+  &:hover {
+    background-color: $btnColor;
+    box-shadow: 2px 2px $watermarkColor;
+  }
+
+  &:focus {
+    outline: none ;
+    box-shadow: none ;
+  }
+}
+
+.back-btn {
+  @media (max-width: $smWidth) {
+    display: none;
+  }
+}
+
+.delete-btn,
+.send-btn,
+.print-btn {
+  margin-right: 10px;
+  @media (max-width: $smWidth) {
+    font-size: 10px;
+  }
+}
+
+.error-navigate {
+  color: $btnColor;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 }

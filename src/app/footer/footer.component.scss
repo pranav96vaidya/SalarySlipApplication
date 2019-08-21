@@ -9,10 +9,7 @@
     left: 0;
     padding-top: 20px;
     width: 100%;
-}
-
-@media print {
-    .footer {
+    @media print {
         display: none;
     }
 }
