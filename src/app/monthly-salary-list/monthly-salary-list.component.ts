@@ -53,9 +53,13 @@ export class MonthlySalaryListComponent implements OnInit {
       }
       this.fetchDone = true;
       }, err =>  {
-        this.errorMsg = err.error.customMsg;
-        console.log(err);
-        this.fetchDone = true;
+        if(err.error) {
+          this.errorMsg = err.error.customMsg;
+          this.fetchDone = true;
+        } else {
+          this.errorMsg = "Something went wrong!"
+          this.fetchDone = true;
+        }
     });
   }
 

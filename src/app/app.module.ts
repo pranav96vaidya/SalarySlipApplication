@@ -9,8 +9,6 @@ import { FooterComponent } from './footer/footer.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NavComponent } from './nav/nav.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -24,8 +22,7 @@ import { environment } from '../environments/environment';
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
-    MatProgressSpinnerModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    MatProgressSpinnerModule
   ],
   providers: [
     {
