@@ -43,8 +43,13 @@ export class DashboardComponent implements OnInit {
       console.log(this.users);
       this.fetchDone = true;
     }, err =>  {
+      if(err.error) {
         this.errorMsg = err.error.customMsg;
         this.fetchDone = true;
+      } else {
+        this.errorMsg = "Something went wrong!"
+        this.fetchDone = true;
+      }
     });
     this.employeeForm = new FormGroup({
       emp: new FormControl('', Validators.required),
