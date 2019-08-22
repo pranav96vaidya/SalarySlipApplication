@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserDetailService } from '../services/user-detail.service';
 import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -6,6 +6,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { FileUploadService } from '../services/file-upload.service';
 import { SendmailService } from '../services/sendmail.service';
 import { environment } from 'src/environments/environment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-file-upload',
@@ -33,8 +34,12 @@ export class FileUploadComponent implements OnInit {
   salaryItemsInfo = ['Name', 'Gross Salary', 'Total Deductions', 'Net Salary Payable Rs', 'Action'];
   fileErrorMsg: string;
   invalidMail: [];
+  monthValue: any;
+  yearValue: any;
+  @ViewChild('content', {static: true}) content;
+  modalResponse: any;
 
-  constructor(private readonly title: Title, private readonly router: Router, private readonly fileUploadService: FileUploadService, private readonly userDetailService: UserDetailService, private sendMailService: SendmailService) {
+  constructor(private readonly title: Title, private readonly router: Router, private readonly fileUploadService: FileUploadService, private readonly userDetailService: UserDetailService, private sendMailService: SendmailService, private modalService: NgbModal) {
       this.allSelected = true;
     }
 
@@ -83,7 +88,6 @@ export class FileUploadComponent implements OnInit {
       const extension = selectedFile.name.substr(dot, selectedFile.name.length);
       if (extension === '.csv') {
         this.file = selectedFile;
-        console.log(this.file);
       } else {
         this.fileErrorMsg = 'Only csv file is allowed.';
       }
@@ -99,16 +103,13 @@ export class FileUploadComponent implements OnInit {
     .subscribe((val) => {
       console.log(val);
       this.title.setTitle('Employee salary List');
-      console.log(val['data']['invalidEmails'].length);
       if(val['data']['invalidEmails'].length) {
-        // for(let i = 0; val['data']['invalidEmails'].length > i; i++) {
-        //   this.invalidMail.push(val['data']['invalidEmails'][i]);
-        // }
         this.invalidMail = val['data']['invalidEmails'];
-        console.log(this.invalidMail);
       }
       
       this.list = val['data']['employeeData'];
+      this.monthValue = this.list[0]['month'];
+      this.yearValue = this.list[0]['year'];
       for (let i = 0; i < this.list.length; i++) {
         this.list[i].isSelected = true;
       }
@@ -167,11 +168,21 @@ export class FileUploadComponent implements OnInit {
   }
 
   public sendMail(): void {
-    console.log(this.month)
-    this.sendMailService.sendMailToEmployees(this.month+1, this.checkedList[0].year)
-    .subscribe(res => {
-      console.log(res);
-    })
+    let empEmails = [];
+    if(this.checkedList.length) {
+      for(let i = 0; i < this.checkedList.length; i++) {
+        empEmails.push(this.checkedList[i].employeeEmail);
+      }
+      console.log(empEmails);
+      console.log(this.monthValue);
+      console.log(this.yearValue);
+      this.sendMailService.sendMailToEmployees(empEmails, this.monthValue, this.yearValue)
+      .subscribe(res => {
+        this.modalResponse = res['data']['message'];
+        this.modalService.open(this.content, { windowClass: 'dark-modal' });
+        console.log(res);
+      })
+    }
   }
 
   public viewSalarySlip(emp: {}): void {

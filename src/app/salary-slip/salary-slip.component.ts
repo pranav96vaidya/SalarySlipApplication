@@ -1,8 +1,10 @@
-import { Component, OnInit, Inject, ElementRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { Title } from '@angular/platform-browser';
+import { Title, DomSanitizer } from '@angular/platform-browser';
 import { FetchSalaryService } from '../services/fetch-salary.service';
 import { environment } from 'src/environments/environment';
+import { SendmailService } from '../services/sendmail.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-salary-slip',
@@ -30,6 +32,7 @@ export class SalarySlipComponent implements OnInit {
   salaryDisplayItems= [];
   month = new Date().getMonth();
   months = environment.months;
+  monthObj = environment.monthObj;
   currentMonth: string;
   currentMonthNum = new Date().getMonth() + 1;
   currentYear = new Date().getFullYear();
@@ -41,8 +44,15 @@ export class SalarySlipComponent implements OnInit {
   responseData: any;
   noResponse = false;
   monthNumber: number;
+  companyDetails: any;
+  companySealImg: any;
+  directorSignImg: any;
+  baseUrl: string;
+  @ViewChild('content', {static: true}) content;
+  modalResponse: string;
 
-  constructor(private router: Router, private title: Title, private route: ActivatedRoute, private fetchService: FetchSalaryService) { }
+  constructor(private router: Router, private title: Title, private route: ActivatedRoute, private fetchService: FetchSalaryService,
+    private sanitizer: DomSanitizer, private readonly sendMailService: SendmailService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.currentMonth = this.months[this.month];
@@ -58,8 +68,14 @@ export class SalarySlipComponent implements OnInit {
 
     this.fetchService.fetchSalary(this.empId, this.selectedMonth, this.selectedYear)
     .subscribe(res => {
-      if (res['data'].length) {
-        this.responseData = res['data'][0];
+      console.log(res);
+      this.baseUrl = 'data:image/png;base64,';
+      this.companyDetails = res[0]['data'];
+      this.companySealImg = this.getSantizeUrl(this.baseUrl + this.companyDetails['companySeal']);
+      this.directorSignImg = this.getSantizeUrl(this.baseUrl + this.companyDetails['directorSign']);
+      this.responseData = res[1]['data'][0];
+      if (res[1]['data'].length) {
+        this.responseData = res[1]['data'][0];
         for (let i = 0; i < this.salaryItemsInfo.length; i++) {
           const itemInfo = this.salaryItemsInfo[i];
           this.salaryDisplayItems.push({
@@ -71,10 +87,7 @@ export class SalarySlipComponent implements OnInit {
         }
         this.salaryDisplayItems.splice(2, 0, { itemLabel: 'Earnings', itemValue: 'Amount Rs', isHeading: true},
         { itemLabel: 'Deductions', itemValue: 'Amount Rs', isHeading: true});
-        console.log(res);
-        let monthObj = { "january": 1, "february": 2, "march": 3, "april": 4, "may": 5, "june": 6,
-        "july": 7, "august": 8, "september": 9, "october": 10, "november": 11, "december": 12};
-        this.monthNumber = monthObj[this.responseData.month];
+        this.monthNumber = this.monthObj[this.responseData.month];
         this.currentMonthDays = new Date(Number(this.responseData.year), this.monthNumber, 0).getDate();
         this.fetchDone = true;
         this.noResponse = false;
@@ -82,10 +95,11 @@ export class SalarySlipComponent implements OnInit {
         this.fetchDone = true;
         this.noResponse = true;
       }
-    }, error => {
-      console.log(error);
-      this.fetchDone = true;
-    });
+    })
+  }
+
+  public getSantizeUrl(url : string) {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
   public download(): void {
@@ -93,7 +107,18 @@ export class SalarySlipComponent implements OnInit {
   }
 
   public sendMail(): void {
-    console.log('mail sent');
+    // console.log(this.responseData);
+    console.log(this.responseData['month']);
+    console.log(this.responseData['year']);
+    let empList = [];
+    empList.push(this.responseData['employeeEmail']);
+    console.log(empList);
+    this.sendMailService.sendMailToEmployees(empList, this.responseData['month'], this.responseData['year'])
+    .subscribe(res => {
+      console.log(res);
+      this.modalResponse = res['data']['message'];
+      this.modalService.open(this.content, { windowClass: 'dark-modal' });
+    })
   }
 
   public previousPage(): void {

@@ -14,9 +14,9 @@
   <div class="col-10 offset-1 salary-slip-wrapper">
     <div class="row salary-head-container">
       <div class="col-8 offset-2 col-sm-6 offset-sm-3 company-details">
-          <div class="company-name">NEWPUT INFOTECH PVT LTD.</div>
-          <div class="company-address">314 D M Tower, 21/1 Race Course Road Indore</div>
-          <div class="company-address">CIN U723000MP2006PTC018697</div>
+          <div class="company-name">{{companyDetails?.companyName}}</div>
+          <div class="company-address">{{companyDetails?.companyAdd}}</div>
+          <div class="company-address">CIN {{companyDetails?.cinNumber}}</div>
           <div class="company-address">
             Salary slip for the month of {{responseData.month | titlecase}} {{responseData.year}}
           </div>
@@ -31,11 +31,11 @@
         <div class="col-3 salary-items" [class.bold-text]="item.isHeading">{{item.itemValue | inrCurrency: item.isAmount}}</div>
       </ng-container>
       <div class="col-3 authority-seal">
-          <img class="seal-img" src="./assets/company-seal.png">
+          <img class="seal-img" [src]="companySealImg">
       </div>
       <div class="col-9 sign-sections">
         <div class="sign">
-          <img class="sign-img" src="./assets/signature.png">
+          <img class="sign-img" [src]="directorSignImg">
         </div>
         <div class="sign-content">
           Authorised Signatory
@@ -55,3 +55,17 @@
       <a class="error-navigate" routerLink="/employee/{{empId}}/salarySlips">click here</a> to search for other month's data!
     </p>
 </app-data-not-found>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">{{modalResponse}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Email will be sent to employees shortly!</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn print-btn" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>

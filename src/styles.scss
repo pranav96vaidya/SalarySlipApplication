@@ -52,7 +52,7 @@
     font-size: 14px;
     width: 100%;
 
-    &:hover {
+    &:hover:enabled {
       background-color: $btnColor;
       box-shadow: 2px 2px $watermarkColor;
     }
@@ -109,17 +109,29 @@
 .send-btn,
 .print-btn {
   background-color: $btnColor;
+  color: $whiteColor;
   font-size: 14px;
 
-  &:hover {
+  &:hover:enabled {
     background-color: $btnColor;
     box-shadow: 2px 2px $watermarkColor;
+    color: $whiteColor;
   }
 
   &:focus {
     outline: none ;
     box-shadow: none ;
   }
+
+  &:disabled {
+    background-color: $btnColor;
+    border-color: $btnColor;
+  }
+}
+
+.close:focus {
+  outline: none ;
+  box-shadow: none ;
 }
 
 .back-btn {

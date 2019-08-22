@@ -12,7 +12,6 @@ export class FileUploadService {
   constructor(private readonly http: HttpClient) { }
 
   public sendFile(formData): Observable<any> {
-    console.log(formData);
     const url = `${this.baseUrl}/rest/admin/upload`;
     return this.http.post(url, formData);
   }

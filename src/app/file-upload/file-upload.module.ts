@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material';
 import { DragDropDirective } from '../directives/drag-drop.directive';
 import { SharedModule } from '../shared/shared.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     MatProgressSpinnerModule,
     FileUploadRoutingModule,
-    SharedModule
+    SharedModule,
+    NgbModule
   ]
 })
 export class FileUploadModule { }

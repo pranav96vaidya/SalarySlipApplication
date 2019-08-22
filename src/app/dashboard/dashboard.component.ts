@@ -54,7 +54,6 @@ export class DashboardComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    console.log(this.employeeForm.value.emp.id);
     this.router.navigate([`/employee/${this.employeeForm.value.emp.id}/salarySlip/view`],
     { queryParams: { month: this.employeeForm.value.monthVal.toLowerCase(), year: this.employeeForm.value.yearVal}});
   }

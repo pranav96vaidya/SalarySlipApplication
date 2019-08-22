@@ -48,7 +48,9 @@ export class MonthlySalaryListComponent implements OnInit {
         this.noData = true;
       }
       console.log(response);
-      this.empName = response['data'][0]['employeeFullName'];
+      if(response['data'].length) {
+        this.empName = response['data'][0]['employeeFullName'];
+      }
       this.fetchDone = true;
       }, err =>  {
         this.errorMsg = err.error.customMsg;
