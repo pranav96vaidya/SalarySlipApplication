@@ -33,7 +33,10 @@ export class HttpInterceptorService implements HttpInterceptor {
           if (err.status === 400 || err.status === 401) {
             this.auth.token = null;
             location.href = 'http://newput.timetracker.s3-website-us-west-1.amazonaws.com/login';
-          }
+          } 
+          // else if (err.status === 504) {
+          //   location.href = 'http://newput.timetracker.s3-website-us-west-1.amazonaws.com/login';
+          // }
         }
       }
     ));
