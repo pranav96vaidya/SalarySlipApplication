@@ -4,8 +4,11 @@
   </div>
 </div>
 <ng-container *ngIf="fetchDone && errorMsg">
-  <div class="select-file-error">{{errorMsg}}</div>
-  <div class="navigate-desc">To navigate to home page <a routerLink="/home">Click here</a></div>
+  <div class="select-file-error">
+    <span>{{errorMsg}}</span>
+    <p>Please try again later.</p>
+  </div>
+  <!-- <div class="navigate-desc">To navigate to home page <a routerLink="/home">Click here</a></div> -->
 </ng-container>
 <div class="row head-container" *ngIf="fetchDone && !errorMsg">
   <div class="offset-4 col-4 page-head">Dashboard</div>
@@ -42,7 +45,7 @@
     </div>
   </div>
   <div class="col-sm-9">
-    <table class="table table-striped emp-list-table">
+    <table class="table table-striped emp-list-table table-fixed">
         <thead>
           <tr>
             <th>Sr. No.</th>

@@ -46,7 +46,6 @@
 
     &:hover {
       background-color: $btnColor;
-      box-shadow: 2px 2px $watermarkColor;
     }
   
     &:focus {
@@ -74,6 +73,10 @@
 }
 
 .error-head {
-  font-size: 24px; 
-  margin-bottom: 15px;
+  font-size: 16px;
+
+  .invalid-email-text {
+    font-size: 14px;
+    margin: 15px 15px 15px 0;
+  }
 }

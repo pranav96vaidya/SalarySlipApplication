@@ -26,7 +26,8 @@ export class SalarySlipComponent implements OnInit {
     { beProp: 'totalDeductions', label: 'Total Deductions', isAmount: true},
     { beProp: 'netSalaryPayable', label: 'Net Salary Payable Rs', isHeading: true, isAmount: true},
     { beProp: 'bankName', label: 'Bank'}, { beProp: 'accountNo', label: 'Account No'},
-    { beProp: 'ifscNo', label: 'IFSC'}, { beProp: 'esicNo', label: 'ESIC No'}, { beProp: 'pfUAN', label: 'PF UAN'}
+    { beProp: 'ifscNo', label: 'IFSC'}, { beProp: 'esicNo', label: 'ESIC No', isNotApplicable: true}, 
+    { beProp: 'pfUAN', label: 'PF UAN', isNotApplicable: true}
   ];
 
   salaryDisplayItems= [];
@@ -50,6 +51,7 @@ export class SalarySlipComponent implements OnInit {
   baseUrl: string;
   @ViewChild('content', {static: true}) content;
   modalResponse: string;
+  modalContent: any;
 
   constructor(private router: Router, private title: Title, private route: ActivatedRoute, private fetchService: FetchSalaryService,
     private sanitizer: DomSanitizer, private readonly sendMailService: SendmailService, private modalService: NgbModal) { }
@@ -82,7 +84,8 @@ export class SalarySlipComponent implements OnInit {
             itemLabel: itemInfo.label || itemInfo.beProp,
             itemValue: this.responseData[itemInfo.beProp],
             isHeading: itemInfo.isHeading,
-            isAmount: itemInfo.isAmount
+            isAmount: itemInfo.isAmount,
+            isNotApplicable: itemInfo.isNotApplicable
           });
         }
         this.salaryDisplayItems.splice(2, 0, { itemLabel: 'Earnings', itemValue: 'Amount Rs', isHeading: true},
@@ -107,7 +110,7 @@ export class SalarySlipComponent implements OnInit {
   }
 
   public sendMail(): void {
-    // console.log(this.responseData);
+    console.log(this.responseData['employeeFullName']);
     console.log(this.responseData['month']);
     console.log(this.responseData['year']);
     let empList = [];
@@ -116,6 +119,11 @@ export class SalarySlipComponent implements OnInit {
     this.sendMailService.sendMailToEmployees(empList, this.responseData['month'], this.responseData['year'])
     .subscribe(res => {
       console.log(res);
+      if(empList.length == 1) {
+        this.modalContent = empList[0];
+      } else {
+        this.modalContent = "employees";
+      }
       this.modalResponse = res['data']['message'];
       this.modalService.open(this.content, { windowClass: 'dark-modal' });
     })

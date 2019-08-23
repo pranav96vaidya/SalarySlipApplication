@@ -19,7 +19,7 @@
         .redirect-content {
             color: $btnColor;
 
-            :hover {
+            &:hover {
                 text-decoration: underline;
             }
         }

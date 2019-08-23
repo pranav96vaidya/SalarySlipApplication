@@ -23,19 +23,24 @@ export class NavComponent implements OnInit {
   //   this.getState = this.store.select(selectAuthenticationState);
   // }
 
-  constructor(private readonly auth: AuthenticationService, private router: Router, private userService: UserDetailService) {}
+  constructor(private readonly auth: AuthenticationService, private router: Router, private userDetailService: UserDetailService) {}
 
   ngOnInit(): void {
     if (this.auth.isLoggedIn()) {
       this.isAuthenticated = true;
     }
 
-    this.userService.getDetail().subscribe(responseList => {
+    this.userDetailService.getDetail().subscribe(responseList => {
       console.log(responseList);
       this.empResponse = responseList;
       this.responseData = responseList['data'];
-      this.userName = responseList['data'].fullName;
-      this.userImg = responseList['data'].profileImgSmall;
+      if(this.responseData) {
+        this.userName = responseList['data'].fullName;
+        this.userImg = responseList['data'].profileImgSmall;
+      } else {
+        this.userName = "";
+        this.userImg = "";
+      }
     });
   }
 

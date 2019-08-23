@@ -28,7 +28,10 @@
     <div class="row salary-content">
       <ng-container *ngFor="let item of salaryDisplayItems">
         <div class="col-3 salary-items" [class.bold-text]="item.isHeading">{{item.itemLabel}}</div>
-        <div class="col-3 salary-items" [class.bold-text]="item.isHeading">{{item.itemValue | inrCurrency: item.isAmount}}</div>
+        <div class="col-3 salary-items" *ngIf="!item.isNotApplicable; else other_content" [class.bold-text]="item.isHeading">{{item.itemValue | inrCurrency: item.isAmount}}</div>
+        <ng-template #other_content>
+          <div class="col-3 salary-items" [class.bold-text]="item.isHeading">Not Applicable</div>
+        </ng-template>
       </ng-container>
       <div class="col-3 authority-seal">
           <img class="seal-img" [src]="companySealImg">
@@ -49,7 +52,7 @@
 </div>
 <app-data-not-found *ngIf="fetchDone && noResponse">
     <p>
-      Data for Employee does not exist!
+      Salary slip of employee not found!
     </p>
     <p>
       <a class="error-navigate" routerLink="/employee/{{empId}}/salarySlips">click here</a> to search for other month's data!
@@ -63,7 +66,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <p>Email will be sent to employees shortly!</p>
+    <p>Email will be sent to {{modalContent}}, shortly!</p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn print-btn" (click)="modal.close('Close click')">Close</button>

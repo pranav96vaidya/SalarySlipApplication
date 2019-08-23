@@ -7,6 +7,7 @@ import { FileUploadService } from '../services/file-upload.service';
 import { SendmailService } from '../services/sendmail.service';
 import { environment } from 'src/environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DeleteRecordService } from '../services/delete-record.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -31,15 +32,21 @@ export class FileUploadComponent implements OnInit {
   allSelected: boolean;
   checkedList: any;
   list: any;
-  salaryItemsInfo = ['Name', 'Gross Salary', 'Total Deductions', 'Net Salary Payable Rs', 'Action'];
+  salaryItemsInfo = ['Name', 'Gross Salary', 'Total Deductions', 'Net Salary Payable', 'Action'];
   fileErrorMsg: string;
   invalidMail: [];
   monthValue: any;
   yearValue: any;
   @ViewChild('content', {static: true}) content;
   modalResponse: any;
+  modalContent: any;
 
-  constructor(private readonly title: Title, private readonly router: Router, private readonly fileUploadService: FileUploadService, private readonly userDetailService: UserDetailService, private sendMailService: SendmailService, private modalService: NgbModal) {
+  constructor(private readonly title: Title, private readonly router: Router, 
+    private readonly fileUploadService: FileUploadService, 
+    private readonly userDetailService: UserDetailService, 
+    private sendMailService: SendmailService, private modalService: NgbModal,
+    private deleteRecordService: DeleteRecordService
+    ) {
       this.allSelected = true;
     }
 
@@ -72,7 +79,6 @@ export class FileUploadComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    console.log(this.employeeForm.value.yearVal);
     this.router.navigate([`/employee/${this.employeeForm.value.emp.id}/salarySlip/view`],
     { queryParams: { month: this.employeeForm.value.monthVal.toLowerCase(), year: this.employeeForm.value.yearVal}});
   }
@@ -104,7 +110,7 @@ export class FileUploadComponent implements OnInit {
       console.log(val);
       this.title.setTitle('Employee salary List');
       if(val['data']['invalidEmails'].length) {
-        this.invalidMail = val['data']['invalidEmails'];
+        this.invalidMail = val['data']['invalidEmails'].join(', ');
       }
       
       this.list = val['data']['employeeData'];
@@ -154,16 +160,41 @@ export class FileUploadComponent implements OnInit {
 
   public deleteItem(): void {
     blur();
+    let listToRemove = [];
     if (confirm('Are you sure, you want to delete?')) {
       for (let i = 0; i < this.list.length; i++) {
         if (this.list[i].isSelected) {
+          listToRemove.push(this.list[i])
           this.list.splice(i, 1);
           i--;
         }
-        console.log(this.list);
       }
+      console.log(this.list);
+      this.deleteRecordService.removeRecord(listToRemove)
+      .subscribe(res => {
+        console.log(res);
+      })
     }
-    console.log(this.list);
+    this.getCheckedItemList();
+  }
+
+  public DeleteRecord(emp): void {
+    blur();
+    let listToRemove = [];
+    if (confirm('Are you sure, you want to delete?')) {
+      for (let i = 0; i < this.list.length; i++) {
+        if(emp == this.list[i]) {
+          listToRemove.push(this.list[i])
+          this.list.splice(i, 1);
+        }
+      }
+      console.log(this.list);
+      console.log(listToRemove);
+      this.deleteRecordService.removeRecord(listToRemove)
+      .subscribe(res => {
+        console.log(res);
+      })
+    }
     this.getCheckedItemList();
   }
 
@@ -178,6 +209,11 @@ export class FileUploadComponent implements OnInit {
       console.log(this.yearValue);
       this.sendMailService.sendMailToEmployees(empEmails, this.monthValue, this.yearValue)
       .subscribe(res => {
+        if(empEmails.length == 1) {
+          this.modalContent = empEmails[0];
+        } else {
+          this.modalContent = "employees";
+        }
         this.modalResponse = res['data']['message'];
         this.modalService.open(this.content, { windowClass: 'dark-modal' });
         console.log(res);

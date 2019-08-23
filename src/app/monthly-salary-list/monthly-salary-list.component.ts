@@ -23,6 +23,7 @@ export class MonthlySalaryListComponent implements OnInit {
   fetchDone = false;
   errorMsg: string;
   noData: boolean;
+  empData: any;
 
   constructor(private readonly router: Router, private readonly route: ActivatedRoute, private readonly title: Title, private readonly empDetailService: EmployeeDetailService) { }
 
@@ -43,23 +44,24 @@ export class MonthlySalaryListComponent implements OnInit {
 
     this.empDetailService.getEmpdetail(this.empId)
     .subscribe(response => {
+      console.log(response);
       if (response['data'].length == 0) {
         this.fetchDone = true;
         this.noData = true;
-      }
-      console.log(response);
-      if(response['data'].length) {
+      } else {
+        this.empData = response['data'];
+        console.log(this.empData);
         this.empName = response['data'][0]['employeeFullName'];
+        this.fetchDone = true;
       }
-      this.fetchDone = true;
-      }, err =>  {
-        if(err.error) {
-          this.errorMsg = err.error.customMsg;
-          this.fetchDone = true;
-        } else {
-          this.errorMsg = "Something went wrong!"
-          this.fetchDone = true;
-        }
+    }, err =>  {
+      if(err.error) {
+        this.errorMsg = err.error.customMsg;
+        this.fetchDone = true;
+      } else {
+        this.errorMsg = "Something went wrong!"
+        this.fetchDone = true;
+      }
     });
   }
 

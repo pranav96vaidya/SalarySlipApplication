@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
         this.errorMsg = err.error.customMsg;
         this.fetchDone = true;
       } else {
-        this.errorMsg = "Something went wrong!"
+        this.errorMsg = "Something went wrong! <br> Please try again later."
         this.fetchDone = true;
       }
     });

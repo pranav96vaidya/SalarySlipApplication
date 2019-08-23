@@ -54,7 +54,6 @@
 
     &:hover:enabled {
       background-color: $btnColor;
-      box-shadow: 2px 2px $watermarkColor;
     }
 
     &:focus {
@@ -80,11 +79,17 @@
   td, th {
       border: 1px solid $tableBorderColor;
       font-size: 14px;
-      padding: 8px;
+      padding: 6px;
       @media (max-width: $smWidth) {
           font-size: 10px;
       }
   } 
+
+  .checkbox-container {
+    font-size: 16px;
+    padding: 4px;
+    text-align: center;
+  }
 
   .action-head {
       text-align: center;
@@ -95,6 +100,11 @@
 
       .action {
           color: $btnColor;
+          padding: 10px;
+
+          .fa {
+            font-size: 16px;
+          }
 
           &:hover {
               cursor: pointer;
@@ -114,7 +124,6 @@
 
   &:hover:enabled {
     background-color: $btnColor;
-    box-shadow: 2px 2px $watermarkColor;
     color: $whiteColor;
   }
 

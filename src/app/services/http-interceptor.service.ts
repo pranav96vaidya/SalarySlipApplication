@@ -30,7 +30,7 @@ export class HttpInterceptorService implements HttpInterceptor {
         console.log(err);
         if (err instanceof HttpErrorResponse) {
           console.log(err);
-          if (err.status === 400 || err.status === 401) {
+          if (err.status === 400 || err.status === 401 || err.status === 402) {
             this.auth.token = null;
             location.href = 'http://newput.timetracker.s3-website-us-west-1.amazonaws.com/login';
           } 
