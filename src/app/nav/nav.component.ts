@@ -4,7 +4,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
-import { UserDetailService } from '../services/user-detail.service';
+import { ApiService } from '../services/api.service';
 // import { Logout } from 'src/app/store/actions/authentication.actions';
 
 @Component({
@@ -23,14 +23,14 @@ export class NavComponent implements OnInit {
   //   this.getState = this.store.select(selectAuthenticationState);
   // }
 
-  constructor(private readonly auth: AuthenticationService, private router: Router, private userDetailService: UserDetailService) {}
+  constructor(private readonly auth: AuthenticationService, private router: Router, private apiService: ApiService) {}
 
   ngOnInit(): void {
     if (this.auth.isLoggedIn()) {
       this.isAuthenticated = true;
     }
 
-    this.userDetailService.getDetail().subscribe(responseList => {
+    this.apiService.getDetail().subscribe(responseList => {
       console.log(responseList);
       this.empResponse = responseList;
       this.responseData = responseList['data'];

@@ -2,13 +2,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NavComponent } from './nav.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { UserDetailService } from '../services/user-detail.service';
+import { ApiService } from '../services/api.service';
 import { from, of } from 'rxjs';
 
 describe('NavComponent', () => {
   let component: NavComponent;
   let fixture: ComponentFixture<NavComponent>;
-  let service: UserDetailService;
+  let apiService: ApiService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -22,7 +22,7 @@ describe('NavComponent', () => {
     fixture = TestBed.createComponent(NavComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    service = TestBed.get(UserDetailService);
+    apiService = TestBed.get(ApiService);
   });
 
   it('should create', () => {
@@ -45,7 +45,7 @@ describe('NavComponent', () => {
       "notificationStatus":true
     }}
 
-    spyOn(service, 'getDetail').and.callFake(() => {
+    spyOn(apiService, 'getDetail').and.callFake(() => {
       return of(resp);
     })
 

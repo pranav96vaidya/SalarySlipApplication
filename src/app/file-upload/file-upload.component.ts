@@ -1,13 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UserDetailService } from '../services/user-detail.service';
 import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, NavigationEnd } from '@angular/router';
-import { FileUploadService } from '../services/file-upload.service';
-import { SendmailService } from '../services/sendmail.service';
 import { environment } from 'src/environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DeleteRecordService } from '../services/delete-record.service';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -42,10 +39,7 @@ export class FileUploadComponent implements OnInit {
   modalContent: any;
 
   constructor(private readonly title: Title, private readonly router: Router, 
-    private readonly fileUploadService: FileUploadService, 
-    private readonly userDetailService: UserDetailService, 
-    private sendMailService: SendmailService, private modalService: NgbModal,
-    private deleteRecordService: DeleteRecordService
+    private readonly apiService: ApiService, private modalService: NgbModal
     ) {
       this.allSelected = true;
     }
@@ -61,7 +55,7 @@ export class FileUploadComponent implements OnInit {
     for (let i = 2017; i <= this.currentYear; i++) {
       this.years.push(i);
     }
-    this.userDetailService.getEmployeeList().subscribe(responseList => {
+    this.apiService.getEmployeeList().subscribe(responseList => {
       console.log(responseList);
       this.users = responseList['data'];
       this.fetchDone = true;
@@ -105,7 +99,7 @@ export class FileUploadComponent implements OnInit {
     this.fetchDone = false;
     const formData = new FormData();
     formData.append('file', this.file, this.file.name);
-    this.fileUploadService.sendFile(formData)
+    this.apiService.sendFile(formData)
     .subscribe((val) => {
       console.log(val);
       this.title.setTitle('Employee salary List');
@@ -170,7 +164,7 @@ export class FileUploadComponent implements OnInit {
         }
       }
       console.log(this.list);
-      this.deleteRecordService.removeRecord(listToRemove)
+      this.apiService.removeRecord(listToRemove)
       .subscribe(res => {
         console.log(res);
       })
@@ -190,7 +184,7 @@ export class FileUploadComponent implements OnInit {
       }
       console.log(this.list);
       console.log(listToRemove);
-      this.deleteRecordService.removeRecord(listToRemove)
+      this.apiService.removeRecord(listToRemove)
       .subscribe(res => {
         console.log(res);
       })
@@ -207,7 +201,7 @@ export class FileUploadComponent implements OnInit {
       console.log(empEmails);
       console.log(this.monthValue);
       console.log(this.yearValue);
-      this.sendMailService.sendMailToEmployees(empEmails, this.monthValue, this.yearValue)
+      this.apiService.sendMailToEmployees(empEmails, this.monthValue, this.yearValue)
       .subscribe(res => {
         if(empEmails.length == 1) {
           this.modalContent = empEmails[0];

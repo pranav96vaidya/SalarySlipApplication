@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,7 +9,11 @@ import { FooterComponent } from './footer/footer.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NavComponent } from './nav/nav.component';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { StartupService } from './services/startup.service';
+
+export function startupServiceFactory(startupService: StartupService): Function {
+  return () => startupService.load();
+}
 
 @NgModule({
   declarations: [
@@ -31,6 +35,13 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
       useClass: HttpInterceptorService,
       multi: true
     },
+    StartupService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: startupServiceFactory,
+      deps: [StartupService],
+      multi: true
+    }
   ],
   bootstrap: [AppComponent],
 })

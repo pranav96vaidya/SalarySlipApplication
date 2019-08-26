@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { EmployeeDetailService } from '../services/employee-detail.service';
 import { environment } from 'src/environments/environment';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-monthly-salary-list',
@@ -25,7 +25,7 @@ export class MonthlySalaryListComponent implements OnInit {
   noData: boolean;
   empData: any;
 
-  constructor(private readonly router: Router, private readonly route: ActivatedRoute, private readonly title: Title, private readonly empDetailService: EmployeeDetailService) { }
+  constructor(private readonly router: Router, private readonly route: ActivatedRoute, private readonly title: Title, private readonly apiService: ApiService) { }
 
   ngOnInit(): void {
     this.router.events.subscribe((evt) => {
@@ -42,7 +42,7 @@ export class MonthlySalaryListComponent implements OnInit {
       this.empId = data['empId'];
     });
 
-    this.empDetailService.getEmpdetail(this.empId)
+    this.apiService.getEmpdetail(this.empId)
     .subscribe(response => {
       console.log(response);
       if (response['data'].length == 0) {

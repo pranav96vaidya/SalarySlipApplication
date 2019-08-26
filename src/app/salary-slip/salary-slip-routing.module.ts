@@ -4,7 +4,7 @@ import { SalarySlipComponent } from './salary-slip.component';
 import { AuthenticationGuardService } from '../services/authentication-guard.service';
 
 const routes: Routes = [
-  {path: '', component: SalarySlipComponent, canActivate: [AuthenticationGuardService]}
+  {path: '', component: SalarySlipComponent, canActivate: [AuthenticationGuardService], data: {roles: ['admin', 'employee']}}
 ];
 
 @NgModule({

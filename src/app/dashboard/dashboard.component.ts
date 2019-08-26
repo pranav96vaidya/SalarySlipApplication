@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { UserDetailService } from '../services/user-detail.service';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit {
   employeeForm: FormGroup;
   errorMsg: string;
 
-  constructor(private readonly userDetailService: UserDetailService, private readonly router: Router, private readonly title: Title) {
+  constructor(private readonly apiService: ApiService, private readonly router: Router, private readonly title: Title) {
     // this.getState = this.store.select(selectAuthenticationState);
   }
 
@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
     for (let i = 2017; i <= this.currentYear; i++) {
       this.years.push(i);
     };
-    this.userDetailService.getEmployeeList().subscribe(responseList => {
+    this.apiService.getEmployeeList().subscribe(responseList => {
       console.log(responseList)
       this.users = responseList['data']
       console.log(this.users);

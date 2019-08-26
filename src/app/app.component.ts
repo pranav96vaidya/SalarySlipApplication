@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserDetailService } from './services/user-detail.service';
 import { Router, NavigationEnd } from '@angular/router';
-import { retry } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -13,20 +11,15 @@ export class AppComponent implements OnInit {
   userName: string;
   userImg: string;
   fetchDone: boolean;
-  constructor(private userService: UserDetailService, private router: Router) { }
+  constructor(private router: Router) {
+   }
   ngOnInit() {
+    console.log("hello in app")
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;
       }
       window.scrollTo(0, 0);
-    });
-    this.userService.getDetail().subscribe(responseList => {
-      console.log(responseList);
-      this.fetchDone = true;
-    }, error => {
-        console.log(error);
-        this.fetchDone = true;
     });
   }
   

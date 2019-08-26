@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DeleteRecordService } from './delete-record.service';
+import { StartupService } from './startup.service';
 
-describe('DeleteRecordService', () => {
+describe('StartupService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: DeleteRecordService = TestBed.get(DeleteRecordService);
+    const service: StartupService = TestBed.get(StartupService);
     expect(service).toBeTruthy();
   });
 });

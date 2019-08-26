@@ -4,7 +4,7 @@ import { FileUploadComponent } from './file-upload.component';
 import { AuthenticationGuardService } from '../services/authentication-guard.service';
 
 const routes: Routes = [
-  {path: '', component: FileUploadComponent, canActivate: [AuthenticationGuardService] }
+  {path: '', component: FileUploadComponent, canActivate: [AuthenticationGuardService], data: {roles: ['admin']} }
 ];
 
 @NgModule({

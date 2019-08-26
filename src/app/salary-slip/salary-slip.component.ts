@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Title, DomSanitizer } from '@angular/platform-browser';
-import { FetchSalaryService } from '../services/fetch-salary.service';
 import { environment } from 'src/environments/environment';
-import { SendmailService } from '../services/sendmail.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-salary-slip',
@@ -53,8 +52,8 @@ export class SalarySlipComponent implements OnInit {
   modalResponse: string;
   modalContent: any;
 
-  constructor(private router: Router, private title: Title, private route: ActivatedRoute, private fetchService: FetchSalaryService,
-    private sanitizer: DomSanitizer, private readonly sendMailService: SendmailService, private modalService: NgbModal) { }
+  constructor(private router: Router, private title: Title, private route: ActivatedRoute, 
+    private apiService: ApiService, private sanitizer: DomSanitizer, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.currentMonth = this.months[this.month];
@@ -68,7 +67,7 @@ export class SalarySlipComponent implements OnInit {
       this.selectedYear = params.year;
     });
 
-    this.fetchService.fetchSalary(this.empId, this.selectedMonth, this.selectedYear)
+    this.apiService.fetchSalary(this.empId, this.selectedMonth, this.selectedYear)
     .subscribe(res => {
       console.log(res);
       this.baseUrl = 'data:image/png;base64,';
@@ -116,7 +115,7 @@ export class SalarySlipComponent implements OnInit {
     let empList = [];
     empList.push(this.responseData['employeeEmail']);
     console.log(empList);
-    this.sendMailService.sendMailToEmployees(empList, this.responseData['month'], this.responseData['year'])
+    this.apiService.sendMailToEmployees(empList, this.responseData['month'], this.responseData['year'])
     .subscribe(res => {
       console.log(res);
       if(empList.length == 1) {
