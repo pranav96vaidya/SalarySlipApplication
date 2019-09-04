@@ -14,7 +14,6 @@ export class AppComponent implements OnInit {
   constructor(private router: Router) {
    }
   ngOnInit() {
-    console.log("hello in app")
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;
@@ -22,5 +21,4 @@ export class AppComponent implements OnInit {
       window.scrollTo(0, 0);
     });
   }
-  
 }

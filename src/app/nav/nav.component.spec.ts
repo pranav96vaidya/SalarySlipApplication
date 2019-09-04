@@ -30,27 +30,27 @@ describe('NavComponent', () => {
   });
 
   it('should return loggedin employee data', () => {
-    const resp = {"data": {"_id":"5a28fc1b81029331df445103",
-      "id":"U0DDYUNSD",
-      "teamId":"T0DDQKQNQ",
-      "channelId":"D87N77P9T",
-      "firstName":"Siya",
-      "lastName":"",
-      "fullName":"Siya",
-      "email":"siya@newput.com",
-      "password":"$2a$12$Wbzjv1jE4MwDjEtffksk1e5T8a1pbEdteL7CL0JWooQ3SArFZU8Bq",
-      "profileImgSmall":"https://avatars.slack-edge.com/2016-02-01/19967907747_ab115c92505a34d0f2dc_48.png",
-      "profileImg":"https://avatars.slack-edge.com/2016-02-01/19967907747_ab115c92505a34d0f2dc_192.png",
-      "status":"admin",
-      "notificationStatus":true
-    }}
+    const resp = { data: {_id: '5a28fc1b81029331df445103',
+      id: 'U0DDYUNSD',
+      teamId: 'T0DDQKQNQ',
+      channelId: 'D87N77P9T',
+      firstName: 'Siya',
+      lastName: '',
+      fullName: 'Siya',
+      email: 'siya@newput.com',
+      password: '$2a$12$Wbzjv1jE4MwDjEtffksk1e5T8a1pbEdteL7CL0JWooQ3SArFZU8Bq',
+      profileImgSmall: 'https://avatars.slack-edge.com/2016-02-01/19967907747_ab115c92505a34d0f2dc_48.png',
+      profileImg: 'https://avatars.slack-edge.com/2016-02-01/19967907747_ab115c92505a34d0f2dc_192.png',
+      status: 'admin',
+      notificationStatus: true
+    }};
 
     spyOn(apiService, 'getDetail').and.callFake(() => {
       return of(resp);
-    })
+    });
 
     component.ngOnInit();
     expect(component.empResponse).toEqual(resp);
 
-  })
+  });
 });

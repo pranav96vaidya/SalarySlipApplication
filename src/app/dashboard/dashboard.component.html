@@ -21,7 +21,7 @@
           <select class="form-control" formControlName="emp">
             <option value="" disabled>Select Employee</option>
             <option *ngFor="let emp of users" [ngValue]="emp" >
-              {{emp.fullName}}
+              {{emp?.fullName}}
             </option>
           </select>
         </div>
@@ -32,6 +32,7 @@
         </div>
         <div class="form-group">
           <select class="form-control" formControlName="monthVal">
+            <option>All</option>
             <option *ngFor="let month of months" value="{{month}}">{{month}}</option>
           </select>
         </div>
@@ -56,7 +57,7 @@
         <tbody>
           <tr *ngFor="let emp of users; let i=index">
             <td>{{i+1}}</td>
-            <td>{{emp.fullName}}</td>            
+            <td>{{emp?.fullName}}</td>            
             <td class="view-doc"><a class="action" (click)="fetchSalarySlip(emp)">View All Salary Slips</a></td>
           </tr>
         </tbody>

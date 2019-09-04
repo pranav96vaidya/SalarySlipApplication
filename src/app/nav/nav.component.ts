@@ -31,15 +31,14 @@ export class NavComponent implements OnInit {
     }
 
     this.apiService.getDetail().subscribe(responseList => {
-      console.log(responseList);
       this.empResponse = responseList;
       this.responseData = responseList['data'];
-      if(this.responseData) {
+      if (this.responseData) {
         this.userName = responseList['data'].fullName;
         this.userImg = responseList['data'].profileImgSmall;
       } else {
-        this.userName = "";
-        this.userImg = "";
+        this.userName = '';
+        this.userImg = '';
       }
     });
   }
@@ -50,6 +49,8 @@ export class NavComponent implements OnInit {
 
   logout(): void {
     // this.store.dispatch(new Logout);
+    document.cookie = 'token = ;expires=Thu, 01 Jan 1970 00:00:01 GMT ;domain=http://newput.timetracker.s3-website-us-west-1.amazonaws.com;path=/';
+    document.cookie = 'token = ;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     location.href = 'http://newput.timetracker.s3-website-us-west-1.amazonaws.com/login';
   }
 }

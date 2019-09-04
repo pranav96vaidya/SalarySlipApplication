@@ -9,40 +9,31 @@ import { Observable, throwError, forkJoin } from 'rxjs';
 export class ApiService {
   baseUrl = environment.baseUrl;
   monthObj = environment.monthObj;
-  
+
   constructor(private readonly http: HttpClient) { }
 
   public removeRecord(empList): Observable<any> {
-    const monthObj = this.monthObj[empList[0]['month']];
+    console.log(empList[0]['month']);
+    const monthObj = empList[0]['month'];
     const yearObj = empList[0]['year'];
-    console.log(empList);
-    let empEmails = [];
-    if(empList.length) {
-      for(let i = 0; i < empList.length; i++) {
-        console.log(empList[i]['employeeEmail']);
+    const empEmails = [];
+    if (empList.length) {
+      for (let i = 0; i < empList.length; i++) {
         empEmails.push(empList[i]['employeeEmail']);
       }
-      console.log(empEmails);
-      console.log(yearObj);
-      console.log(monthObj);
       const url = `${this.baseUrl}/rest/admin/remove_salary_slip?month=${monthObj}&year=${yearObj}&empEmails=${empEmails}`;
       return this.http.delete(url);
     } else {
-      return throwError("employee list is null");
+      return throwError('employee list is null');
     }
-  }
-
-  public getEmpdetail(id: any): Observable<any> {
-    const url = `${this.baseUrl}/rest/employee/salary_slips?empID=${id}`;
-    return this.http.get(url);
   }
 
   public fetchSalary(empId: string, month: string, year: string) {
     const url1 = `${this.baseUrl}/rest/admin/company_detail`;
     const url = `${this.baseUrl}/rest/employee/salary_slips?empID=${empId}&month=${month}&year=${year}`;
-    let companyResponse = this.http.get(url1);
-    let salaryResponse = this.http.get(url);
-    return forkJoin([companyResponse, salaryResponse])
+    const companyResponse = this.http.get(url1);
+    const salaryResponse = this.http.get(url);
+    return forkJoin([companyResponse, salaryResponse]);
   }
 
   public sendFile(formData): Observable<any> {
@@ -51,15 +42,11 @@ export class ApiService {
   }
 
   public sendMailToEmployees(empList, month, year) {
-    console.log(empList);
-    console.log(year);
-    const monthObj = this.monthObj[month];
-    console.log(monthObj);
-    if(empList.length) {
-      const url = `${this.baseUrl}/rest/admin/send_email?month=${monthObj}&year=${year}&empEmails=${empList}`;
+    if (empList.length) {
+      const url = `${this.baseUrl}/rest/admin/send_email?month=${month}&year=${year}&empEmails=${empList}`;
       return this.http.get(url);
     } else {
-      return throwError("employee list is null");
+      return throwError('employee list is null');
     }
   }
 
@@ -71,6 +58,30 @@ export class ApiService {
   public getEmployeeList(): Observable<any> {
     const url = `${this.baseUrl}/rest/admin/employees`;
     return this.http.get(url);
+  }
+
+  // public getEmployeeDatail(id): Observable<any> {
+  //   const url = `${this.baseUrl}/rest/employee/detail/${id}`;
+  //   return this.http.get(url);
+  // }
+
+  public getEmpSalarydetail(id: any, year: any): Observable<any> {
+    let url = `${this.baseUrl}/rest/employee/salary_slips?empID=${id}`;
+    if (year) {
+      url +=`&year=${year}`;
+    }
+    return this.http.get(url);
+  }
+
+  public getEmpdetail(id: any, year?: any) {
+    const url1 = `${this.baseUrl}/rest/employee/detail/${id}`;
+    let url = `${this.baseUrl}/rest/employee/salary_slips?empID=${id}`;
+    if (year) {
+      url +=`&year=${year}`;
+    }
+    const EmployeeDetailResp = this.http.get(url1);
+    const EmployeeDataResp = this.http.get(url);
+    return forkJoin([EmployeeDetailResp, EmployeeDataResp]);
   }
 
 }

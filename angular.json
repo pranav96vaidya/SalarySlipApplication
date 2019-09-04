@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -25,7 +25,15 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/manifest.json"
+              "src/manifest.json",
+              "src/public/main-timesheet.html",
+              "src/public/index.bundle.js",
+              "src/public/style.css",
+              "src/public/vendor.bundle.js",
+              "src/public/vendor2.bundle.js",
+              "src/public/vendor3.bundle.js",
+              "src/public/vendor4.bundle.js",
+              "src/public/vendor5.bundle.js"
             ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -73,7 +81,10 @@
             "production": {
               "browserTarget": "SalaryApplication:build:production"
             }
-          }
+          },
+          "assets": [
+            "src/public/main-timesheet.html"
+          ]
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -95,7 +106,8 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/manifest.json"
+              "src/manifest.json",
+              "src/public/*.*"
             ]
           }
         },

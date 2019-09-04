@@ -36,18 +36,16 @@ export class DashboardComponent implements OnInit {
     this.title.setTitle('Home Page');
     for (let i = 2017; i <= this.currentYear; i++) {
       this.years.push(i);
-    };
+    }
     this.apiService.getEmployeeList().subscribe(responseList => {
-      console.log(responseList)
-      this.users = responseList['data']
-      console.log(this.users);
+      this.users = responseList['data'];
       this.fetchDone = true;
     }, err =>  {
-      if(err.error) {
+      if (err.error) {
         this.errorMsg = err.error.customMsg;
         this.fetchDone = true;
       } else {
-        this.errorMsg = "Something went wrong! <br> Please try again later."
+        this.errorMsg = 'Something went wrong! <br> Please try again later.';
         this.fetchDone = true;
       }
     });
@@ -59,8 +57,13 @@ export class DashboardComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.router.navigate([`/employee/${this.employeeForm.value.emp.id}/salarySlip/view`],
-    { queryParams: { month: this.employeeForm.value.monthVal.toLowerCase(), year: this.employeeForm.value.yearVal}});
+    if (this.employeeForm.value.monthVal === 'All') {
+      this.router.navigate([`/employee/${this.employeeForm.value.emp.id}/salarySlips`],
+      { queryParams: { year: this.employeeForm.value.yearVal}});
+    } else {
+      this.router.navigate([`/employee/${this.employeeForm.value.emp.id}/salarySlip/view`],
+      { queryParams: { month: this.employeeForm.value.monthVal.toLowerCase(), year: this.employeeForm.value.yearVal}});
+    }
   }
 
   public fetchSalarySlip(emp: {}): void {
@@ -70,5 +73,4 @@ export class DashboardComponent implements OnInit {
   public uploadSalary(): void {
     this.router.navigate(['/uploadSalarySlip']);
   }
-
 }

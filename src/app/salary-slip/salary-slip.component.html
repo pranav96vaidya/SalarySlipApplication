@@ -3,14 +3,20 @@
     <mat-spinner [diameter]="40"></mat-spinner>
   </div>
 </div>
-<div class="row head-container" *ngIf="fetchDone && !noResponse">
+<ng-container *ngIf="fetchDone && errorMsg">
+  <div class="select-file-error">{{errorMsg}}</div>
+  <p class="navigate-desc">
+    <span class="error-navigate" (click)="previousPage()">Click Here</span> to navigate to home page.
+  </p>
+</ng-container>
+<div class="row head-container" *ngIf="fetchDone && !noResponse && !errorMsg">
   <div class="col-8 offset-3 action-btn-container">
     <button class="btn btn-primary print-btn" (click)="download()">Print</button>
-    <button class="btn btn-primary send-btn" (click)="sendMail()">Send Mail</button>
+    <button class="btn btn-primary send-btn" [disabled]="!mailSent" (click)="sendMail()">Send Mail</button>
     <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
   </div>
 </div>
-<div class="row" *ngIf="fetchDone && !noResponse">
+<div class="row" *ngIf="fetchDone && !noResponse  && !errorMsg">
   <div class="col-10 offset-1 salary-slip-wrapper">
     <div class="row salary-head-container">
       <div class="col-8 offset-2 col-sm-6 offset-sm-3 company-details">
@@ -18,17 +24,17 @@
           <div class="company-address">{{companyDetails?.companyAdd}}</div>
           <div class="company-address">CIN {{companyDetails?.cinNumber}}</div>
           <div class="company-address">
-            Salary slip for the month of {{responseData.month | titlecase}} {{responseData.year}}
+            Salary slip for the month of {{responseMonth}} {{responseData?.year}}
           </div>
       </div>
       <div class="col-12 days-month">
-          No of Days {{currentMonthDays}}
+          No of days {{currentMonthDays}}
       </div>
     </div>
     <div class="row salary-content">
       <ng-container *ngFor="let item of salaryDisplayItems">
-        <div class="col-3 salary-items" [class.bold-text]="item.isHeading">{{item.itemLabel}}</div>
-        <div class="col-3 salary-items" *ngIf="!item.isNotApplicable; else other_content" [class.bold-text]="item.isHeading">{{item.itemValue | inrCurrency: item.isAmount}}</div>
+        <div class="col-3 salary-items" [class.bold-text]="item.isHeading">{{item?.itemLabel}}</div>
+        <div class="col-3 salary-items" *ngIf="!item.isNotApplicable; else other_content" [class.bold-text]="item.isHeading">{{item?.itemValue | inrCurrency: item.isAmount}}</div>
         <ng-template #other_content>
           <div class="col-3 salary-items" [class.bold-text]="item.isHeading">Not Applicable</div>
         </ng-template>

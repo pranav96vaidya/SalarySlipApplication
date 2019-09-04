@@ -37,26 +37,29 @@ export class FileUploadComponent implements OnInit {
   @ViewChild('content', {static: true}) content;
   modalResponse: any;
   modalContent: any;
+  noData: boolean;
+  mailSent: boolean;
 
-  constructor(private readonly title: Title, private readonly router: Router, 
+  constructor(private readonly title: Title, private readonly router: Router,
     private readonly apiService: ApiService, private modalService: NgbModal
     ) {
       this.allSelected = true;
     }
 
   ngOnInit(): void {
+    this.mailSent = true;
+    this.noData = false;
     this.title.setTitle('Upload Salary Slip');
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
           return;
       }
-      window.scrollTo(0, 0)
+      window.scrollTo(0, 0);
     });
     for (let i = 2017; i <= this.currentYear; i++) {
       this.years.push(i);
     }
     this.apiService.getEmployeeList().subscribe(responseList => {
-      console.log(responseList);
       this.users = responseList['data'];
       this.fetchDone = true;
       this.upload = true;
@@ -73,16 +76,20 @@ export class FileUploadComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.router.navigate([`/employee/${this.employeeForm.value.emp.id}/salarySlip/view`],
-    { queryParams: { month: this.employeeForm.value.monthVal.toLowerCase(), year: this.employeeForm.value.yearVal}});
+    if (this.employeeForm.value.monthVal === 'All') {
+      this.router.navigate([`/employee/${this.employeeForm.value.emp.id}/salarySlips`],
+      { queryParams: { year: this.employeeForm.value.yearVal}});
+    } else {
+      this.router.navigate([`/employee/${this.employeeForm.value.emp.id}/salarySlip/view`],
+      { queryParams: { month: this.employeeForm.value.monthVal.toLowerCase(), year: this.employeeForm.value.yearVal}});
+    }
   }
 
   public uploadFile(files: FileList): void {
     const selectedFile = files[0];
-    console.log(selectedFile);
     const dot = selectedFile.name.lastIndexOf('.');
     if (dot === -1) {
-      this.fileErrorMsg = "Select a valid csv file.";
+      this.fileErrorMsg = 'Select a valid csv file.';
     } else {
       this.fileErrorMsg = null;
       const extension = selectedFile.name.substr(dot, selectedFile.name.length);
@@ -97,31 +104,39 @@ export class FileUploadComponent implements OnInit {
   public uploadFileData(): void {
     this.upload = false;
     this.fetchDone = false;
+    window.scrollTo(0, 0);
     const formData = new FormData();
     formData.append('file', this.file, this.file.name);
     this.apiService.sendFile(formData)
     .subscribe((val) => {
       console.log(val);
+      this.invalidMail = [];
       this.title.setTitle('Employee salary List');
-      if(val['data']['invalidEmails'].length) {
+      if (val['data'] && val['data']['invalidEmails'] && val['data']['invalidEmails'].length) {
         this.invalidMail = val['data']['invalidEmails'].join(', ');
       }
-      
-      this.list = val['data']['employeeData'];
-      this.monthValue = this.list[0]['month'];
-      this.yearValue = this.list[0]['year'];
-      for (let i = 0; i < this.list.length; i++) {
-        this.list[i].isSelected = true;
+      if (val['data'] && val['data']['employeeData'] && val['data']['employeeData'].length) {
+        console.log(val['data']['employeeData']);
+        this.list = val['data']['employeeData'];
+        this.monthValue = this.list[0]['month'];
+        this.yearValue = this.list[0]['year'];
+        for (let i = 0; i < this.list.length; i++) {
+          this.list[i].isSelected = true;
+        }
+        this.getCheckedItemList();
+        this.processing = true;
+        this.upload = true;
+        this.fetchDone = true;
+      } else {
+        this.processing = true;
+        this.upload = true;
+        this.fetchDone = true;
       }
-      this.getCheckedItemList();
-      this.processing = true;
-      this.upload = true;
-      this.fetchDone = true;
-      }, err => {
-      if (err.status == 500) {
-        this.errorMsg = "Some Internal server error occured! please try again later.";
-      } else if (err.status == 422) {
-        this.errorMsg = "The file you uploaded is not valid. Please upload other file."
+    }, err => {
+      if (err.status === 500) {
+        this.errorMsg = 'Some Internal server error occured! please try again later.';
+      } else if (err.status === 422) {
+        this.errorMsg = 'The file you uploaded is not valid. Please upload other file.';
       }
       this.processing = true;
       this.upload = true;
@@ -154,70 +169,70 @@ export class FileUploadComponent implements OnInit {
 
   public deleteItem(): void {
     blur();
-    let listToRemove = [];
+    const listToRemove = [];
     if (confirm('Are you sure, you want to delete?')) {
       for (let i = 0; i < this.list.length; i++) {
         if (this.list[i].isSelected) {
-          listToRemove.push(this.list[i])
+          listToRemove.push(this.list[i]);
           this.list.splice(i, 1);
           i--;
         }
       }
-      console.log(this.list);
       this.apiService.removeRecord(listToRemove)
       .subscribe(res => {
-        console.log(res);
-      })
+      });
     }
     this.getCheckedItemList();
+    if (!this.list.length) {
+      this.noData = true;
+    }
   }
 
   public DeleteRecord(emp): void {
     blur();
-    let listToRemove = [];
+    const listToRemove = [];
     if (confirm('Are you sure, you want to delete?')) {
       for (let i = 0; i < this.list.length; i++) {
-        if(emp == this.list[i]) {
-          listToRemove.push(this.list[i])
+        if (emp === this.list[i]) {
+          listToRemove.push(this.list[i]);
           this.list.splice(i, 1);
         }
       }
-      console.log(this.list);
-      console.log(listToRemove);
       this.apiService.removeRecord(listToRemove)
       .subscribe(res => {
-        console.log(res);
-      })
+      });
     }
     this.getCheckedItemList();
+    if (!this.list.length) {
+      this.noData = true;
+    }
   }
 
   public sendMail(): void {
-    let empEmails = [];
-    if(this.checkedList.length) {
-      for(let i = 0; i < this.checkedList.length; i++) {
+    this.mailSent = false;
+    const empEmails = [];
+    if (this.checkedList.length) {
+      for (let i = 0; i < this.checkedList.length; i++) {
         empEmails.push(this.checkedList[i].employeeEmail);
       }
-      console.log(empEmails);
-      console.log(this.monthValue);
-      console.log(this.yearValue);
       this.apiService.sendMailToEmployees(empEmails, this.monthValue, this.yearValue)
       .subscribe(res => {
-        if(empEmails.length == 1) {
+        if (empEmails.length === 1) {
           this.modalContent = empEmails[0];
         } else {
-          this.modalContent = "employees";
+          this.modalContent = 'employees';
         }
         this.modalResponse = res['data']['message'];
         this.modalService.open(this.content, { windowClass: 'dark-modal' });
-        console.log(res);
-      })
+        this.mailSent = true;
+      });
     }
   }
 
   public viewSalarySlip(emp: {}): void {
+    let monthVal = this.months[+emp['month'] - 1].toLowerCase();
     window.open(`${this.navigateUrl}/employee/${
-      emp['empID']}/salarySlip/view?month=${emp['month']}&year=${emp['year']}`);
+      emp['empID']}/salarySlip/view?month=${monthVal}&year=${emp['year']}`);
   }
 
   public previousPage(): void {
@@ -228,6 +243,7 @@ export class FileUploadComponent implements OnInit {
     this.fetchDone = true;
     this.processing = false;
     this.errorMsg = null;
+    this.noData = false;
     window.scrollTo(0, 0);
   }
 

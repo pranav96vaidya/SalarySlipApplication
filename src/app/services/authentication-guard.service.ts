@@ -22,13 +22,12 @@ export class AuthenticationGuardService implements CanActivate {
       location.href = 'http://newput.timetracker.s3-website-us-west-1.amazonaws.com/login';
       return false;
     }
-    let roles = route['data']['roles'];
+    const roles = route['data']['roles'];
     this.data = this.startupService.startupData();
-    if(roles.includes(this.data)) {
+    if (roles.includes(this.data['status'])) {
       return true;
     } else {
       return false;
     }
   }
-
 }

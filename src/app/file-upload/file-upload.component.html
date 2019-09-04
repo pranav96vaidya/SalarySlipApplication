@@ -17,7 +17,7 @@
             <select class="form-control" formControlName="emp">
               <option value="" disabled>Select Employee</option>
               <option *ngFor="let emp of users" [ngValue]="emp" >
-                {{emp.fullName}}
+                {{emp?.fullName}}
               </option>
             </select>
           </div>
@@ -28,6 +28,7 @@
           </div>
           <div class="form-group">
             <select class="form-control" formControlName="monthVal">
+              <option>All</option>
               <option *ngFor="let month of months" value="{{month}}">{{month}}</option>
             </select>
           </div>
@@ -38,21 +39,21 @@
       </div>
     </div>
     <div class="col-sm-9">
-        <div class="upload-head">Salary Slip Upload</div>
-        <div class="upload-file-container" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadFile($event)">
-            <input hidden type="file" accept=".csv" #fileInput (change)="uploadFile($event.target.files)">
-            <div class="upload-desc"><span>Click on the box to upload file OR drop a file here</span></div>
-        </div>
-        <div *ngIf="!file && !fileErrorMsg" class="select-file-help">select a file with .csv extension</div>
-        <div *ngIf="fileErrorMsg" class="select-file-error">{{fileErrorMsg}}</div>
-        <ng-container *ngIf="file && !fileErrorMsg">
-            <div class="file-name">
-              <p>{{ file.name }}</p>
-            </div>
-            <div class="upload-btn-container">
-                <button class="btn btn-primary" (click)="uploadFileData()">Upload</button>
-            </div>
-        </ng-container>
+      <div class="upload-head">Upload</div>
+      <div class="upload-file-container" (click)="fileInput.click()" salarySlipAppDragDrop (onFileDropped)="uploadFile($event)">
+          <input hidden type="file" accept=".csv" #fileInput (change)="uploadFile($event.target.files)">
+          <div class="upload-desc"><span>Click on the box to upload file OR drop a file here</span></div>
+      </div>
+      <div *ngIf="!file && !fileErrorMsg" class="select-file-help">select a file with .csv extension</div>
+      <div *ngIf="fileErrorMsg" class="select-file-error">{{fileErrorMsg}}</div>
+      <ng-container *ngIf="file && !fileErrorMsg">
+          <div class="file-name">
+            <p>{{ file?.name }}</p>
+          </div>
+          <div class="upload-btn-container">
+              <button class="btn btn-primary" (click)="uploadFileData()">Upload</button>
+          </div>
+      </ng-container>
     </div>
   </div>
 </ng-container>
@@ -67,25 +68,34 @@
     <span class="error-navigate" routerLink="/home">click here</span> to navigate to Home page!
   </p>
 </app-data-not-found>
-<div class="row head-container" *ngIf="fetchDone && processing && !errorMsg">
-  <div class="col-sm-4 offset-sm-4 page-head">Salary Slip of Employees</div>
+<div class="row head-container" *ngIf="fetchDone && processing && !errorMsg && invalidMail?.length && !list">
+  <div class="col-sm-4 offset-sm-4 page-head">List of Employees Salary</div>
   <div class="col-sm-4 send-btn-container">
-    <button class="btn btn-primary delete-btn" [disabled]="!checkedList.length" (click)="deleteItem()">Delete</button>
-    <button class="btn btn-primary send-btn" [disabled]="!checkedList.length" (click)="sendMail()">Send Mail</button>
     <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
   </div>
 </div>
-<div class="row" *ngIf="fetchDone && processing && !errorMsg && invalidMail">
-  <div class="offset-2 col-8 error-head alert alert-danger">
-    <span>Oops! We could not find following Email ID.</span>
-  <div>
-    <ng-container>
-      <span class="invalid-email-text">{{invalidMail}}</span>
+<div class="row head-container" *ngIf="fetchDone && processing && !errorMsg && list">
+  <div class="col-sm-4 offset-sm-4 page-head">List of Employees Salary</div>
+  <div class="col-sm-4 send-btn-container">
+    <ng-container *ngIf="!noData">
+        <button class="btn btn-primary delete-btn" [disabled]="!checkedList.length" (click)="deleteItem()">Delete</button>
+        <button class="btn btn-primary send-btn" [disabled]="!checkedList.length || !mailSent" (click)="sendMail()">Send Mail</button>
     </ng-container>
-  </div>
+    <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
   </div>
 </div>
-<div class="row" *ngIf="fetchDone && processing && !errorMsg">
+<div *ngIf="fetchDone && processing && !errorMsg && invalidMail?.length">
+  <div class="error-head alert alert-danger">
+    <span>Oops! We could not find following Email ID. </span>
+    <span><span (click)="reloadPage()" class="reload-link"> Click here</span> to try again!</span>
+    <div>
+      <ng-container>
+        <span class="invalid-email-text">{{invalidMail}}</span>
+      </ng-container>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="fetchDone && processing && !errorMsg && list">
   <div class="col-12 table-responsive">
     <table class="table table-striped emp-list-table">
       <thead>
@@ -98,16 +108,24 @@
           <th *ngFor="let items of salaryItemsInfo" [class.action-head]="items=='Action'">{{items}}</th>
         </tr>
       </thead>
+      <tbody *ngIf="noData">
+        <tr class="text-center">
+          <td colspan="6">
+            No Records!
+            <button class="btn btn-success btn-sm upload-btn" (click)="reloadPage()">Upload</button>
+          </td>
+        </tr>
+      </tbody>
       <tbody>
         <tr *ngFor="let emp of list">
             <td class="checkbox-container">
                 <input type="checkbox" class="select-item checkbox" [(ngModel)]="emp.isSelected"
                   name="select-item" value="{{emp}}" (change)="isAllSelected()" />
             </td>
-          <td>{{emp.employeeFullName}}</td> 
-          <td>{{emp.grossSalary | inrCurrency: true }}</td>          
-          <td>{{emp.totalDeductions | inrCurrency: true }}</td>
-          <td>{{emp.netSalaryPayable | inrCurrency: true }}</td>
+          <td>{{emp?.employeeFullName}}</td> 
+          <td>{{emp?.grossSalary | inrCurrency: true }}</td>          
+          <td>{{emp?.totalDeductions | inrCurrency: true }}</td>
+          <td>{{emp?.netSalaryPayable | inrCurrency: true }}</td>
           <td class="view-doc">
             <a class="action" (click)="viewSalarySlip(emp)"><i class="fa fa-eye"></i></a>
             <span>/</span>

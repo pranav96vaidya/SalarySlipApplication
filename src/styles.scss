@@ -1,9 +1,9 @@
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
-@import './assets/scss/color';
+@import './assets/scss/variables';
 
 .mat-progress-spinner {
   margin: 0 auto;
-  top: 270px;
+  top: 220px;
 
   @media (max-width: $smWidth) {
       left: 0 auto;
@@ -27,7 +27,7 @@
 
 .select-file-error {
     color: $errorColor;
-    font-size: 18px;
+    font-size: 24px;
     padding-top: 20px;
     text-align: center;
 }
@@ -62,16 +62,10 @@
     }
   }
 
-  select::-ms-expand {
-    display: none;
-  }
-
   .form-control {
     font-size: 14px;
     height: 30px;
     padding: 0 5px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
   }
 }
 

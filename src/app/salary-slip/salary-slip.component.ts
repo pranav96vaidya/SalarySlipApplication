@@ -12,8 +12,8 @@ import { ApiService } from '../services/api.service';
 })
 export class SalarySlipComponent implements OnInit {
   salaryItemsInfo = [
-    { beProp: 'employeeFullName', label: 'Name'}, { beProp: 'employeeDesignation', label: 'Designation'},
-    { beProp: 'basic', label: 'Basic', isAmount: true} , { beProp: 'professionalTax', label: 'Professional Tax'},
+    { beProp: 'employeeFullName', label: 'Employee Name'}, { beProp: 'employeeDesignation', label: 'Designation'},
+    { beProp: 'basic', label: 'Basic', isAmount: true} , { beProp: 'professionalTax', label: 'Prof Tax'},
     { beProp: 'hra', label: 'HRA', isAmount: true},
     { beProp: 'tds', label: 'TDS', isAmount: true}, {  beProp: 'lta', label: 'LTA', isAmount: true},
     { beProp: 'esic', label: 'ESIC', isAmount: true},
@@ -23,13 +23,13 @@ export class SalarySlipComponent implements OnInit {
     { beProp: 'professionalAllowance', label: 'Professional Allowance', isAmount: true}, { beProp: null},
     { beProp: 'grossSalary', label: 'Gross Salary', isAmount: true},
     { beProp: 'totalDeductions', label: 'Total Deductions', isAmount: true},
-    { beProp: 'netSalaryPayable', label: 'Net Salary Payable Rs', isHeading: true, isAmount: true},
+    { beProp: 'netSalaryPayable', label: 'Net Salary Payable', isHeading: true, isAmount: true},
     { beProp: 'bankName', label: 'Bank'}, { beProp: 'accountNo', label: 'Account No'},
-    { beProp: 'ifscNo', label: 'IFSC'}, { beProp: 'esicNo', label: 'ESIC No', isNotApplicable: true}, 
+    { beProp: 'ifscNo', label: 'IFSC'}, { beProp: 'esicNo', label: 'ESIC No', isNotApplicable: true},
     { beProp: 'pfUAN', label: 'PF UAN', isNotApplicable: true}
   ];
 
-  salaryDisplayItems= [];
+  salaryDisplayItems = [];
   month = new Date().getMonth();
   months = environment.months;
   monthObj = environment.monthObj;
@@ -51,11 +51,15 @@ export class SalarySlipComponent implements OnInit {
   @ViewChild('content', {static: true}) content;
   modalResponse: string;
   modalContent: any;
+  responseMonth: any;
+  mailSent: boolean;
+  errorMsg: any;
 
-  constructor(private router: Router, private title: Title, private route: ActivatedRoute, 
+  constructor(private router: Router, private title: Title, private route: ActivatedRoute,
     private apiService: ApiService, private sanitizer: DomSanitizer, private modalService: NgbModal) { }
 
   ngOnInit(): void {
+    this.mailSent = true;
     this.currentMonth = this.months[this.month];
     this.title.setTitle('Salary Slip');
     this.route.params.subscribe(data => {
@@ -63,18 +67,16 @@ export class SalarySlipComponent implements OnInit {
     });
 
     this.route.queryParams.subscribe(params => {
-      this.selectedMonth = params.month;
+      this.selectedMonth = this.monthObj[params.month];
       this.selectedYear = params.year;
     });
 
     this.apiService.fetchSalary(this.empId, this.selectedMonth, this.selectedYear)
     .subscribe(res => {
-      console.log(res);
       this.baseUrl = 'data:image/png;base64,';
       this.companyDetails = res[0]['data'];
       this.companySealImg = this.getSantizeUrl(this.baseUrl + this.companyDetails['companySeal']);
       this.directorSignImg = this.getSantizeUrl(this.baseUrl + this.companyDetails['directorSign']);
-      this.responseData = res[1]['data'][0];
       if (res[1]['data'].length) {
         this.responseData = res[1]['data'][0];
         for (let i = 0; i < this.salaryItemsInfo.length; i++) {
@@ -87,20 +89,22 @@ export class SalarySlipComponent implements OnInit {
             isNotApplicable: itemInfo.isNotApplicable
           });
         }
-        this.salaryDisplayItems.splice(2, 0, { itemLabel: 'Earnings', itemValue: 'Amount Rs', isHeading: true},
-        { itemLabel: 'Deductions', itemValue: 'Amount Rs', isHeading: true});
-        this.monthNumber = this.monthObj[this.responseData.month];
-        this.currentMonthDays = new Date(Number(this.responseData.year), this.monthNumber, 0).getDate();
+        this.responseMonth = this.months[+this.responseData.month - 1];
+        this.salaryDisplayItems.splice(2, 0, { itemLabel: 'Earnings', itemValue: 'Amount (Rs)', isHeading: true},
+        { itemLabel: 'Deductions', itemValue: 'Amount (Rs)', isHeading: true});
+        this.currentMonthDays = new Date(Number(this.responseData.year), this.responseData.month, 0).getDate();
         this.fetchDone = true;
         this.noResponse = false;
       } else {
         this.fetchDone = true;
         this.noResponse = true;
       }
-    })
+    }, error => {
+      this.errorMsg = "Something went wrong while fetching salary slip."
+    });
   }
 
-  public getSantizeUrl(url : string) {
+  public getSantizeUrl(url: string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
@@ -109,23 +113,20 @@ export class SalarySlipComponent implements OnInit {
   }
 
   public sendMail(): void {
-    console.log(this.responseData['employeeFullName']);
-    console.log(this.responseData['month']);
-    console.log(this.responseData['year']);
-    let empList = [];
+    this.mailSent = false;
+    const empList = [];
     empList.push(this.responseData['employeeEmail']);
-    console.log(empList);
     this.apiService.sendMailToEmployees(empList, this.responseData['month'], this.responseData['year'])
     .subscribe(res => {
-      console.log(res);
-      if(empList.length == 1) {
+      if (empList.length === 1) {
         this.modalContent = empList[0];
       } else {
-        this.modalContent = "employees";
+        this.modalContent = 'employees';
       }
       this.modalResponse = res['data']['message'];
       this.modalService.open(this.content, { windowClass: 'dark-modal' });
-    })
+      this.mailSent = true;
+    });
   }
 
   public previousPage(): void {
