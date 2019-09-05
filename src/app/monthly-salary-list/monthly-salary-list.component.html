@@ -9,7 +9,7 @@
 </ng-container>
 <div class="row head-container" *ngIf="fetchDone && !errorMsg">
   <div class="col-8 offset-2 offset-sm-3 col-sm-6 page-head">{{empName}}'s Salary Slip List</div>
-  <div class="col-sm-2 back-btn-container">
+  <div class="col-sm-2 back-btn-container" *ngIf="!backBtnDisabled">
       <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
   </div>
 </div>

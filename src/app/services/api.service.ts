@@ -13,7 +13,6 @@ export class ApiService {
   constructor(private readonly http: HttpClient) { }
 
   public removeRecord(empList): Observable<any> {
-    console.log(empList[0]['month']);
     const monthObj = empList[0]['month'];
     const yearObj = empList[0]['year'];
     const empEmails = [];
@@ -42,9 +41,10 @@ export class ApiService {
   }
 
   public sendMailToEmployees(empList, month, year) {
+    let empData = { month, year, empEmails: empList.toString()};
     if (empList.length) {
-      const url = `${this.baseUrl}/rest/admin/send_email?month=${month}&year=${year}&empEmails=${empList}`;
-      return this.http.get(url);
+      const url = `${this.baseUrl}/rest/admin/send_email`;
+      return this.http.post(url, empData);
     } else {
       return throwError('employee list is null');
     }
@@ -59,11 +59,6 @@ export class ApiService {
     const url = `${this.baseUrl}/rest/admin/employees`;
     return this.http.get(url);
   }
-
-  // public getEmployeeDatail(id): Observable<any> {
-  //   const url = `${this.baseUrl}/rest/employee/detail/${id}`;
-  //   return this.http.get(url);
-  // }
 
   public getEmpSalarydetail(id: any, year: any): Observable<any> {
     let url = `${this.baseUrl}/rest/employee/salary_slips?empID=${id}`;

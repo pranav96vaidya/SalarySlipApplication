@@ -127,9 +127,9 @@
           <td>{{emp?.totalDeductions | inrCurrency: true }}</td>
           <td>{{emp?.netSalaryPayable | inrCurrency: true }}</td>
           <td class="view-doc">
-            <a class="action" (click)="viewSalarySlip(emp)"><i class="fa fa-eye"></i></a>
+            <a class="action" (click)="viewSalarySlip(emp)"><i class="fa fa-eye" title="View Salary Slip"></i></a>
             <span>/</span>
-            <a class="action" (click)="DeleteRecord(emp)"><i class="fa fa-trash"></i></a>
+            <a class="action" (click)="DeleteRecord(emp)"><i class="fa fa-trash" title="Delete Record"></i></a>
           </td>
         </tr>
       </tbody>

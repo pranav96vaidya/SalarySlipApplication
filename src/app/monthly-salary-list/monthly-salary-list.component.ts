@@ -31,6 +31,7 @@ export class MonthlySalaryListComponent implements OnInit {
   year: any;
   noDataForYear = true;
   empRoleData: any;
+  backBtnDisabled: boolean;
 
   constructor(private readonly router: Router, private readonly route: ActivatedRoute, private readonly title: Title, private readonly apiService: ApiService,
     private startupService: StartupService) { }
@@ -75,52 +76,53 @@ export class MonthlySalaryListComponent implements OnInit {
           this.searchDone = false;
         }
         if (res[1]['data'].length === 0) {
-          this.fetchDone = true;
-          this.noDataForYear = true;
-          this.searchDone = true;
+          this.noDataForYearFound();
         } else {
           this.empData = res[1]['data'];
-          this.fetchDone = true;
-          this.noDataForYear = false;
-          this.searchDone = true;
+          this.dataFoundForYear();
         }
       }, err =>  {
-        if (err.error) {
-          this.errorMsg = err.error.customMsg;
-          this.fetchDone = true;
-          this.searchDone = true;
-        } else {
-          this.errorMsg = 'Something went wrong!';
-          this.fetchDone = true;
-          this.searchDone = true;
-        }
+          this.errorHandler(err);
       });
     } else {
+      this.backBtnDisabled = true;
       this.empName = this.empRoleData['fullName'];
-      this.apiService.getEmpSalarydetail(this.empId, this.year)
+      this.apiService.getEmpSalarydetail(empId, year)
       .subscribe(resp => {
         if (resp['data'].length === 0) {
-          this.fetchDone = true;
-          this.noDataForYear = true;
-          this.searchDone = true;
+          this.noDataForYearFound();
         } else {
           this.empData = resp['data'];
-          this.fetchDone = true;
-          this.noDataForYear = false;
-          this.searchDone = true;
+          this.dataFoundForYear();
         }
       }, err =>  {
-        if (err.error) {
-          this.errorMsg = err.error.customMsg;
-          this.fetchDone = true;
-          this.searchDone = true;
-        } else {
-          this.errorMsg = 'Something went wrong!';
-          this.fetchDone = true;
-          this.searchDone = true;
-        }
+        this.errorHandler(err);
       });
     }
+  }
+
+  public errorHandler(err) {
+    if (err.error) {
+      this.errorMsg = err.error.customMsg;
+      this.fetchDone = true;
+      this.searchDone = true;
+    } else {
+      this.errorMsg = 'Something went wrong!';
+      this.fetchDone = true;
+      this.searchDone = true;
+    }
+  }
+
+  public noDataForYearFound() {
+    this.fetchDone = true;
+    this.noDataForYear = true;
+    this.searchDone = true;
+  }
+
+  public dataFoundForYear() {
+    this.fetchDone = true;
+    this.noDataForYear = false;
+    this.searchDone = true;
   }
 
   public onSubmit(): void {

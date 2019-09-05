@@ -109,14 +109,12 @@ export class FileUploadComponent implements OnInit {
     formData.append('file', this.file, this.file.name);
     this.apiService.sendFile(formData)
     .subscribe((val) => {
-      console.log(val);
       this.invalidMail = [];
       this.title.setTitle('Employee salary List');
       if (val['data'] && val['data']['invalidEmails'] && val['data']['invalidEmails'].length) {
         this.invalidMail = val['data']['invalidEmails'].join(', ');
       }
       if (val['data'] && val['data']['employeeData'] && val['data']['employeeData'].length) {
-        console.log(val['data']['employeeData']);
         this.list = val['data']['employeeData'];
         this.monthValue = this.list[0]['month'];
         this.yearValue = this.list[0]['year'];
@@ -244,6 +242,7 @@ export class FileUploadComponent implements OnInit {
     this.processing = false;
     this.errorMsg = null;
     this.noData = false;
+    this.file = null;
     window.scrollTo(0, 0);
   }
 
