@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 })
 
 export class AuthenticationService {
-  baseUrl = environment.baseUrl;
+  baseUrl = environment.BASE_URL;
   constructor(private readonly http: HttpClient) { }
   token: any;
   

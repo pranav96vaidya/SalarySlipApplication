@@ -12,12 +12,12 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./file-upload.component.scss']
 })
 export class FileUploadComponent implements OnInit {
-  navigateUrl = environment.navigateUrl;
+  navigateUrl = environment.NAVIGATE_URL;
   file: File;
   fileToUpload: any;
   errorMsg: string;
   month = new Date().getMonth();
-  months = environment.months;
+  months = environment.MONTHS;
   currentMonth = this.months[this.month];
   currentYear = new Date().getFullYear();
   years: number[] = [];

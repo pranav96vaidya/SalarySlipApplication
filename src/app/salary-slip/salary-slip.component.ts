@@ -31,8 +31,8 @@ export class SalarySlipComponent implements OnInit {
 
   salaryDisplayItems = [];
   month = new Date().getMonth();
-  months = environment.months;
-  monthObj = environment.monthObj;
+  months = environment.MONTHS;
+  monthObj = environment.MONTH_OBJ;
   currentMonth: string;
   currentMonthNum = new Date().getMonth() + 1;
   currentYear = new Date().getFullYear();
@@ -67,7 +67,14 @@ export class SalarySlipComponent implements OnInit {
     });
 
     this.route.queryParams.subscribe(params => {
-      this.selectedMonth = this.monthObj[params.month];
+      for(var i = 1; i <= this.months.length; i++) {
+        if(i == +params.month) {
+          this.selectedMonth = params.month;
+          break;
+        } else {
+          this.selectedMonth = this.monthObj[params.month];
+        }
+      }
       this.selectedYear = params.year;
     });
 

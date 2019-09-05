@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class StartupService {
-    baseUrl = environment.baseUrl;
+    baseUrl = environment.BASE_URL;
     private _startupData: any;
 
     constructor(private http: HttpClient) { }

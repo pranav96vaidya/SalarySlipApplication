@@ -7,8 +7,8 @@ import { Observable, throwError, forkJoin } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  baseUrl = environment.baseUrl;
-  monthObj = environment.monthObj;
+  baseUrl = environment.BASE_URL;
+  monthObj = environment.MONTH_OBJ;
 
   constructor(private readonly http: HttpClient) { }
 

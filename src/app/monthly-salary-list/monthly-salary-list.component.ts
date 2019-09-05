@@ -13,10 +13,10 @@ import { StartupService } from '../services/startup.service';
 })
 
 export class MonthlySalaryListComponent implements OnInit {
-  navigateUrl = environment.navigateUrl;
+  navigateUrl = environment.NAVIGATE_URL;
   currentMonthIndex = new Date().getMonth();
-  months = environment.months;
-  monthObj = environment.monthObj;
+  months = environment.MONTHS;
+  monthObj = environment.MONTH_OBJ;
   currentMonth = this.months[this.currentMonthIndex];
   currentYear = new Date().getFullYear();
   years: number[] = [];

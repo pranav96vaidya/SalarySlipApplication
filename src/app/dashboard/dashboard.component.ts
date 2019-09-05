@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   fetchDone = false;
   users: {};
   month = new Date().getMonth();
-  months = environment.months;
+  months = environment.MONTHS;
   currentMonth = this.months[this.month];
   currentYear = new Date().getFullYear();
   years: number[] = [];
