@@ -10,6 +10,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { NavComponent } from './nav/nav.component';
 import { StartupService } from './services/startup.service';
 import { Routes, RouterModule } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -52,7 +53,8 @@ export function startupServiceFactory(startupService: StartupService) {
       useFactory: startupServiceFactory,
       deps: [StartupService],
       multi: true
-    }
+    },
+    CookieService
   ],
   bootstrap: [AppComponent],
 })

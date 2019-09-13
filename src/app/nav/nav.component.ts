@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
+import { CookieService } from 'ngx-cookie-service';
 // import { Logout } from 'src/app/store/actions/authentication.actions';
 
 @Component({
@@ -14,7 +15,6 @@ import { ApiService } from '../services/api.service';
 })
 export class NavComponent implements OnInit {
   getState: Observable<any>;
-  isAuthenticated: boolean;
   userName: string;
   userImg: string;
   responseData: any;
@@ -23,12 +23,9 @@ export class NavComponent implements OnInit {
   //   this.getState = this.store.select(selectAuthenticationState);
   // }
 
-  constructor(private readonly auth: AuthenticationService, private router: Router, private apiService: ApiService) {}
+  constructor(private readonly auth: AuthenticationService, private router: Router, private apiService: ApiService, private cookieService: CookieService) {}
 
   ngOnInit(): void {
-    if (this.auth.isLoggedIn()) {
-      this.isAuthenticated = true;
-    }
 
     this.apiService.getDetail().subscribe(responseList => {
       this.empResponse = responseList;
@@ -48,9 +45,7 @@ export class NavComponent implements OnInit {
   }
 
   logout(): void {
-    // this.store.dispatch(new Logout);
-    document.cookie = 'token = ;expires=Thu, 01 Jan 1970 00:00:01 GMT ;domain=http://newput.timetracker.s3-website-us-west-1.amazonaws.com;path=/';
-    document.cookie = 'token = ;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    location.href = 'http://newput.timetracker.s3-website-us-west-1.amazonaws.com/login';
+    this.cookieService.delete('token', '/');
+    location.href = 'http://newput.timetracker.s3-website-us-west-1.amazonaws.com';
   }
 }

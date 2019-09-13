@@ -41,7 +41,7 @@ export class ApiService {
   }
 
   public sendMailToEmployees(empList, month, year) {
-    let empData = { month, year, empEmails: empList.toString()};
+    const empData = { month, year, empEmails: empList.toString()};
     if (empList.length) {
       const url = `${this.baseUrl}/rest/admin/send_email`;
       return this.http.post(url, empData);
@@ -63,7 +63,7 @@ export class ApiService {
   public getEmpSalarydetail(id: any, year: any): Observable<any> {
     let url = `${this.baseUrl}/rest/employee/salary_slips?empID=${id}`;
     if (year) {
-      url +=`&year=${year}`;
+      url += `&year=${year}`;
     }
     return this.http.get(url);
   }
@@ -72,7 +72,7 @@ export class ApiService {
     const url1 = `${this.baseUrl}/rest/employee/detail/${id}`;
     let url = `${this.baseUrl}/rest/employee/salary_slips?empID=${id}`;
     if (year) {
-      url +=`&year=${year}`;
+      url += `&year=${year}`;
     }
     const EmployeeDetailResp = this.http.get(url1);
     const EmployeeDataResp = this.http.get(url);

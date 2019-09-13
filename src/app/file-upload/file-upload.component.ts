@@ -5,6 +5,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../services/api.service';
+import { StartupService } from '../services/startup.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -38,16 +39,29 @@ export class FileUploadComponent implements OnInit {
   modalResponse: any;
   modalContent: any;
   noData: boolean;
-  mailSent: boolean;
+  empRoleData: any;
+  fileDropped: boolean = false;
+  backBtn = true;
+  heading = 'List of Uploaded Salaries';
+  deleteBtnObj = {
+    showBtn: true,
+    disable: false
+  };
+  sendMailBtnObj = {
+    showBtn: true,
+    disable: false
+  };
+  shouldBeLeft = true;
+  pageHeading = 'List of Uploaded Salaries';
 
   constructor(private readonly title: Title, private readonly router: Router,
-    private readonly apiService: ApiService, private modalService: NgbModal
+    private readonly apiService: ApiService, private modalService: NgbModal,
+    private readonly startupService: StartupService
     ) {
       this.allSelected = true;
     }
 
   ngOnInit(): void {
-    this.mailSent = true;
     this.noData = false;
     this.title.setTitle('Upload Salary Slip');
     this.router.events.subscribe((evt) => {
@@ -86,6 +100,7 @@ export class FileUploadComponent implements OnInit {
   }
 
   public uploadFile(files: FileList): void {
+    this.fileDropped = true;
     const selectedFile = files[0];
     const dot = selectedFile.name.lastIndexOf('.');
     if (dot === -1) {
@@ -134,7 +149,7 @@ export class FileUploadComponent implements OnInit {
       if (err.status === 500) {
         this.errorMsg = 'Some Internal server error occured! please try again later.';
       } else if (err.status === 422) {
-        this.errorMsg = 'The file you uploaded is not valid. Please upload other file.';
+        this.errorMsg = 'Uploaded csv file does not contain required fields.';
       }
       this.processing = true;
       this.upload = true;
@@ -163,6 +178,13 @@ export class FileUploadComponent implements OnInit {
         this.checkedList.push(this.list[i]);
       }
     }
+    if (this.checkedList.length) {
+      this.sendMailBtnObj.disable = false;
+      this.deleteBtnObj.disable = false;
+    } else {
+      this.sendMailBtnObj.disable = true;
+      this.deleteBtnObj.disable = true;
+    }
   }
 
   public deleteItem(): void {
@@ -183,6 +205,8 @@ export class FileUploadComponent implements OnInit {
     this.getCheckedItemList();
     if (!this.list.length) {
       this.noData = true;
+      this.deleteBtnObj.showBtn = false;
+      this.sendMailBtnObj.showBtn = false;
     }
   }
 
@@ -203,11 +227,13 @@ export class FileUploadComponent implements OnInit {
     this.getCheckedItemList();
     if (!this.list.length) {
       this.noData = true;
+      this.deleteBtnObj.showBtn = false;
+      this.sendMailBtnObj.showBtn = false;
     }
   }
 
   public sendMail(): void {
-    this.mailSent = false;
+    this.sendMailBtnObj.disable = true;
     const empEmails = [];
     if (this.checkedList.length) {
       for (let i = 0; i < this.checkedList.length; i++) {
@@ -222,13 +248,13 @@ export class FileUploadComponent implements OnInit {
         }
         this.modalResponse = res['data']['message'];
         this.modalService.open(this.content, { windowClass: 'dark-modal' });
-        this.mailSent = true;
+        this.sendMailBtnObj.disable = false;
       });
     }
   }
 
   public viewSalarySlip(emp: {}): void {
-    let monthVal = this.months[+emp['month'] - 1].toLowerCase();
+    const monthVal = this.months[+emp['month'] - 1].toLowerCase();
     window.open(`${this.navigateUrl}/employee/${
       emp['empID']}/salarySlip/view?month=${monthVal}&year=${emp['year']}`);
   }
@@ -237,11 +263,20 @@ export class FileUploadComponent implements OnInit {
     this.router.navigate(['/home']);
   }
 
+  public navigateToTimeSheet() {
+    window.open(`http://newput.timetracker.s3-website-us-west-1.amazonaws.com`);
+  }
+
   public reloadPage(): void {
     this.fetchDone = true;
     this.processing = false;
     this.errorMsg = null;
     this.noData = false;
+    this.file = null;
+    this.fileErrorMsg = null;
+    this.fileDropped = false;
+    this.deleteBtnObj.showBtn = false;
+    this.sendMailBtnObj.showBtn = false;
     this.file = null;
     window.scrollTo(0, 0);
   }

@@ -2,6 +2,7 @@
 
 .salary-slip-wrapper {
     border: 1px solid $blackColor;
+    color: $blackColor;
     font-weight: $lightBold;
     min-height: 300px;
     text-align: center;
@@ -11,6 +12,7 @@
 
     .salary-head-container {
         border-bottom: 1px solid $blackColor; 
+        padding: 5px;
 
         .company-details {
             text-align: center;
@@ -42,6 +44,9 @@
     }
 
     .salary-content {
+        margin-left: 0;
+        margin-right: 0;        
+
         .salary-items {
             border: 1px solid $blackColor;
             border-top: none;

@@ -1,50 +1,49 @@
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import './assets/scss/variables';
 
-.mat-progress-spinner {
-  margin: 0 auto;
-  top: 220px;
 
-  @media (max-width: $smWidth) {
-      left: 0 auto;
-      top: 250px;
-  }
+.loading-indicator-wrapper {
+  left: 48%;
+  position: absolute;
+  top: 50%;
 
-  circle {
-    stroke: $blackColor;
+  .mat-progress-spinner {
+  
+    circle {
+      stroke: $blackColor;
+    }
   }
 }
 
-.page-head {
-    font-size: 25px;
-    font-weight: $lightBold;
-    text-align: center;
-    @media (max-width: $smWidth) {
-        font-size: 18px;
-        margin-bottom: 15px;
-    }
+.page-wrapper {
+  margin: 0 auto;
+  width: 80%;
+
+  @media (max-width: $smWidth) {
+    width: 90%;
+  }
 }
 
 .select-file-error {
-    color: $errorColor;
-    font-size: 24px;
-    padding-top: 20px;
-    text-align: center;
+  color: $errorColor;
+  font-size: 24px;
+  padding-top: 20px;
+  text-align: center;
 }
 
 .navigate-desc {
-    font-size: 16px;
-    padding-top: 20px;
-    text-align: center;
+  font-size: 16px;
+  padding-top: 20px;
+  text-align: center;
 }
 
 .btn-primary:disabled { 
-    cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 .filter-form {
   .side-bar-container {
-    top: 135px;
+    top: 105px;
   }
   
   .btn-primary {
@@ -63,6 +62,7 @@
   }
 
   .form-control {
+    color: $blackColor;
     font-size: 14px;
     height: 30px;
     padding: 0 5px;
@@ -70,13 +70,19 @@
 }
 
 .emp-list-table {
+  color: $blackColor;
+
+  th {
+    background-color: $tableHeadColor;
+    color: $whiteColor;
+  }
+
   td, th {
-      border: 1px solid $tableBorderColor;
-      font-size: 14px;
-      padding: 6px;
-      @media (max-width: $smWidth) {
-          font-size: 10px;
-      }
+    font-size: 14px;
+    padding: 6px;
+    @media (max-width: $smWidth) {
+      font-size: 10px;
+    }
   } 
 
   .checkbox-container {
@@ -86,27 +92,61 @@
   }
 
   .action-head {
-      text-align: center;
+    text-align: center;
   }
 
   .view-doc {
-      text-align: center;
+    text-align: center;
 
-      .action {
-          color: $btnColor;
-          padding: 10px;
+    .action {
+      color: $btnColor;
+      padding: 10px;
 
-          .fa {
-            font-size: 16px;
-          }
-
-          &:hover {
-              cursor: pointer;
-              text-decoration: underline;
-          }
+      .fa {
+        font-size: 16px;
       }
+
+      &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+      }
+    }
   }
 }
+
+.no-data-found {
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 0px;
+  color: $blackColor;
+  font-size: 22px;
+  line-height: 22px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  width: 50%;
+  @media (max-width: $smWidth) {
+    font-size: 16px;
+    width: 80%;
+  }
+}
+
+.emp-data-container {
+  padding-top: 20px;
+}
+
+.emp-head-container {
+  padding-bottom: 10px;
+  @media (max-width: $smWidth) {
+    font-size: 14px;
+  }
+
+  .emp-head-content {
+    font-weight: $mediumBold;
+    @media (max-width: $smWidth) {
+      font-size: 14px;
+    }
+  }
+}
+
 
 .back-btn,
 .delete-btn,

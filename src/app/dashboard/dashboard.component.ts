@@ -16,7 +16,6 @@ import { ApiService } from '../services/api.service';
 export class DashboardComponent implements OnInit {
   empName: string;
   getState: Observable<any>;
-  isAuthenticated: boolean;
   fetchDone = false;
   users: {};
   month = new Date().getMonth();
@@ -26,13 +25,13 @@ export class DashboardComponent implements OnInit {
   years: number[] = [];
   employeeForm: FormGroup;
   errorMsg: string;
+  pageHeading = 'Dashboard';
 
   constructor(private readonly apiService: ApiService, private readonly router: Router, private readonly title: Title) {
     // this.getState = this.store.select(selectAuthenticationState);
   }
 
   ngOnInit(): void {
-    this.isAuthenticated = false;
     this.title.setTitle('Home Page');
     for (let i = 2017; i <= this.currentYear; i++) {
       this.years.push(i);
@@ -45,7 +44,7 @@ export class DashboardComponent implements OnInit {
         this.errorMsg = err.error.customMsg;
         this.fetchDone = true;
       } else {
-        this.errorMsg = 'Something went wrong! <br> Please try again later.';
+        this.errorMsg = 'Something went wrong!';
         this.fetchDone = true;
       }
     });

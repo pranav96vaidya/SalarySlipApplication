@@ -1,14 +1,10 @@
-<div *ngIf="!fetchDone && !upload" >
-  <div class="row data-container">
+<ng-container *ngIf="!fetchDone && !upload">
+  <div class="loading-indicator-wrapper">
     <mat-spinner [diameter]="40"></mat-spinner>
   </div>
-</div>
+</ng-container>
 <ng-container *ngIf="fetchDone && !processing">
-  <div class="row head-container">
-      <div class="offset-9 col-3 back-btn-container">
-          <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
-      </div>
-  </div>
+  <app-page-header backBtn="backBtn" (backBtnClickEvent)="previousPage()"></app-page-header>
   <div class="row">
     <div class="col-sm-3 filter-form">
       <div class="side-bar-container">
@@ -39,20 +35,27 @@
       </div>
     </div>
     <div class="col-sm-9">
-      <div class="upload-head">Upload</div>
-      <div class="upload-file-container" (click)="fileInput.click()" salarySlipAppDragDrop (onFileDropped)="uploadFile($event)">
-          <input hidden type="file" accept=".csv" #fileInput (change)="uploadFile($event.target.files)">
-          <div class="upload-desc"><span>Click on the box to upload file OR drop a file here</span></div>
+      <div (click)="fileInput.click()" salarySlipAppDragDrop (onFileDropped)="uploadFile($event)">
+        <input hidden type="file" accept=".csv" #fileInput (change)="uploadFile($event.target.files)">
+        <div *ngIf="!file && !fileErrorMsg && !fileDropped" [ngClass]="fileDropped?'file-uploaded':'upload-desc'">
+          Click here to upload file <br> OR <br> Drop a file here
+        </div>
+        <div *ngIf="!file && !fileErrorMsg && !fileDropped" class="row">
+          <div class="offset-3 col-sm-6 select-file-help">select a file with .csv extension</div>
+        </div>
+        <div *ngIf="file && !fileErrorMsg && fileDropped" [ngClass]="fileDropped?'file-uploaded':'upload-desc'">
+          {{file.name}}
+        </div>
+        <div *ngIf="fileErrorMsg && fileDropped" class="row">
+          <div class="offset-3 col-sm-6 select-file-error">{{fileErrorMsg}}</div>
+        </div>
       </div>
-      <div *ngIf="!file && !fileErrorMsg" class="select-file-help">select a file with .csv extension</div>
-      <div *ngIf="fileErrorMsg" class="select-file-error">{{fileErrorMsg}}</div>
-      <ng-container *ngIf="file && !fileErrorMsg">
-          <div class="file-name">
-            <p>{{ file?.name }}</p>
+      <ng-container *ngIf="file && !fileErrorMsg && fileDropped">
+        <div class="row upload-btn-container">
+          <div class="offset-3 col-sm-6 text-center">
+            <button class="btn btn-primary" (click)="uploadFileData()">Upload</button>
           </div>
-          <div class="upload-btn-container">
-              <button class="btn btn-primary" (click)="uploadFileData()">Upload</button>
-          </div>
+        </div>
       </ng-container>
     </div>
   </div>
@@ -64,26 +67,20 @@
   <p>
     <span class="error-navigate" (click)="reloadPage()">click here</span> to try again! OR
   </p>
-  <p>
-    <span class="error-navigate" routerLink="/home">click here</span> to navigate to Home page!
-  </p>
 </app-data-not-found>
 <div class="row head-container" *ngIf="fetchDone && processing && !errorMsg && invalidMail?.length && !list">
-  <div class="col-sm-4 offset-sm-4 page-head">List of Employees Salary</div>
+  <div class="col-sm-4 offset-sm-4 page-head">List of Uploaded Salaries</div>
   <div class="col-sm-4 send-btn-container">
     <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
   </div>
 </div>
-<div class="row head-container" *ngIf="fetchDone && processing && !errorMsg && list">
-  <div class="col-sm-4 offset-sm-4 page-head">List of Employees Salary</div>
-  <div class="col-sm-4 send-btn-container">
-    <ng-container *ngIf="!noData">
-        <button class="btn btn-primary delete-btn" [disabled]="!checkedList.length" (click)="deleteItem()">Delete</button>
-        <button class="btn btn-primary send-btn" [disabled]="!checkedList.length || !mailSent" (click)="sendMail()">Send Mail</button>
-    </ng-container>
-    <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
-  </div>
-</div>
+<app-page-header *ngIf="fetchDone && processing && !errorMsg && list"
+  [heading]="pageHeading"
+  [backBtn]="backBtn" (backBtnClickEvent)="previousPage()"
+  [deleteBtnObj]="deleteBtnObj" (deleteBtnClickEvent)="deleteItem()"
+  [sendMailBtnObj]="sendMailBtnObj" (sendBtnClickEvent)="sendMail()"
+  [shouldBeLeft]="shouldBeLeft">
+</app-page-header>
 <div *ngIf="fetchDone && processing && !errorMsg && invalidMail?.length">
   <div class="error-head alert alert-danger">
     <span>Oops! We could not find following Email ID. </span>
@@ -119,8 +116,8 @@
       <tbody>
         <tr *ngFor="let emp of list">
             <td class="checkbox-container">
-                <input type="checkbox" class="select-item checkbox" [(ngModel)]="emp.isSelected"
-                  name="select-item" value="{{emp}}" (change)="isAllSelected()" />
+              <input type="checkbox" class="select-item checkbox" [(ngModel)]="emp.isSelected"
+                name="select-item" value="{{emp}}" (change)="isAllSelected()" />
             </td>
           <td>{{emp?.employeeFullName}}</td> 
           <td>{{emp?.grossSalary | inrCurrency: true }}</td>          

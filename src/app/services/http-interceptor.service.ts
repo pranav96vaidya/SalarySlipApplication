@@ -16,7 +16,6 @@ import { Router } from '@angular/router';
 export class HttpInterceptorService implements HttpInterceptor {
   constructor(private readonly auth: AuthenticationService, private readonly router: Router) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
     let authReq = req;
     const token = this.auth.readCookie('token');
     if (token) {

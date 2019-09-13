@@ -1,4 +1,4 @@
-import { Directive, Output, EventEmitter, HostBinding, HostListener } from '@angular/core';
+import { Directive, Output, EventEmitter, HostBinding, HostListener, Input } from '@angular/core';
 
 @Directive({
   selector: '[salarySlipAppDragDrop]',
@@ -14,45 +14,40 @@ import { Directive, Output, EventEmitter, HostBinding, HostListener } from '@ang
   }
 })
 export class DragDropDirective {
+  defaultClass = ' upload-file-container';
+  @Input() isFileUploaded;
   @Output() onFileDropped = new EventEmitter<any>();
-
-  background = '#ffffff';
-  opacity = '1';
-  cursor = 'pointer';
+  @HostBinding('class')
+    className = 'upload-input' + this.defaultClass;
 
   public onMouseOver(evt: any) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = '#9ecbec';
-    this.opacity = '0.8';
+    this.className = 'upload-input-hover' + this.defaultClass;
   }
 
   public onMouseOut(evt: any) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = '#ffffff';
-    this.opacity = '1';
+    this.className = 'upload-input-out' + this.defaultClass;
   }
 
   public onDragOver(evt: any) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = '#9ecbec';
-    this.opacity = '0.8';
+    this.className = 'upload-input-drag-over' + this.defaultClass;
   }
 
   public onDragLeave(evt: any) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = '#f5fcff';
-    this.opacity = '1';
+    this.className = 'upload-input-drag-leave' + this.defaultClass;
   }
 
   public ondrop(evt: any) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = '#f5fcff';
-    this.opacity = '1';
+    this.className = 'upload-input-drop' + this.defaultClass;
     const files = evt.dataTransfer.files;
     this.onFileDropped.emit(files);
   }

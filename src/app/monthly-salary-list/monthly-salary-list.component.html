@@ -1,20 +1,25 @@
-<ng-container *ngIf="!fetchDone">
-  <mat-spinner [diameter]="40"></mat-spinner>
-</ng-container>
-<ng-container *ngIf="fetchDone && errorMsg">
-  <div class="select-file-error">{{errorMsg}}</div>
-  <p class="navigate-desc">
-    <span class="error-navigate" (click)="previousPage()">Click Here</span> to navigate to home page.
-  </p>
-</ng-container>
-<div class="row head-container" *ngIf="fetchDone && !errorMsg">
-  <div class="col-8 offset-2 offset-sm-3 col-sm-6 page-head">{{empName}}'s Salary Slip List</div>
-  <div class="col-sm-2 back-btn-container" *ngIf="!backBtnDisabled">
-      <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
-  </div>
-</div>
-<div class="row form-container" *ngIf="fetchDone && !errorMsg">
-  <div class="offset-sm-1 col-sm-4 filter-form">
+<div class="page-wrapper">
+  <ng-container *ngIf="!fetchDone">
+    <div class="loading-indicator-wrapper">
+      <mat-spinner [diameter]="40"></mat-spinner>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="fetchDone && errorMsg">
+    <div class="select-file-error">{{errorMsg}}</div>
+    <p class="navigate-desc">
+      <span class="error-navigate" (click)="previousPage()">Click Here</span> to navigate to home page.
+    </p>
+  </ng-container>
+  <app-page-header [heading]="pageHeading" [backBtn]="backBtn" (backBtnClickEvent)="BackBtnClickHandler($event)" *ngIf="fetchDone && !errorMsg"></app-page-header>
+  <ng-container *ngIf="fetchDone && !errorMsg">
+    <div class="emp-head-container">
+      <div>Name: <span class="emp-head-content">{{empName}}</span></div>
+    </div>
+    <div class="emp-head-container">
+      <div>Year: <span class="emp-head-content">{{yearData}}</span></div>
+    </div>
+  </ng-container>
+  <div class="form-container filter-form" *ngIf="fetchDone && !errorMsg">
     <form class="form-inline" [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <select class="form-control year-selector" formControlName="yearVal"> 
@@ -26,31 +31,32 @@
       </div>
     </form>
   </div>
-</div>
-<div class="row" *ngIf="fetchDone && !errorMsg && !noDataForYear && searchDone">
-  <div class="offset-sm-1 col-sm-10 table-responsive">
-    <table class="table table-striped emp-list-table">
-      <thead>
-        <tr>
-          <th>Month Year</th>
-          <th class="action-head">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of empData">
-          <td>{{months[+data?.month - 1] | slice:0:3 | titlecase}} {{data?.year}}</td>
-          <td class="view-doc"><a class="action" (click)="getSalary(data.year,data.month)">View Salary Slip</a></td>
-        </tr>
-      </tbody>
-    </table>
+  <div *ngIf="fetchDone && !errorMsg && !noDataForYear && searchDone">
+    <div class="table-responsive">
+      <table class="table table-striped emp-list-table">
+        <thead>
+          <tr>
+            <th class="action-head">Month</th>
+            <th class="action-head">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of empData">
+            <td class="action-head">{{months[+data?.month - 1] | titlecase}}</td>
+            <td class="view-doc"><a class="action" (click)="getSalary(data.year,data.month)">View Salary Slip</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+  <ng-container *ngIf="!searchDone">
+    <div class="loading-indicator-wrapper">
+      <mat-spinner [diameter]="30"></mat-spinner>
+    </div>
+  </ng-container>
+  <app-data-not-found *ngIf="fetchDone && noDataForYear && searchDone && !errorMsg">
+    <div class="no-data-found">
+      No salary record found for this year!
+    </div>
+  </app-data-not-found>      
 </div>
-<ng-container *ngIf="!searchDone">
-  <mat-spinner [diameter]="30"></mat-spinner>
-</ng-container>
-<app-data-not-found *ngIf="fetchDone && noDataForYear && searchDone && !errorMsg">
-  <p>
-    Salary list of year {{year}} not found!
-  </p>
-</app-data-not-found>
-

@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  BASE_URL: 'https://salary-slip-be.herokuapp.com',
+  BASE_URL: 'http://34.211.76.6:9095',
   // navigateUrl: 'http://127.0.0.1:8080/#',
   NAVIGATE_URL: 'http://newput.timetracker.s3-website-us-west-1.amazonaws.com/salary-slip/#',
   MONTHS : ['January', 'February', 'March', 'April', 'May',

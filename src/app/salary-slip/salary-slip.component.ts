@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Title, DomSanitizer } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -43,7 +43,6 @@ export class SalarySlipComponent implements OnInit {
   fetchDone = false;
   responseData: any;
   noResponse = false;
-  monthNumber: number;
   companyDetails: any;
   companySealImg: any;
   directorSignImg: any;
@@ -54,6 +53,17 @@ export class SalarySlipComponent implements OnInit {
   responseMonth: any;
   mailSent: boolean;
   errorMsg: any;
+  salaryMonth: any;
+  empName: any;
+  backBtn = true;
+  printBtnObj = {
+    showBtn: true,
+    disable: false
+  };
+  sendMailBtnObj = {
+    showBtn: true,
+    disable: false
+  };
 
   constructor(private router: Router, private title: Title, private route: ActivatedRoute,
     private apiService: ApiService, private sanitizer: DomSanitizer, private modalService: NgbModal) { }
@@ -67,8 +77,9 @@ export class SalarySlipComponent implements OnInit {
     });
 
     this.route.queryParams.subscribe(params => {
-      for(var i = 1; i <= this.months.length; i++) {
-        if(i == +params.month) {
+      this.salaryMonth = params['month'];
+      for (let i = 1; i <= this.months.length; i++) {
+        if (i === +params.month) {
           this.selectedMonth = params.month;
           break;
         } else {
@@ -77,50 +88,67 @@ export class SalarySlipComponent implements OnInit {
       }
       this.selectedYear = params.year;
     });
-
-    this.apiService.fetchSalary(this.empId, this.selectedMonth, this.selectedYear)
-    .subscribe(res => {
-      this.baseUrl = 'data:image/png;base64,';
-      this.companyDetails = res[0]['data'];
-      this.companySealImg = this.getSantizeUrl(this.baseUrl + this.companyDetails['companySeal']);
-      this.directorSignImg = this.getSantizeUrl(this.baseUrl + this.companyDetails['directorSign']);
-      if (res[1]['data'].length) {
-        this.responseData = res[1]['data'][0];
-        for (let i = 0; i < this.salaryItemsInfo.length; i++) {
-          const itemInfo = this.salaryItemsInfo[i];
-          this.salaryDisplayItems.push({
-            itemLabel: itemInfo.label || itemInfo.beProp,
-            itemValue: this.responseData[itemInfo.beProp],
-            isHeading: itemInfo.isHeading,
-            isAmount: itemInfo.isAmount,
-            isNotApplicable: itemInfo.isNotApplicable
-          });
+    
+    this.apiService.getEmpdetail(this.empId)
+    .subscribe(response => {
+      this.empName = response[0]['data']['fullName'];
+      this.apiService.fetchSalary(this.empId, this.selectedMonth, this.selectedYear)
+      .subscribe(res => {
+        this.baseUrl = 'data:image/png;base64,';
+        this.companyDetails = res[0]['data'];
+        this.companySealImg = this.getSantizeUrl(this.baseUrl + this.companyDetails['companySeal']);
+        this.directorSignImg = this.getSantizeUrl(this.baseUrl + this.companyDetails['directorSign']);
+        if (res[1]['data'].length) {
+          this.responseData = res[1]['data'][0];
+          for (let i = 0; i < this.salaryItemsInfo.length; i++) {
+            const itemInfo = this.salaryItemsInfo[i];
+            this.salaryDisplayItems.push({
+              itemLabel: itemInfo.label || itemInfo.beProp,
+              itemValue: this.responseData[itemInfo.beProp],
+              isHeading: itemInfo.isHeading,
+              isAmount: itemInfo.isAmount,
+              isNotApplicable: itemInfo.isNotApplicable
+            });
+          }
+          this.responseMonth = this.months[+this.responseData.month - 1];
+          this.salaryDisplayItems.splice(2, 0, { itemLabel: 'Earnings', itemValue: 'Amount (Rs)', isHeading: true},
+          { itemLabel: 'Deductions', itemValue: 'Amount (Rs)', isHeading: true});
+          this.currentMonthDays = new Date(Number(this.responseData.year), this.responseData.month, 0).getDate();
+          this.fetchDone = true;
+          this.noResponse = false;
+        } else {
+          this.fetchDone = true;
+          this.noResponse = true;
         }
-        this.responseMonth = this.months[+this.responseData.month - 1];
-        this.salaryDisplayItems.splice(2, 0, { itemLabel: 'Earnings', itemValue: 'Amount (Rs)', isHeading: true},
-        { itemLabel: 'Deductions', itemValue: 'Amount (Rs)', isHeading: true});
-        this.currentMonthDays = new Date(Number(this.responseData.year), this.responseData.month, 0).getDate();
-        this.fetchDone = true;
-        this.noResponse = false;
-      } else {
-        this.fetchDone = true;
-        this.noResponse = true;
-      }
+      }, error => {
+        this.errorMsg = 'Something went wrong while fetching salary slip.';
+      });
     }, error => {
-      this.errorMsg = "Something went wrong while fetching salary slip."
+      this.errorHandler(error);
     });
+
+  }
+
+  public errorHandler(err) {
+    if (err.error) {
+      this.errorMsg = err.error.customMsg;
+      this.fetchDone = true;
+    } else {
+      this.errorMsg = 'Something went wrong!';
+      this.fetchDone = true;
+    }
   }
 
   public getSantizeUrl(url: string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
-  public download(): void {
+  public printPage(): void {
     window.print();
   }
 
   public sendMail(): void {
-    this.mailSent = false;
+    this.sendMailBtnObj.disable = true;
     const empList = [];
     empList.push(this.responseData['employeeEmail']);
     this.apiService.sendMailToEmployees(empList, this.responseData['month'], this.responseData['year'])
@@ -132,7 +160,7 @@ export class SalarySlipComponent implements OnInit {
       }
       this.modalResponse = res['data']['message'];
       this.modalService.open(this.content, { windowClass: 'dark-modal' });
-      this.mailSent = true;
+      this.sendMailBtnObj.disable = false;
     });
   }
 
