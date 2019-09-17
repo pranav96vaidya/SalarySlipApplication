@@ -52,7 +52,7 @@
       </div>
       <ng-container *ngIf="file && !fileErrorMsg && fileDropped">
         <div class="row upload-btn-container">
-          <div class="offset-3 col-sm-6 text-center">
+          <div class="offset-3 col-sm-6 upload-btn-data">
             <button class="btn btn-primary" (click)="uploadFileData()">Upload</button>
           </div>
         </div>
@@ -68,12 +68,11 @@
     <span class="error-navigate" (click)="reloadPage()">click here</span> to try again! OR
   </p>
 </app-data-not-found>
-<div class="row head-container" *ngIf="fetchDone && processing && !errorMsg && invalidMail?.length && !list">
-  <div class="col-sm-4 offset-sm-4 page-head">List of Uploaded Salaries</div>
-  <div class="col-sm-4 send-btn-container">
-    <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
-  </div>
-</div>
+<app-page-header *ngIf="fetchDone && processing && !errorMsg && invalidMail?.length && !list"
+  [heading]="pageHeading"
+  [backBtn]="backBtn" (backBtnClickEvent)="previousPage()"
+  [shouldBeLeft]="shouldBeLeft">
+</app-page-header>
 <app-page-header *ngIf="fetchDone && processing && !errorMsg && list"
   [heading]="pageHeading"
   [backBtn]="backBtn" (backBtnClickEvent)="previousPage()"

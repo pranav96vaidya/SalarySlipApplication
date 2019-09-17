@@ -179,10 +179,14 @@ export class FileUploadComponent implements OnInit {
       }
     }
     if (this.checkedList.length) {
+      this.sendMailBtnObj.showBtn = true;
       this.sendMailBtnObj.disable = false;
+      this.deleteBtnObj.showBtn = true;
       this.deleteBtnObj.disable = false;
     } else {
+      this.sendMailBtnObj.showBtn = true;
       this.sendMailBtnObj.disable = true;
+      this.deleteBtnObj.showBtn = true;
       this.deleteBtnObj.disable = true;
     }
   }

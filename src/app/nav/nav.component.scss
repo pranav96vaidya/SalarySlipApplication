@@ -53,11 +53,11 @@
             outline: none;
         }
 
-        &:hover {
+        &:focus {
             background-color: $btnColor;
         }
 
-        &:hover .icon-bar {
+        &:focus .icon-bar {
             background-color: $whiteColor;
         }
     }

@@ -4,19 +4,23 @@
       <mat-spinner [diameter]="40"></mat-spinner>
     </div>
   </ng-container>
-  <ng-container *ngIf="fetchDone && errorMsg">
-    <div class="select-file-error">{{errorMsg}}</div>
-    <p class="navigate-desc">
-      <span class="error-navigate" (click)="previousPage()">Click Here</span> to navigate to home page.
-    </p>
-  </ng-container>
+  <app-data-not-found *ngIf="fetchDone && errorMsg">
+      <div class="no-data-found">
+        <p>
+          {{errorMsg}}
+        </p>
+        <p class="navigate-desc">
+          <span class="error-navigate" (click)="previousPage()">Click Here</span> to navigate to home page.
+        </p>
+      </div>
+  </app-data-not-found>
   <app-page-header [heading]="pageHeading" [backBtn]="backBtn" (backBtnClickEvent)="BackBtnClickHandler($event)" *ngIf="fetchDone && !errorMsg"></app-page-header>
   <ng-container *ngIf="fetchDone && !errorMsg">
     <div class="emp-head-container">
       <div>Name: <span class="emp-head-content">{{empName}}</span></div>
     </div>
     <div class="emp-head-container">
-      <div>Year: <span class="emp-head-content">{{yearData}}</span></div>
+      <div>Year: <span class="emp-head-content">{{year}}</span></div>
     </div>
   </ng-container>
   <div class="form-container filter-form" *ngIf="fetchDone && !errorMsg">

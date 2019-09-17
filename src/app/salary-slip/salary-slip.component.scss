@@ -133,17 +133,6 @@
     }
 }
 
-.head-container {
-    padding: 15px 0;
-    @media print {
-        display: none;
-    }
-    
-    .action-btn-container {
-        text-align: right;
-    }
-}
-
 @media print {
     .salary-slip-wrapper {
         margin-top: -60px;

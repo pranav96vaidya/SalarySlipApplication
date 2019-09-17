@@ -68,6 +68,11 @@ export class ApiService {
     return this.http.get(url);
   }
 
+  public getEmployeeData(id: any) {
+    const url = `${this.baseUrl}/rest/employee/detail/${id}`;
+    return this.http.get(url);
+  }
+
   public getEmpdetail(id: any, year?: any) {
     const url1 = `${this.baseUrl}/rest/employee/detail/${id}`;
     let url = `${this.baseUrl}/rest/employee/salary_slips?empID=${id}`;

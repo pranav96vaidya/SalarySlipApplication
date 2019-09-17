@@ -34,6 +34,7 @@ export class MonthlySalaryListComponent implements OnInit {
   yearData: any;
   backBtn: boolean;
   pageHeading = 'All Salary Slips';
+  selectedYear: any;
 
   constructor(private readonly router: Router, private readonly route: ActivatedRoute, private readonly title: Title, private readonly apiService: ApiService,
     private startupService: StartupService) { }
@@ -58,22 +59,24 @@ export class MonthlySalaryListComponent implements OnInit {
       this.empId = data['empId'];
     });
     this.route.queryParams.subscribe(queryData => {
-      this.year = queryData['year'];
+      if (queryData['year']) {
+        this.year = queryData['year'];
+      } else {
+        this.year = 2019;
+      }
     });
 
     this.empRoleData = this.startupService.startupData();
     this.getData(this.empId, this.year);
-    const year = this.year ? this.year : this.currentYear;
     this.employeeForm = new FormGroup({
-      yearVal: new FormControl(year)
+      yearVal: new FormControl(this.year)
     });
   }
 
-  public getData(empId, year) {
-    this.yearData = year;
+  public getData(empId, yearData) {
     if (this.empRoleData['status'] === 'admin') {
       this.backBtn = true;
-      this.apiService.getEmpdetail(empId, year)
+      this.apiService.getEmpdetail(empId, yearData)
       .subscribe(res => {
         if (res[0]['data']) {
           this.empName = res[0]['data']['fullName'] || this.empName;
@@ -87,7 +90,7 @@ export class MonthlySalaryListComponent implements OnInit {
           this.noDataForYearFound();
         } else {
           this.empData = res[1]['data'];
-          this.yearData = this.empData[0]['year'];
+          this.year = this.empData[0]['year'];
           this.dataFoundForYear();
         }
       }, err =>  {
@@ -96,13 +99,13 @@ export class MonthlySalaryListComponent implements OnInit {
     } else {
       this.backBtn = false;
       this.empName = this.empRoleData['fullName'];
-      this.apiService.getEmpSalarydetail(empId, year)
+      this.apiService.getEmpSalarydetail(empId, yearData)
       .subscribe(resp => {
         if (resp['data'].length === 0) {
           this.noDataForYearFound();
         } else {
           this.empData = resp['data'];
-          this.yearData = this.empData[0]['year'];
+          this.year = this.empData[0]['year'];
           this.dataFoundForYear();
         }
       }, err =>  {

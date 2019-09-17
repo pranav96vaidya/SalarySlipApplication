@@ -2,6 +2,9 @@
 
 .head-container {
     padding: 15px 0;
+    @media print {
+        display: none;
+    }
 
     .page-head {
         color: $blackColor;
