@@ -62,7 +62,7 @@ export class MonthlySalaryListComponent implements OnInit {
       if (queryData['year']) {
         this.year = queryData['year'];
       } else {
-        this.year = 2019;
+        this.year = this.currentYear;
       }
     });
 
@@ -94,7 +94,7 @@ export class MonthlySalaryListComponent implements OnInit {
           this.dataFoundForYear();
         }
       }, err =>  {
-          this.errorHandler(err);
+          console.log(err);
       });
     } else {
       this.backBtn = false;
@@ -109,20 +109,8 @@ export class MonthlySalaryListComponent implements OnInit {
           this.dataFoundForYear();
         }
       }, err =>  {
-        this.errorHandler(err);
+        console.log(err);
       });
-    }
-  }
-
-  public errorHandler(err) {
-    if (err.error) {
-      this.errorMsg = err.error.customMsg;
-      this.fetchDone = true;
-      this.searchDone = true;
-    } else {
-      this.errorMsg = 'Something went wrong!';
-      this.fetchDone = true;
-      this.searchDone = true;
     }
   }
 

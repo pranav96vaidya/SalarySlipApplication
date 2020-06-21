@@ -20,7 +20,7 @@ export class AuthenticationService {
       if (c.indexOf(nameEQ) === 0) {
         this.token = c.substring(nameEQ.length, c.length);
         break;
-      } 
+      }
     }
     return this.token;
   }

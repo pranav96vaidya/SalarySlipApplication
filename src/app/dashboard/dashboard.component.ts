@@ -36,7 +36,8 @@ export class DashboardComponent implements OnInit {
     for (let i = 2017; i <= this.currentYear; i++) {
       this.years.push(i);
     }
-    this.apiService.getEmployeeList().subscribe(responseList => {
+    this.apiService.getEmployeeList()
+    .subscribe(responseList => {
       this.users = responseList['data'];
       this.fetchDone = true;
     }, err =>  {

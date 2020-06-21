@@ -80,12 +80,13 @@ export class SalarySlipComponent implements OnInit {
     });
 
     this.route.queryParams.subscribe(params => {
-      this.salaryMonth = params['month'];
       for(var i = 1; i <= this.months.length; i++) {
         if(i == +params.month) {
+          this.salaryMonth = this.months[params['month']-1];
           this.selectedMonth = params.month;
           break;
         } else {
+          this.salaryMonth = params['month'];
           this.selectedMonth = this.monthObj[params.month];
         }
       }
@@ -148,7 +149,7 @@ export class SalarySlipComponent implements OnInit {
         }
       }
     }, error => {
-      this.errorMsg = "Something went wrong while fetching salary slip."
+      console.log(error);
     });
   }
 

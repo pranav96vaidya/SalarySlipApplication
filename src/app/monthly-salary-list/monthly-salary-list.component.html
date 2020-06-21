@@ -5,14 +5,14 @@
     </div>
   </ng-container>
   <app-data-not-found *ngIf="fetchDone && errorMsg">
-      <div class="no-data-found">
-        <p>
-          {{errorMsg}}
-        </p>
-        <p class="navigate-desc">
-          <span class="error-navigate" (click)="previousPage()">Click Here</span> to navigate to home page.
-        </p>
-      </div>
+    <div class="no-data-found">
+      <p>
+        {{errorMsg}}
+      </p>
+      <p>
+        <span class="error-navigate" (click)="previousPage()">Click here</span> to navigate to home page.
+      </p>
+    </div>
   </app-data-not-found>
   <app-page-header [heading]="pageHeading" [backBtn]="backBtn" (backBtnClickEvent)="BackBtnClickHandler($event)" *ngIf="fetchDone && !errorMsg"></app-page-header>
   <ng-container *ngIf="fetchDone && !errorMsg">
