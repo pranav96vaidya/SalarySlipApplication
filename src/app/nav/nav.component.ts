@@ -4,8 +4,8 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
-import { UserDetailService } from '../services/user-detail.service';
-import { retry } from 'rxjs/operators';
+import { ApiService } from '../services/api.service';
+import { CookieService } from 'ngx-cookie-service';
 // import { Logout } from 'src/app/store/actions/authentication.actions';
 
 @Component({
@@ -15,7 +15,6 @@ import { retry } from 'rxjs/operators';
 })
 export class NavComponent implements OnInit {
   getState: Observable<any>;
-  isAuthenticated: boolean;
   userName: string;
   userImg: string;
   responseData: any;
@@ -24,19 +23,20 @@ export class NavComponent implements OnInit {
   //   this.getState = this.store.select(selectAuthenticationState);
   // }
 
-  constructor(private readonly auth: AuthenticationService, private router: Router, private userService: UserDetailService) {}
+  constructor(private readonly auth: AuthenticationService, private router: Router, private apiService: ApiService, private cookieService: CookieService) {}
 
   ngOnInit(): void {
-    if (this.auth.isLoggedIn()) {
-      this.isAuthenticated = true;
-    }
 
-    this.userService.getDetail().pipe(retry(2)).subscribe(responseList => {
-      console.log(responseList);
+    this.apiService.getDetail().subscribe(responseList => {
       this.empResponse = responseList;
       this.responseData = responseList['data'];
-      this.userName = responseList['data'].fullName;
-      this.userImg = responseList['data'].profileImgSmall;
+      if (this.responseData) {
+        this.userName = responseList['data'].fullName;
+        this.userImg = responseList['data'].profileImgSmall;
+      } else {
+        this.userName = '';
+        this.userImg = '';
+      }
     });
   }
 
@@ -45,7 +45,7 @@ export class NavComponent implements OnInit {
   }
 
   logout(): void {
-    // this.store.dispatch(new Logout);
-    location.href = 'http://newput.timetracker.s3-website-us-west-1.amazonaws.com/login';
+    this.cookieService.delete('token', '/');
+    location.href = 'http://newput.timetracker.s3-website-us-west-1.amazonaws.com';
   }
 }

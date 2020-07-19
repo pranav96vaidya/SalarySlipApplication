@@ -4,7 +4,7 @@ import { MonthlySalaryListComponent } from './monthly-salary-list.component';
 import { AuthenticationGuardService } from '../services/authentication-guard.service';
 
 const routes: Routes = [
-  {path: '', component: MonthlySalaryListComponent, canActivate: [AuthenticationGuardService]}
+  {path: '', component: MonthlySalaryListComponent, canActivate: [AuthenticationGuardService], data: {roles: ['admin', 'employee']}}
 ];
 
 @NgModule({

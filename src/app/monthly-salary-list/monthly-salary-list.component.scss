@@ -1,75 +1,41 @@
-@import '../../assets/scss/color';
+@import '../../assets/scss/variables';
 
-.btn-container {
-    margin-bottom: 15px;
-    padding-top: 15px;
+.head-container {
+    padding: 15px 0;
 
     .back-btn-container {
         text-align: right;
-
-        .back-btn {
-            background-color: $btnColor;
-            font-size: 14px;
-
-            &:active {
-                position: relative;
-                top: 2px;
-                left: 2px;
-            }
-
-            &:focus {
-                border: none;
-                box-shadow: none;
-            }
+        @media (max-width: $smWidth) {
+            display: none;
         }
     }
 }
 
-.table {
-    tr td, tr th {
-    border: 1px solid $tableBorderColor;
-    font-size: 14px;
-    padding: 8px;
-    } 
+.page-head {
+    color: $blackColor;
+    font-size: 25px;
+    font-weight: $extraLightBold;
+    text-align: center;
 
-    .view-doc {
-        text-align: center;
+    @media (max-width: $smWidth) {
+        font-size: 18px;
+        margin-bottom: 15px;
     }
-
-    .action-head {
-        text-align: center;
-
-        .action {
-            color: $btnColor;
-
-            &:hover {
-                cursor: pointer;
-                text-decoration: underline;
-            }
-        }
-    }
-} 
-
-a:not([href]):not([tabindex]),.error-navigate {
-    color: $btnColor;
-    cursor: pointer;
-}
-  
-a:not([href]):not([tabindex]):hover {
-    text-decoration: underline;
 }
 
-@media (max-width: 768px) {
-    .btn-container {
+.form-container {
+    padding-bottom: 15px;
+
+    .year-selector {
+        width: 200px;
+        margin-right: 5px;
     
-        .back-btn-container {
-            display: none; 
+        @media (max-width: $smWidth) {
+            width: 150px;
         }
     }
 
-    .table {
-        tr td, tr th {
-            font-size: 10px;
-        } 
+    .btn {
+        padding: 3px 8px;
     }
 }

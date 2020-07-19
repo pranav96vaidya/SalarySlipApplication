@@ -1,4 +1,4 @@
-@import '../../assets/scss/color';
+@import '../../assets/scss/variables';
 
 .navbar {
     background-color: $navFooterBgColor;
@@ -19,7 +19,7 @@
         .redirect-content {
             color: $btnColor;
 
-            :hover {
+            &:hover {
                 text-decoration: underline;
             }
         }
@@ -31,7 +31,8 @@
     }
 
     .user-name {
-        font-weight: 400;
+        color: $blackColor;
+        font-weight: $extraLightBold;
     }
 
     .fa-power-off {
@@ -44,7 +45,7 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $smWidth) {
     .navbar-toggler {
         font-size: 14px;
 
@@ -52,15 +53,12 @@
             outline: none;
         }
 
-        &:hover {
+        &:focus {
             background-color: $btnColor;
         }
 
-        &:hover .icon-bar {
+        &:focus .icon-bar {
             background-color: $whiteColor;
         }
     }
 }
-
-
-

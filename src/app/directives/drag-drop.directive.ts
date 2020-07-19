@@ -1,49 +1,53 @@
-import { Directive, Output, EventEmitter, HostBinding, HostListener } from '@angular/core';
+import { Directive, Output, EventEmitter, HostBinding, HostListener, Input } from '@angular/core';
 
 @Directive({
-  selector: '[appDragDrop]'
+  selector: '[salarySlipAppDragDrop]',
+  host: {
+    '[style.background-color]': 'background',
+    '[style.opacity]': 'opacity',
+    '[style.cursor]': 'cursor',
+    '(mouseover)': 'onMouseOver($event)',
+    '(mouseout)': 'onMouseOut($event)',
+    '(dragover)': 'onDragOver($event)',
+    '(dragleave)': 'onDragLeave($event)',
+    '(drop)': 'ondrop($event)'
+  }
 })
 export class DragDropDirective {
+  defaultClass = ' upload-file-container';
+  @Input() isFileUploaded;
   @Output() onFileDropped = new EventEmitter<any>();
+  @HostBinding('class')
+    className = 'upload-input' + this.defaultClass;
 
-  @HostBinding('style.background-color') private background = '#ffffff';
-  @HostBinding('style.opacity') private opacity = '1';
-  @HostBinding('style.cursor') private cursor = 'pointer';
-
-
-  @HostListener('mouseover', ['$event']) onMouseOver(evt: any) {
+  public onMouseOver(evt: any) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = '#9ecbec';
-    this.opacity = '0.8';
+    this.className = 'upload-input-hover' + this.defaultClass;
   }
 
-  @HostListener('mouseout', ['$event']) onMouseOut(evt: any) {
+  public onMouseOut(evt: any) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = '#ffffff';
-    this.opacity = '1';
+    this.className = 'upload-input-out' + this.defaultClass;
   }
 
-  @HostListener('dragover', ['$event']) onDragOver(evt: any) {
+  public onDragOver(evt: any) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = '#9ecbec';
-    this.opacity = '0.8';
+    this.className = 'upload-input-drag-over' + this.defaultClass;
   }
 
-  @HostListener('dragleave', ['$event']) public onDragLeave(evt: any) {
+  public onDragLeave(evt: any) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = '#f5fcff';
-    this.opacity = '1';
+    this.className = 'upload-input-drag-leave' + this.defaultClass;
   }
 
-  @HostListener('drop', ['$event']) public ondrop(evt: any) {
+  public ondrop(evt: any) {
     evt.preventDefault();
     evt.stopPropagation();
-    this.background = '#f5fcff';
-    this.opacity = '1';
+    this.className = 'upload-input-drop' + this.defaultClass;
     const files = evt.dataTransfer.files;
     this.onFileDropped.emit(files);
   }

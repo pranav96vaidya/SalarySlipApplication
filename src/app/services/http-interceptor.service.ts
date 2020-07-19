@@ -16,9 +16,8 @@ import { Router } from '@angular/router';
 export class HttpInterceptorService implements HttpInterceptor {
   constructor(private readonly auth: AuthenticationService, private readonly router: Router) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
     let authReq = req;
-    const token = this.auth.getToken();
+    const token = this.auth.readCookie('token');
     if (token) {
       authReq = req.clone({ headers: req.headers.set('token', token)});
     }
@@ -27,16 +26,15 @@ export class HttpInterceptorService implements HttpInterceptor {
       if (event instanceof HttpResponse) {
       }
     }, (err: any) => {
-        console.log(err);
         if (err instanceof HttpErrorResponse) {
-          console.log(err);
-          if (err.status === 400 || err.status === 401) {
+          if (err.status === 400 || err.status === 401 || err.status === 402) {
             this.auth.token = null;
+            location.href = 'http://newput.timetracker.s3-website-us-west-1.amazonaws.com/login';
+          } else if (err.status === 504) {
             location.href = 'http://newput.timetracker.s3-website-us-west-1.amazonaws.com/login';
           }
         }
       }
     ));
   }
-
 }

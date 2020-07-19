@@ -1,41 +1,61 @@
-@import '../../assets/scss/color';
+@import '../../assets/scss/variables';
 
 .salary-slip-wrapper {
     border: 1px solid $blackColor;
-    font-weight: 500;
+    color: $blackColor;
+    font-weight: $lightBold;
     min-height: 300px;
     text-align: center;
-    width: 100%;
+    @media print {
+        margin-top: -60px;
+    }
 
-    .head-container {
+    .salary-head-container {
         border-bottom: 1px solid $blackColor; 
+        padding: 5px;
 
         .company-details {
             text-align: center;
     
             .company-name {
                 font-size: 20px;
-                font-weight: 700;
+                font-weight: $brightBold;
+                @media (max-width: $smWidth) { 
+                    font-size: 12px;
+                }
             }
         
             .company-address {
                 font-size: 17px;
-                font-weight: 600;
+                font-weight: $mediumBold;
+                @media (max-width: $smWidth) { 
+                    font-size: 10px;
+                }
             }
         }
 
         .days-month {
             text-align: right;
             padding-right: 10px;
+            @media (max-width: $smWidth) { 
+                font-size: 10px;
+            }
         }
     }
 
     .salary-content {
-        .col-3 {
+        margin-left: 0;
+        margin-right: 0;        
+
+        .salary-items {
             border: 1px solid $blackColor;
             border-top: none;
             font-size: 14px;
             text-align: left;
+            @media (max-width: $smWidth) { 
+                font-size: 10px;
+                overflow-wrap: break-word;
+            }
         }
 
         .authority-seal {
@@ -45,6 +65,10 @@
             .seal-img {
                 margin-top: 20px;
                 width: 100px;
+                @media (max-width: $smWidth) { 
+                    margin-top: 50px;
+                    width: 50px;
+                }
             }
         }
 
@@ -61,6 +85,11 @@
             .sign-img {
                 margin-right: 100px;
                 margin-top: 15px;
+                @media (max-width: $smWidth) {
+                    margin-right: 30px;
+                    margin-top: 25px;
+                    width: 50px;
+                }
             }
         }
 
@@ -70,19 +99,23 @@
         }
         
         .bold-head {
-            font-weight: 800;
+            font-weight: $extraBrightBold;
+            @media (max-width: $smWidth) {
+                font-weight: $mediumBold;
+            }
         }
+
         .bold-text {
-            font-weight: 800;
+            font-weight: $extraBrightBold;
         }
     }
 
-    .salary-content .col-3:nth-child(odd) {
+    .salary-content .salary-items:nth-child(odd) {
         border-left: 0;
         border-right: 0;
     }
     
-    .salary-content .col-3:nth-child(4n+0) {
+    .salary-content .salary-items:nth-child(4n+0) {
         border-right: 0;
     }
 
@@ -90,125 +123,17 @@
         bottom: 180px;
         color: $watermarkColor;
         font-size: 60px;
-        left: 230px;
+        left: 25%;
         opacity: 0.1;
         position: absolute;
         transform: rotate(-50deg);
-        z-index: 99;
-    }
-}
-
-.btn-container {
-    margin-bottom: 15px;
-    padding-top: 15px;
-    
-    .action-btn-container {
-        text-align: right;
-
-        .print-btn,.mail-btn {
-            margin-right: 10px;
-        }
-        
-        .back-btn,.print-btn,.mail-btn {
-            background-color: $btnColor;
-            font-size: 14px;
-
-            &:active {
-                position: relative;
-                top: 2px;
-                left: 2px;
-            }
-
-            &:focus {
-                outline: none ;
-                box-shadow: none ;
-            }
-        }
-    }
-}
-
-a:not([href]):not([tabindex]),.error-navigate {
-    color: $btnColor;
-    cursor: pointer;
-}
-  
-a:not([href]):not([tabindex]):hover {
-    text-decoration: underline;
-}
-
-@media (max-width: 768px) {
-    .salary-slip-wrapper {
-
-        .head-container {
-    
-            .company-details {
-        
-                .company-name {
-                    font-size: 12px;
-                }
-        
-                .company-address {
-                    font-size: 10px;
-                }
-            }
-
-            .days-month {
-                font-size: 10px;
-            }
-        }
-
-        .salary-content {
-            .col-3 {
-                font-size: 10px;
-                overflow-wrap: break-word;
-            }
-
-            .authority-seal {
-    
-                .seal-img {
-                    margin-top: 50px;
-                    width: 50px;
-                }
-            }
-
-            .sign {
-    
-                .sign-img {
-                    margin-right: 30px;
-                    margin-top: 25px;
-                    width: 50px;
-                }
-            }
-            
-            .bold-head {
-                font-weight: 600;
-            }
-            .bold-text {
-                font-weight: 800;
-            }
-        }
-
-        #watermark {
+        @media (max-width: $smWidth) {
             display: none;
-        }
-    }
-
-    .btn-container {
-        
-        .action-btn-container {
-            
-            .back-btn,.print-btn,.mail-btn {
-                font-size: 8px;
-            }
         }
     }
 }
 
 @media print {
-    .row.btn-container {
-        display: none;
-    }
-
     .salary-slip-wrapper {
         margin-top: -60px;
     }

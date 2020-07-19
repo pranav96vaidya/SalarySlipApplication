@@ -1,47 +1,66 @@
-<div *ngIf="!fetchDone">
-  <div class="row data-container">
-    <mat-spinner [diameter]="40"></mat-spinner>
-  </div>
-</div>
-<ng-container *ngIf="fetchDone && errorMsg">
-  <div class="select-file-error">{{errorMsg}}</div>
-  <div class="navigate-desc">To navigate to home page <a routerLink="/home">Click here</a></div>
-</ng-container>
-<div class="row btn-container" *ngIf="fetchDone && !errorMsg && !noData">
-    <div class="col-8 offset-2 offset-sm-3 col-sm-6 page-head">{{empName}}'s Salary Slip List</div>
-    <div class="col-sm-2 back-btn-container">
-        <button class="btn btn-primary back-btn" (click)="previousPage()">Back</button>
+<div class="page-wrapper">
+  <ng-container *ngIf="!fetchDone">
+    <div class="loading-indicator-wrapper">
+      <mat-spinner [diameter]="40"></mat-spinner>
     </div>
-</div>
-<div class="row" *ngIf="fetchDone && !errorMsg && !noData">
-  <div class="offset-sm-1 col-sm-10">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Month Year</th>
-          <th class="view-doc">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let year of years.slice().reverse()">
-          <tr *ngFor="let month of months.slice().reverse(); let i=index">
-            <ng-template *ngIf="i<12-currentMonthIndex-1 && year==currentYear; else print">
-            </ng-template>
-            <ng-template #print>
-                <td>{{month}} {{year}}</td>
-                <td class="action-head"><a class="action" (click)="getSalary(year,month)">View Salary Slip</a></td>
-            </ng-template>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
+  </ng-container>
+  <app-data-not-found *ngIf="fetchDone && errorMsg">
+    <div class="no-data-found">
+      <p>
+        {{errorMsg}}
+      </p>
+      <p>
+        <span class="error-navigate" (click)="previousPage()">Click here</span> to navigate to home page.
+      </p>
+    </div>
+  </app-data-not-found>
+  <app-page-header [heading]="pageHeading" [backBtn]="backBtn" (backBtnClickEvent)="BackBtnClickHandler($event)" *ngIf="fetchDone && !errorMsg"></app-page-header>
+  <ng-container *ngIf="fetchDone && !errorMsg">
+    <div class="emp-head-container">
+      <div>Name: <span class="emp-head-content">{{empName}}</span></div>
+    </div>
+    <div class="emp-head-container">
+      <div>Year: <span class="emp-head-content">{{year}}</span></div>
+    </div>
+  </ng-container>
+  <div class="form-container filter-form" *ngIf="fetchDone && !errorMsg">
+    <form class="form-inline" [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <select class="form-control year-selector" formControlName="yearVal"> 
+          <option *ngFor="let year of years" value="{{year}}">{{year}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </form>
   </div>
+  <div *ngIf="fetchDone && !errorMsg && !noDataForYear && searchDone">
+    <div class="table-responsive">
+      <table class="table table-striped emp-list-table">
+        <thead>
+          <tr>
+            <th class="action-head">Month</th>
+            <th class="action-head">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of empData">
+            <td class="action-head">{{months[+data?.month - 1] | titlecase}}</td>
+            <td class="view-doc"><a class="action" (click)="getSalary(data.year,data.month)">View Salary Slip</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <ng-container *ngIf="!searchDone">
+    <div class="loading-indicator-wrapper">
+      <mat-spinner [diameter]="30"></mat-spinner>
+    </div>
+  </ng-container>
+  <app-data-not-found *ngIf="fetchDone && noDataForYear && searchDone && !errorMsg">
+    <div class="no-data-found">
+      No salary record found for this year!
+    </div>
+  </app-data-not-found>      
 </div>
-<app-data-not-found *ngIf="fetchDone && noData">
-  <p>
-    Data for Employee does not exist!
-  </p>
-  <p>
-    <a class="error-navigate" routerLink="/home">click here</a> to search for other Employee's data!
-  </p>
-</app-data-not-found>

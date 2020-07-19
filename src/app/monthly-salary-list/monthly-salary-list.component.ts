@@ -1,8 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { EmployeeDetailService } from '../services/employee-detail.service';
 import { environment } from 'src/environments/environment';
+import { ApiService } from '../services/api.service';
+import { FormGroup, FormControl } from '@angular/forms';
+import { StartupService } from '../services/startup.service';
 
 @Component({
   selector: 'app-monthly-salary-list',
@@ -11,27 +13,43 @@ import { environment } from 'src/environments/environment';
 })
 
 export class MonthlySalaryListComponent implements OnInit {
-  navigateUrl = environment.navigateUrl;
+  navigateUrl = environment.NAVIGATE_URL;
   currentMonthIndex = new Date().getMonth();
-  months: string[] = ['January', 'February', 'March', 'April', 'May',
-    'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  months = environment.MONTHS;
+  monthObj = environment.MONTH_OBJ;
   currentMonth = this.months[this.currentMonthIndex];
   currentYear = new Date().getFullYear();
   years: number[] = [];
   empId: string;
   empName: string;
-  fetchDone = false;
+  employeeForm: FormGroup;
+  fetchDone: boolean;
+  searchDone = true;
   errorMsg: string;
   noData: boolean;
+  empData: any;
+  year: any;
+  noDataForYear = true;
+  empRoleData: any;
+  yearData: any;
+  backBtn: boolean;
+  pageHeading = 'All Salary Slips';
+  selectedYear: any;
 
-  constructor(private readonly router: Router, private readonly route: ActivatedRoute, private readonly title: Title, private readonly empDetailService: EmployeeDetailService) { }
+  constructor(private readonly router: Router, private readonly route: ActivatedRoute, private readonly title: Title, private readonly apiService: ApiService,
+    private startupService: StartupService) { }
+
+  BackBtnClickHandler($event: any) {
+    this.router.navigate(['/home']);
+  }
 
   ngOnInit(): void {
+    this.fetchDone = false;
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
           return;
       }
-      window.scrollTo(0, 0)
+      window.scrollTo(0, 0);
     });
     for (let i = 2017; i <= this.currentYear; i++) {
       this.years.push(i);
@@ -40,31 +58,88 @@ export class MonthlySalaryListComponent implements OnInit {
     this.route.params.subscribe(data => {
       this.empId = data['empId'];
     });
-
-    this.empDetailService.getEmpdetail(this.empId)
-    .subscribe(response => {
-      if (response['data'].length == 0) {
-        this.fetchDone = true;
-        this.noData = true;
+    this.route.queryParams.subscribe(queryData => {
+      if (queryData['year']) {
+        this.year = queryData['year'];
+      } else {
+        this.year = this.currentYear;
       }
-      console.log(response);
-      this.empName = response['data'][0]['employeeFullName'];
-      this.fetchDone = true;
-      }, err =>  {
-        this.errorMsg = err.error.customMsg;
-        console.log(err);
-        this.fetchDone = true;
+    });
+
+    this.empRoleData = this.startupService.startupData();
+    this.getData(this.empId, this.year);
+    this.employeeForm = new FormGroup({
+      yearVal: new FormControl(this.year)
     });
   }
 
-  public getSalary(year: number, month: string): void {
-    alert(this.navigateUrl);
+  public getData(empId, yearData) {
+    if (this.empRoleData['status'] === 'admin') {
+      this.backBtn = true;
+      this.apiService.getEmpdetail(empId, yearData)
+      .subscribe(res => {
+        if (res[0]['data']) {
+          this.empName = res[0]['data']['fullName'] || this.empName;
+        } else {
+          this.errorMsg = 'Employee not exist';
+          this.fetchDone = true;
+          this.noDataForYear = true;
+          this.searchDone = false;
+        }
+        if (res[1]['data'].length === 0) {
+          this.noDataForYearFound();
+        } else {
+          this.empData = res[1]['data'];
+          this.year = this.empData[0]['year'];
+          this.dataFoundForYear();
+        }
+      }, err =>  {
+          console.log(err);
+      });
+    } else {
+      this.backBtn = false;
+      this.empName = this.empRoleData['fullName'];
+      this.apiService.getEmpSalarydetail(empId, yearData)
+      .subscribe(resp => {
+        if (resp['data'].length === 0) {
+          this.noDataForYearFound();
+        } else {
+          this.empData = resp['data'];
+          this.year = this.empData[0]['year'];
+          this.dataFoundForYear();
+        }
+      }, err =>  {
+        console.log(err);
+      });
+    }
+  }
+
+  public noDataForYearFound() {
+    this.fetchDone = true;
+    this.noDataForYear = true;
+    this.searchDone = true;
+  }
+
+  public dataFoundForYear() {
+    this.fetchDone = true;
+    this.noDataForYear = false;
+    this.searchDone = true;
+  }
+
+  public onSubmit(): void {
+    this.searchDone = false;
+    this.router.navigate([`/employee/${this.empId}/salarySlips`],
+      { queryParams: { year: this.employeeForm.value.yearVal}});
+    this.getData(this.empId, this.employeeForm.value.yearVal);
+  }
+
+  public getSalary(year: number, month): void {
+    const monthVal = this.months[month - 1];
     window.open(`${this.navigateUrl}/employee/${
-    this.empId}/salarySlip/view?month=${month.toLowerCase()}&year=${year}`);
+    this.empId}/salarySlip/view?month=${monthVal.toLowerCase()}&year=${year}` , '_blank');
   }
 
   public previousPage(): void {
     this.router.navigate(['/home']);
   }
-
 }

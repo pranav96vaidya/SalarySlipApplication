@@ -4,17 +4,19 @@ import { MatProgressSpinnerModule } from '@angular/material';
 import { SalarySlipRoutingModule } from './salary-slip-routing.module';
 import { SalarySlipComponent } from './salary-slip.component';
 import { SharedModule } from '../shared/shared.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
   declarations: [
-    SalarySlipComponent,
+    SalarySlipComponent
   ],
   imports: [
     CommonModule,
     MatProgressSpinnerModule,
     SalarySlipRoutingModule,
-    SharedModule
+    SharedModule,
+    NgbModule
   ]
 })
 export class SalarySlipModule { }

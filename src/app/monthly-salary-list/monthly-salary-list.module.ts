@@ -5,12 +5,15 @@ import { MonthlySalaryListRoutingModule } from './monthly-salary-list-routing.mo
 import { MonthlySalaryListComponent } from './monthly-salary-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from '../shared/shared.module';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     MonthlySalaryListComponent
   ],
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
     CommonModule,
     MatProgressSpinnerModule,
     MonthlySalaryListRoutingModule,
